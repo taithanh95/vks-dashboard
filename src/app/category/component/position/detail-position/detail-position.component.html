@@ -1,0 +1,112 @@
+<c-spinner [show]="inProgress" [fullScreen]="true"></c-spinner>
+<div class="modal-header">
+  <h5 class="modal-title"><i class="fa icon-plus"></i>Thông tin bản ghi</h5>
+  <button type="button" class="close" (click)="closeDialog()" aria-label="Close">
+    <span aria-hidden="true"><i class="fa fa-times-circle-o"></i></span>
+  </button>
+</div>
+<form [formGroup]="formData" (ngSubmit)="onSubmit()">
+  <div class="modal-body">
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="name">Loại tài khoản<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" class="form-control border-success"
+               placeholder="Loại tài khoản" id="name" name="name" value="name" formControlName="name">
+        <control-messages [submited]="submited" [control]="formData.controls.name"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="supplierId">Nhà cung cấp<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <select class="form-control border-success" id="supplierId" name="supplierId" value="supplierId"
+                formControlName="supplierId">
+          <option *ngFor="let opt of listSupplier" [value]="opt.id">{{opt.name}}</option>
+        </select>
+        <control-messages [submited]="submited" [control]="formData.controls.supplierId"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="userType">Nhóm tài khoản<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <select class="form-control border-success" id="userType" name="userType" value="userType"
+                formControlName="userType">
+          <option *ngFor="let opt of listUserType" [value]="opt.value">{{opt.name}}</option>
+        </select>
+        <control-messages [submited]="submited" [control]="formData.controls.userType"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="editData && editData.id">
+      <label class="col-md-3 col-form-label" for="status">Trạng thái <span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <select class="form-control border-success" formControlName="status" id="status">
+          <option value="0">Không hoạt động</option>
+          <option value="1">Hoạt động</option>
+        </select>
+        <control-messages [submited]="submited" [control]="formData.controls.status"></control-messages>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="text-center">
+      <button type="button" class="btn btn-secondary" (click)="closeDialog()"><i class="fa fa-times-circle-o"></i> Đóng
+      </button>
+      <c-button type="submit" className="btn btn-primary" iconClassName="fa fa-floppy-o" label="Lưu"
+                [loading]="isLoading"></c-button>
+    </div>
+  </div>
+</form>
+
+<div class="modal-header" *ngIf="editData && editData.id">
+  <h5 class="modal-title"><i class="fa icon-list"></i> Danh sách nhóm chức năng thuộc chức vụ này</h5>
+</div>
+<div class="card bg-default" *ngIf="editData && editData.id">
+  <div class="card-body">
+    <form id="form-zone">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <!--TABLE HEADER-->
+          <thead>
+          <tr>
+            <td class="text-center" style="width: 10%">
+              <a class="font-weight-bold text-primary">Nhóm chức năng</a>
+            </td>
+            <td class="text-center" style="width: 10%">
+              <a class="font-weight-bold text-primary">Đường dẫn</a>
+            </td>
+            <td class="text-center" style="width: 3%">
+              <a class="font-weight-bold text-primary">Thao tác</a>
+            </td>
+          </tr>
+          </thead>
+          <!--END TABLE HEADER-->
+
+          <!--TABLE BODY-->
+          <tbody>
+          <tr
+            *ngFor="let item of listGroupRole">
+            <td class="text-left">{{item.name}}</td>
+            <td class="text-left">{{item.url}}</td>
+            <td class="text-center">
+              <label data-toggle="tooltip" title="{{item.status === 1 ? 'Loại bỏ menu' : 'Gán menu'}}"
+                     class="switch switch-label switch-pill switch-outline-warning-alt">
+                <input type="checkbox" class="switch-input" checked *ngIf="item.status === 1"
+                       (click)="changeStatusPositionGroupRole(item)">
+                <input type="checkbox" class="switch-input" unchecked *ngIf="item.status === 0"
+                       (click)="changeStatusPositionGroupRole(item)">
+                <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
+              </label>
+            </td>
+
+          </tr>
+          </tbody>
+          <!--END TABLE BODY-->
+        </table>
+      </div>
+    </form>
+  </div>
+</div>
+

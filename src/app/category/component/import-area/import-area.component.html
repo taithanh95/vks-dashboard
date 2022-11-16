@@ -1,0 +1,105 @@
+<c-spinner [show]="inProgress" [fullScreen]="true"></c-spinner>
+<div class="animated fadeIn">
+  <div class="page-header">
+
+    <div class="form-row align-items-center ">
+      <div class="col-sm-5">
+        <div class="custom-file">
+          <input type="file" class="form-control-file" style="padding-top: 4px;padding-bottom: 4px"
+                 (change)="onFileChange($event)" multiple="false" (click)="onClick($event)"/>
+        </div>
+      </div>
+      <div class="col-auto my-1">
+        <a (click)="importData()" data-toggle="tooltip"
+           title="Thêm mới danh sách hóa đơn từ dữ liệu đã upload vào cơ sở dữ liệu"
+           class="btn btn-outline-primary btn-md mr-2 ">
+          <i class="fa fa-upload"></i> Nhập địa bàn
+        </a>
+      </div>
+      <div class="col-auto my-1">
+        <a class="alert-link" href="/assets/template/category/Nhap_dia_ban.xls">Template</a>
+      </div>
+    </div>
+
+    <div class="card bg-default">
+      <div class="card-body">
+        <form id="form-zone">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <!--TABLE HEADER-->
+              <thead>
+              <tr>
+                <td class="text-center" style="width: 1%">
+                  <a class="font-weight-bold text-primary">Mã tỉnh</a>
+                </td>
+                <td class="text-center" style="width: 5%">
+                  <a class="font-weight-bold text-primary">Tên tỉnh thành phố</a>
+                </td>
+                <td class="text-center" style="width: 1%">
+                  <a class="font-weight-bold text-primary">Mã huyện</a>
+                </td>
+                <td class="text-center" style="width: 5%">
+                  <a class="font-weight-bold text-primary">Tên quận huyện</a>
+                </td>
+                <td class="text-center" style="width: 1%">
+                  <a class="font-weight-bold text-primary">Mã xã</a>
+                </td>
+                <td class="text-center" style="width: 5%">
+                  <a class="font-weight-bold text-primary">Tên phường xã</a>
+                </td>
+                <td class="text-center" style="width: 8%">
+                  <a class="font-weight-bold alert-warning" style="color: #fc6d0e">Kết quả nhập</a>
+                </td>
+              </tr>
+              </thead>
+              <!--END TABLE HEADER-->
+
+              <!--TABLE BODY-->
+              <tbody>
+              <tr
+                *ngFor="let item of listData | paginate:{ itemsPerPage: 10, currentPage: currentPage, totalItems:totalRecords }">
+                <td class="text-center">{{item.provinceCode}}</td>
+                <td class="text-left">{{item.provinceName}}</td>
+                <td class="text-center">{{item.districtCode}}</td>
+                <td class="text-left">{{item.districtName}}</td>
+                <td class="text-center">{{item.communeCode}}</td>
+                <td class="text-left">{{item.communeName}}</td>
+                <td class="text-left font-weight-bold alert-warning" *ngIf="!item.responseCode"></td>
+                <td class="text-left font-weight-bold alert-warning"
+                    *ngIf="item.responseCode && item.responseCode === '0000'">Nhập thành công
+                </td>
+                <td class="text-left font-weight-bold alert-warning"
+                    *ngIf="item.responseCode && item.responseCode !== '0000'">{{item.responseCode}}
+                  -{{item.responseMessage}}</td>
+              </tr>
+              </tbody>
+              <!--END TABLE BODY-->
+            </table>
+          </div>
+        </form>
+
+        <!--BEGIN PAGINATION-->
+        <div class="row">
+          <div class="col-sm-6 text-left">
+            <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+          </div>
+          <div id="NumberOfRecords" class="col-sm-6 text-right">Tổng số bản ghi
+            <strong>{{(listData && listData.length ? listData.length : 0) | number}}</strong></div>
+        </div>
+        <!--END PAGINATION-->
+
+      </div>
+    </div>
+  </div>
+
+
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-body">
+      <p>Are you sure ?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-danger btn-sm" (click)="c('Delete Click')">Delete</button>
+      <button type="button" class="btn btn-light btn-sm" (click)="c('Cancel Click')">Cancel</button>
+    </div>
+  </ng-template>
+</div>

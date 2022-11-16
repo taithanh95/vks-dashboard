@@ -1,0 +1,104 @@
+.dot-blue {
+  height: 15px;
+  width: 15px;
+  background-color: #0000FF;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-red {
+  height: 15px;
+  width: 15px;
+  background-color: #FF0000;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-orange {
+  height: 15px;
+  width: 15px;
+  background-color: #FFA500;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-forestgreen {
+  height: 15px;
+  width: 15px;
+  background-color: #228B22;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-darkviolet {
+  height: 15px;
+  width: 15px;
+  background-color: #9400D3;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+div.a-dot {
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.square-blue {
+  height: 15px;
+  width: 15px;
+  background-color: #1E90FF;
+}
+
+.square-green {
+  height: 15px;
+  width: 15px;
+  background-color: #6B8E23;
+}
+
+.square-red {
+  height: 15px;
+  width: 15px;
+  background-color: #CD5C5C;
+}
+
+div.p-heading {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+div.a-heading {
+  font-size: 14px;
+  font-weight: bold;
+  color: #0000FF;
+}
+
+.col {
+  border-style: ridge;
+  /*margin-right: 30px;*/
+  /*margin-top: 5px;*/
+}
+
+::ng-deep .btn {
+  line-height: 1.29;
+}
+
+.chart-container {
+  height: 205px;
+  display: block;
+  margin: auto;
+}
+.chart03-container {
+  height: 372px;
+  display: block;
+  margin: auto;
+}
+::ng-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  /*color: #333;*/
+  /*background-color: #fff;*/
+  /*border: 1px solid #4dbd74 !important;*/
+  /*min-height: 7px !important;*/
+  /*align-items: center;*/
+  /*border-radius: 0.25rem !important;*/
+}

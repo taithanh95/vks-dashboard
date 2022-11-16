@@ -1,0 +1,52 @@
+<c-spinner [show]="isLoading" [fullScreen]="true"></c-spinner>
+<div class="animated fadeIn">
+  <div class="page-header">
+    <div class="card bg-default">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <strong>Phân quyền cho nhóm nghiệp vụ</strong>
+          </div>
+        </div>
+        <div class="card-body">
+          <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="10">
+                Tài khoản
+              </nz-form-label>
+              <nz-form-control [nzSpan]="12">
+                <input class="text-right border-success" nz-input [(ngModel)]="dataState.userid" disabled>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="10">Họ và tên cán bộ</nz-form-label>
+              <nz-form-control [nzSpan]="12">
+                <input class="text-right border-success" nz-input [(ngModel)]="dataState.fullname" disabled>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer text-center">
+        <div class="search-area">
+          <button class="btn btn-sm btn-success" type="button" (click)="handleOk()">
+            Ghi lại
+          </button>
+          <button class="btn btn-sm btn-danger" type="button" (click)="goToBack()">
+            Quay lại
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card bg-default">
+      <nz-transfer [nzDataSource]="dataGroups" nzShowSearch
+                   [nzTitles]="['Nhóm chức năng có trong Hệ thống', 'Nhóm chức năng phân quyền cho nhiệp vụ']"
+                   [nzListStyle]="{ 'width.px': 600, 'height.px': 400 }"
+                   [nzRender]="render">
+        <ng-template #render let-item>{{ item.groupid }} - {{ item.groupname }}</ng-template>
+      </nz-transfer>
+    </div>
+  </div>
+</div>

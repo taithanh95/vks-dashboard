@@ -1,0 +1,41 @@
+<c-spinner [show]="inProgress" [fullScreen]="true"></c-spinner>
+<div class="limiter">
+  <div class="container-login100">
+    <div class="wrap-login100">
+      <div class="login100-pic">
+        <img class="image" src="/assets/img/login/logovks1.png" alt="IMG">
+        <p class="h2">PHẦN MỀM QUẢN LÝ SỔ THỤ LÝ NGHIỆP VỤ (GIAI ĐOẠN 1 - HÌNH SỰ)</p>
+      </div>
+
+      <form class="login100-form" id="form">
+        <div class="div-text-login">
+          <h2 class="h2-login">Đăng nhập</h2>
+        </div>
+        <div class="wrap-input100">
+          <input class="input100" type="text" name="email" placeholder="Tên đăng nhập" (keydown.enter)="onKeydown($event)" [(ngModel)]="modelLogin.username" required>
+							<i class="fa fa-user-o" aria-hidden="true"></i>
+        </div>
+
+        <div class="wrap-input100">
+          <input name="password" class="input100" type="password" placeholder="Mật khẩu"
+                 [type]="fieldTextType ? 'password' : 'text'" (keydown.enter)="onKeydown($event)" [(ngModel)]="modelLogin.password" name="password"
+                 required>
+							<i class="fa fa-fw fa-eye field-icon toggle-password" id="toggle"
+                 [ngClass]="{'fa-eye-slash': !fieldTextType,'fa-eye': fieldTextType}" (click)="toggleFieldTextType()"></i>
+        </div>
+
+
+        <div class="container-login100-form-btn">
+          <button class="login100-form-btn" (click)="login()">
+            Đăng nhập
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--<div class="footer py-3">-->
+<!--  Viện kiểm sát nhân dân Tối Cao - Số 9 Phạm Văn Bạch - Hà-->
+<!--  Nội-->
+<!--</div>-->

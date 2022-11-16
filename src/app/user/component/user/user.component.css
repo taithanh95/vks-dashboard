@@ -1,0 +1,8 @@
+::ng-deep .ant-form-item-label {
+  text-align: left !important;
+  padding: 0 10px !important;
+}
+
+[nz-form-label] {
+  overflow: visible;
+}

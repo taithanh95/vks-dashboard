@@ -1,0 +1,241 @@
+<c-spinner [show]="inProgress" [fullScreen]="true"></c-spinner>
+<div class="animated fadeIn">
+  <div class="page-header">
+    <div class="card my-2 bg-default">
+      <div class="card-body p-2">
+        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+          <div class="form-group row">
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="fromDate">Từ ngày<span
+              class="font-weight-bold text-danger">(*)</span></label>
+            <div class="col-lg-2 col-md-4">
+              <nz-date-picker class="border-success w-100"
+                              nzSize="small"
+                              [nzAutoFocus]="true"
+                              [nzMode]="'date'"
+                              [(ngModel)]="searchModel.fromDate"
+                              (input)="onFromDateValueChange($event)"
+                              (keypress)="numberOnly($event)"
+                              [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              name="fromDate" id="fromDate" #fromDatePicker></nz-date-picker>
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="toDate">Đến ngày<span
+              class="font-weight-bold text-danger">(*)</span></label>
+            <div class="col-lg-2 col-md-4">
+              <nz-date-picker class="border-success w-100"
+                              nzSize="small"
+                              [nzMode]="'date'"
+                              [(ngModel)]="searchModel.toDate"
+                              (input)="onToDateValueChange($event)"
+                              (keypress)="numberOnly($event)"
+                              [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              name="toDate" id="toDate" #toDatePicker></nz-date-picker>
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="unitId">Đơn vị
+              <span
+                class="font-weight-bold text-danger">(*)</span></label>
+            <div class="col-lg-2 col-md-4">
+              <nz-select nzSize="small" class="" #sppIdSelect
+                         [(ngModel)]="searchModel.unitId"
+                         nzPlaceHolder="Chọn Đơn vị lệnh/QĐ"
+                         nzAllowClear
+                         name="unitId"
+                         id="unitId"
+                         nzShowSearch
+                         [nzDropdownRender]="renderTemplate">
+                <nz-option *ngFor="let o of listSpp" [nzValue]="o.sppId" [nzLabel]="o.name"></nz-option>
+              </nz-select>
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="accuCode">Mã bị can</label>
+            <div class="col-lg-2 col-md-4">
+              <input nzSize="small" nz-input type="text" id="accuCode" name="accuCode" class="border-success"
+                     placeholder="Mã bị can" [(ngModel)]="searchModel.accuCode">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="accuName">Tên bị can</label>
+            <div class="col-lg-2 col-md-4">
+              <input nzSize="small" nz-input type="text" id="accuName" name="accuName" class="border-success"
+                     placeholder="Tên bị can" [(ngModel)]="searchModel.accuName">
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="damageId">Mã bị hại</label>
+            <div class="col-lg-2 col-md-4">
+              <input nzSize="small" nz-input type="text" id="damageId" name="damageId" class="border-success"
+                     placeholder="Mã bị hại" [(ngModel)]="searchModel.damageId">
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="damageName">Tên bị hại</label>
+            <div class="col-lg-2 col-md-4">
+              <input nzSize="small" nz-input type="text" id="damageName" name="damageName" class="border-success"
+                     placeholder="Tên bị hại" [(ngModel)]="searchModel.damageName">
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="deciId">Quyết định</label>
+            <div class="col-lg-2 col-md-4">
+              <nz-select nzSize="small" nzMode="multiple"
+                         [(ngModel)]="searchModel.decisionIdList"
+                         nzPlaceHolder="Chọn quyết định"
+                         nzAllowClear
+                         name="deciId"
+                         id="deciId"
+                         nzShowArrow
+                         nzShowSearch
+                         [nzMaxTagCount]="1"
+                         [nzMaxTagPlaceholder]="tagPlaceHolder"
+                         [nzDropdownRender]="renderTemplate"
+                         [nzCustomTemplate]="multipleTemplate">
+                <nz-option *ngFor="let o of listDecision | sortDecision: 'deciId'" [nzValue]="o.deciId"
+                           [nzLabel]="o.deciId + ' - ' + o.name"></nz-option>
+              </nz-select>
+              <ng-template #multipleTemplate let-selected>
+                <span class="ant-select-selection-item-content">{{ selected.nzValue }}</span>
+              </ng-template>
+              <ng-template #tagPlaceHolder let-selectedList>+{{ selectedList.length }}</ng-template>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="codeId">Bộ luật</label>
+            <div class="col-lg-2 col-md-4">
+              <nz-select nzSize="small" id="codeId" name="codeId"
+                         [(ngModel)]="searchModel.groupLawCode"
+                         nzPlaceHolder="Chọn bộ luật"
+                         nzAllowClear
+                         (ngModelChange)="onCodeIdChange($event)">
+                <nz-option *ngFor="let o of listGroupLawCode" [nzValue]="o.codeId" [nzLabel]="o.codeName"></nz-option>
+              </nz-select>
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="lawId">Điều luật</label>
+            <div class="col-lg-2 col-md-4">
+              <nz-select nzSize="small" name="lawId" id="lawId"
+                         [(ngModel)]="searchModel.lawId"
+                         nzPlaceHolder="Chọn điều luật"
+                         nzAllowClear
+                         nzShowSearch
+                         (ngModelChange)="onLawIdChange($event)"
+                         (nzOpenChange)="handleLawIdOpenChange($event)"
+                         [nzDropdownRender]="renderTemplate">
+                <nz-option *ngFor="let o of listLaw" [nzValue]="o"
+                           [nzLabel]="'Điều ' + o.lawId + ' - ' + o.lawName"></nz-option>
+              </nz-select>
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="item">Khoản</label>
+            <div class="col-lg-2 col-md-4">
+              <nz-select nzSize="small" name="item" id="item"
+                         [(ngModel)]="searchModel.lawItem"
+                         nzPlaceHolder="Chọn khoản"
+                         nzAllowClear
+                         nzShowSearch
+                         (ngModelChange)="onItemChange($event)"
+                         (nzOpenChange)="handleItemOpenChange($event)"
+                         [nzDropdownRender]="renderTemplate">
+                <nz-option *ngFor="let o of listLawItem" [nzValue]="o"
+                           [nzLabel]="'Khoản ' + o.item + ' - ' + o.lawName"></nz-option>
+              </nz-select>
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="point">Điểm</label>
+            <div class="col-lg-2 col-md-4">
+              <nz-select nzSize="small" name="point" id="point"
+                         [(ngModel)]="searchModel.lawPoint"
+                         nzPlaceHolder="Chọn điểm"
+                         nzAllowClear
+                         nzShowSearch
+                         (nzOpenChange)="handlePointChange()"
+                         [nzDropdownRender]="renderTemplate">
+                <nz-option *ngFor="let o of listLawPoint" [nzValue]="o"
+                           [nzLabel]="'Điểm ' + o.point + ' - ' + o.lawName"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="search">Từ khóa</label>
+            <div class="col-lg-2 col-md-4">
+              <input nzSize="small" nz-input class="border-success" type="text" #searchText id="search" name="search"
+                     placeholder="Ấn nút Enter để tìm kiếm" (keyup.enter)="search(searchText.value)"/>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer text-center">
+        <button type="button" class="btn btn-success" (click)="onSearch()"><i class="fa fa-search"></i> Xem</button>
+        <button type="button" class="btn btn-primary" (click)="exportExcel()">Kết xuất Excel</button>
+        <button type="button" class="btn btn-info" (click)="exportDocx()">Kết xuất Docx</button>
+        <button type="button" class="btn btn-warning" (click)="exportPdf()">Kết xuất PDF</button>
+      </div>
+    </div>
+
+
+    <div class="card bg-default">
+      <div class="card-header card-header-btn d-flex flex-row align-items-center">
+        <div class="card-title">
+          <i class="fa fa-list"></i> <strong>Kết quả báo cáo</strong>
+        </div>
+      </div>
+      <div class="card-body">
+        <form id="form-zone">
+          <div class="table-responsive">
+            <nz-table class="table-striped table-bordered table-hover" [nzData]="['']"
+                      [nzFrontPagination]="false"
+                      [nzScroll]="{x: '2500px', y: '400px' }" nzTableLayout="fixed">
+              <thead>
+              <tr>
+                <ng-container *ngFor="let colsTable of colsTable">
+                  <th nzEllipsis class="text-center" nz-tooltip nzTooltipTitle="{{ colsTable.title }}"
+                      nz-resizable
+                      nzPreview
+                      [nzWidth]="colsTable.width"
+                      (nzResizeEnd)="onResize($event, colsTable.title)">
+                    <a class="font-weight-bold text-primary text-center">{{ colsTable.title }}
+                    </a>
+                    <nz-resize-handle nzDirection="right">
+                      <div class="resize-trigger"></div>
+                    </nz-resize-handle>
+                  </th>
+                </ng-container>
+              </tr>
+              </thead>
+              <tbody>
+              <tr
+                *ngFor="let item of listReport | paginate:{ itemsPerPage: pageSize, currentPage: currentPage, totalItems:totalRecords }; let i = index">
+                <td class="text-left">{{item.s_column_1}}</td>
+                <td class="text-left">{{item.s_column_2}}</td>
+                <td class="text-left">{{item.s_column_3}}</td>
+                <td class="text-left">{{item.s_column_4}}</td>
+                <td class="text-left">{{item.s_column_5}}</td>
+                <td class="text-left">{{item.s_column_6}}</td>
+                <td class="text-left">{{item.s_column_7}}</td>
+                <td class="text-left">{{item.s_column_8}}</td>
+                <td class="text-left">{{item.s_column_9}}</td>
+                <td class="text-left">{{item.s_column_10}}</td>
+                <td class="text-left">{{item.s_column_11}}</td>
+                <td class="text-left">{{item.s_column_12}}</td>
+                <td class="text-left">{{item.s_column_13}}</td>
+                <td class="text-left">{{item.s_column_14}}</td>
+              </tr>
+              </tbody>
+              <!--END TABLE BODY-->
+            </nz-table>
+          </div>
+        </form>
+
+        <!--BEGIN PAGINATION-->
+        <div class="row">
+          <div id="pageSize" class="col-sm-4 text-left">Số bản ghi
+            <select class="col-sm-3 text-left border-primary" name="pageSize" [(ngModel)]="pageSize"
+                    (ngModelChange)="onPageChange(1)">
+              <option value="10">10</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <div class="col-sm-6 text-left">
+            <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+          </div>
+          <div id="NumberOfRecords" class="col-sm-2 text-right">Tổng số bản ghi
+            <strong>{{(totalRecords ? totalRecords : 0) | number}}</strong></div>
+        </div>
+        <!--END PAGINATION-->
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #renderTemplate>
+  <nz-spin *ngIf="isLoading"></nz-spin>
+</ng-template>
+

@@ -1,0 +1,11 @@
+<ng-container class="serif" [ngSwitch]="item.reportCode">
+  <app-reportperiod02 *ngSwitchCase="'02'" [item]="item"></app-reportperiod02>
+</ng-container>
+<nz-modal [nzStyle]="{ top: '50px' }" nzWidth="960px" [(nzVisible)]="isVisible" nzTitle="Kết quả báo cáo"
+          (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <div *ngIf="innerHtml"
+         [innerHTML]="innerHtml">
+    </div>
+  </ng-container>
+</nz-modal>

@@ -1,0 +1,91 @@
+<div class="animated fadeIn">
+  <div class="page-header">
+    <div class="card bg-default">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fa fa-search"></i><strong> Tìm kiếm người dùng nghiệp vụ</strong>
+          </div>
+        </div>
+        <div class="card-body">
+          <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+            <nz-form-item>
+              <nz-form-label class="text-left pl-3" [nzSpan]="10">Mã nhóm NSD</nz-form-label>
+              <nz-form-control [nzSpan]="12">
+                <input class="form-control border-success p-3" nz-input placeholder="Mã nhóm NSD" [(ngModel)]="filterItem.groupid">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+            <nz-form-item>
+              <nz-form-label class="text-left pl-3" [nzSpan]="10">Tên nhóm NSD</nz-form-label>
+              <nz-form-control [nzSpan]="12">
+                <input class="form-control border-success p-3" nz-input placeholder="Tên nhóm NSD" [(ngModel)]="filterItem.groupname">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </div>
+      <div class="ui-panel">
+          <div class="cus-footer">
+            <button type="button" class="btn btn-sm btn-success" (click)="doSearch()"><i class="fa fa-search"></i> Tìm
+              kiếm
+            </button>
+            <button type="button"class="btn btn-sm btn-outline-success" (click)="showCreateForm()"><i class="fa fa-plus"></i> Thêm mới
+            </button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card-body">
+  <form id="form-zone">
+    <div class="table-responsive">
+      <nz-table class="table table-bordered table-hover" #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="datas"
+                [nzLoading]="loading" [nzShowTotal]="rangeTemplate"
+                [nzTotal]="total" [nzPageIndex]="pageIndex" (nzQueryParams)="onQueryParamsChange($event)">
+        <thead>
+        <tr>
+          <th class="text-center" nzWidth="5%"><a class="font-weight-bold text-primary">STT</a></th>
+          <th class="text-center" nzWidth="10%"><a class="font-weight-bold text-primary">Mã nhóm NSD</a></th>
+          <th class="text-center" nzWidth="25%"><a class="font-weight-bold text-primary">Tên nhóm NSD</a></th>
+          <th class="text-center" nzWidth="25%"><a class="font-weight-bold text-primary">Viện kiểm sát</a></th>
+          <th class="text-center" nzWidth="15%"><a class="font-weight-bold text-primary">Người tạo</a></th>
+          <th class="text-center" nzWidth="10%"><a class="font-weight-bold text-primary">Ngày tạo</a></th>
+          <th class="text-center" nzWidth="10%"><a class="font-weight-bold text-primary">Thao tác</a></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of basicTable.data; let i = index;" class="actived">
+          <td style="text-align: center" class="text-center">{{getRowIndex(i, basicTable.nzPageIndex,
+            basicTable.nzPageSize)}}</td>
+          <td class="text-center">{{ data.GROUPID }}</td>
+          <td class="text-left">{{ data.GROUPNAME }}</td>
+          <td class="text-left">{{ data.SPPNAME }}</td>
+          <td class="text-left">{{ data.CRTUSER }}</td>
+          <td class="text-center">{{ data.CRTDATE | date:'dd/MM/yyyy' }}</td>
+          <td class="text-center align-middle">
+            <a (click)="showEditForm(data)" data-toggle="tooltip" title="Sửa"
+               class="btn btn-outline-success btn-sm mr-2 w-15">
+              <i class="fa fa-fw fa-pencil-square-o"></i>
+            </a>
+            <a (click)="doDelete(data.GROUPID)" data-toggle="tooltip" title="Xóa"
+               class="btn btn-outline-danger btn-sm mr-2 w-15">
+              <i class="fa fa-fw fa-times-circle-o"></i>
+            </a>
+            <a (click)="showAdmGrant(data.GROUPID, data.GROUPNAME)" data-toggle="tooltip" title="Phân quyền"
+               class="btn btn-outline-info btn-sm mr-2 w-15">
+              <i class="fa fa-fw fa-users"></i>
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+      <ng-template #rangeTemplate let-range="range" let-total>
+        {{ range[0] }}-{{ range[1] }} {{'of'}} {{ total }} {{'items'}}
+      </ng-template>
+    </div>
+  </form>
+</div>
+<app-adm-group-user-create [data]="data" [isVisible]="isVisibleCreate" (closeModal)="closeModalCreate($event)" (reloadModal)="reloadModalCreate($event)">
+</app-adm-group-user-create>

@@ -1,0 +1,172 @@
+<c-spinner [show]="isLoading" [fullScreen]="true"></c-spinner>
+<div class="animated fadeIn">
+  <div class="page-header">
+    <div class="card bg-default">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fa fa-search"></i> <strong>Tìm kiếm</strong>
+        </div>
+      </div>
+      <div class="card-body">
+        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="name">Tên hiển thị</label>
+            <div class="col-md-9">
+              <input type="text" id="name" name="name" class="form-control border-success"
+                     placeholder="Nhập tên hiển thị cần tìm kiếm" (keydown.enter)="onSearch()"
+                     [(ngModel)]="searchModel.name">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="description">Mô tả</label>
+            <div class="col-md-9">
+              <input type="text" id="description" name="description" class="form-control border-success"
+                     placeholder="Nhập mô tả cần tìm kiếm" (keydown.enter)="onSearch()"
+                     [(ngModel)]="searchModel.description">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="url">Đường dẫn</label>
+            <div class="col-md-9">
+              <input type="text" id="url" name="url" class="form-control border-success"
+                     placeholder="Nhập đường dẫn cần tìm kiếm" (keydown.enter)="onSearch()"
+                     [(ngModel)]="searchModel.url">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="status">Trạng thái</label>
+            <div class="col-md-9">
+              <select class="form-control border-success" id="status" name="status" [(ngModel)]="searchModel.status">
+                <option value="-1">---Tất cả---</option>
+                <option value="1">Hoạt động</option>
+                <option value="0">Ngừng hoạt động</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer  text-center">
+        <button type="button" class="btn btn-sm btn-success" (click)="onSearch()"><i class="fa fa-search"></i> Tìm
+          kiếm
+        </button>
+        <button type="reset" class="btn btn-sm btn-danger" (click)="resetSearch()"><i class="fa fa-ban"></i> Xóa
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-success" (click)="addData()"><i class="fa fa-plus"></i>
+          Thêm mới
+        </button>
+      </div>
+    </div>
+
+    <div class="card bg-default">
+      <div class="card-header card-header-btn d-flex flex-row align-items-center">
+        <div class="card-title">
+          <i class="fa fa-list"></i> Danh sách nhóm chức năng
+        </div>
+      </div>
+      <div class="card-body">
+        <form id="form-zone">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <!--TABLE HEADER-->
+              <thead>
+              <tr>
+                <td class="text-center" style="width: 0.5%">
+                  <a class="font-weight-bold text-primary">STT</a>
+                </td>
+                <td class="text-center" style="width: 6%">
+                  <a class="font-weight-bold text-primary">Tên hiển thị</a>
+                </td>
+                <td class="text-center" style="width: 10%">
+                  <a class="font-weight-bold text-primary">Mô tả</a>
+                </td>
+                <td class="text-center" style="width: 6%">
+                  <a class="font-weight-bold text-primary">Đường dẫn</a>
+                </td>
+                <td class="text-center" style="width: 3%">
+                  <a class="font-weight-bold text-primary">Icon</a>
+                </td>
+                <td class="text-center" style="width: 2%">
+                  <a class="font-weight-bold text-primary">Trạng thái</a>
+                </td>
+                <td class="text-center" style="width: 4%">
+                  <a class="font-weight-bold text-primary">Thời gian tạo</a>
+                </td>
+                <td class="text-center" style="width: 4%">
+                  <a class="font-weight-bold text-primary">Thao tác</a>
+                </td>
+              </tr>
+              </thead>
+              <!--END TABLE HEADER-->
+
+              <!--TABLE BODY-->
+              <tbody>
+              <tr
+                *ngFor="let item of this.listData | paginate:{ itemsPerPage: this.pageResponse.pageSize, currentPage: this.pageResponse.pageNumber, totalItems:this.pageResponse.totalElements }; let i = index">
+                <td
+                  class="text-center align-middle">{{this.pageResponse.pageSize * (this.pageResponse.pageNumber - 1) + i + 1}}</td>
+                <td class="text-left align-middle">{{item.name}}</td>
+                <td class="text-left align-middle">{{item.description}}</td>
+                <td class="text-left align-middle">{{item.url}}</td>
+                <td class="text-center align-middle">{{item.icon}}</td>
+                <td class="text-center align-middle">
+                  <span class="badge badge-success" *ngIf="item.status === 1">Hoạt động</span>
+                  <span class="badge badge-dark" *ngIf="item.status === 0">Dừng hoạt động</span>
+                </td>
+                <td class="text-center align-middle">{{item.createdAt}}</td>
+                <td class="text-center align-middle">
+                  <a (click)="editData(item)" data-toggle="tooltip" title="Sửa"
+                     class="btn btn-outline-success btn-sm mr-2 w-15">
+                    <i class="fa fa-fw fa-pencil-square-o"></i>
+                  </a>
+                  <a (click)="copyData(item)" data-toggle="tooltip" title="Sao chép"
+                     class="btn btn-outline-warning btn-sm mr-2 w-15">
+                    <i class="fa fa-fw fa-copy"></i>
+                  </a>
+                  <a (click)="changeStatus(item)" data-toggle="tooltip" title="Đổi trạng thái bản ghi"
+                     class="btn btn-outline-danger btn-sm mr-2 w-15">
+                    <i class="fa fa-flash"></i>
+                  </a>
+                </td>
+
+              </tr>
+              </tbody>
+              <!--END TABLE BODY-->
+            </table>
+          </div>
+        </form>
+
+        <!--BEGIN PAGINATION-->
+        <div class="row text-right">
+          <div class="col-auto text-right">
+            Tổng số bản ghi <strong class="text-success">{{pageResponse.totalElements}}</strong> /
+            Tổng số trang <strong class="text-danger">{{pageResponse.totalPages}}</strong>
+          </div>
+          <div id="NumberOfRecords" class="col-auto text-right">
+            <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+          </div>
+          <div class="col-auto form-group row text-right">
+            <label class="col-auto col-form-label text-right text-warning" for="pageSize">Số bản ghi một trang</label>
+            <div class="col-auto">
+              <select class="form-control border-warning text-left" id="pageSize" name="pageSize"
+                      [(ngModel)]="pageResponse.pageSize" (ngModelChange)="onPageSizeOptionChange($event)">
+                <option *ngFor="let opt of pageSizeOption" [value]="opt">{{opt}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!--END PAGINATION-->
+      </div>
+    </div>
+  </div>
+
+
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-body">
+      <p>Are you sure ?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-danger btn-sm" (click)="c('Delete Click')">Delete</button>
+      <button type="button" class="btn btn-light btn-sm" (click)="c('Cancel Click')">Cancel</button>
+    </div>
+  </ng-template>
+</div>

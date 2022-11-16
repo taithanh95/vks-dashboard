@@ -1,0 +1,184 @@
+<div class="animated fadeIn">
+  <div class="page-header">
+
+    <div class="form-row align-items-center ">
+      <div class="col-sm-3 my-1">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Tỉnh thành phố</div>
+          </div>
+          <select id="selectProvince" name="selectProvince" class="form-control border-success"
+                  [(ngModel)]="searchModel.provinceCode"
+                  (change)='getDistrictListData($event.target.value)'>
+            <option value="-1">------Tất cả------</option>
+            <option *ngFor="let opt of provinceList" [value]="opt.code">{{opt.code}} - {{opt.name}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm-3 my-1">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Quận huyện</div>
+          </div>
+          <select id="selectDistrict" name="selectDistrict" class="form-control border-success"
+                  [(ngModel)]="searchModel.districtCode"
+                  (change)='getCommuneListData($event.target.value)'>
+            <option value="-1">------Tất cả------</option>
+            <option *ngFor="let opt of districtList" [value]="opt.code">{{opt.code}} - {{opt.name}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm-3 my-1">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Phường xã</div>
+          </div>
+          <select id="selectCommune" name="selectCommune" class="form-control"
+                  [(ngModel)]="searchModel.communeCode"
+                  (ngModelChange)="searchModel.communeCode = $event.toUpperCase()">
+            <option value="-1">------Tất cả------</option>
+            <option *ngFor="let opt of communeList" [value]="opt.code">{{opt.code}} - {{opt.name}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm-3 my-1">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Trạng thái</div>
+          </div>
+          <select class="form-control" [(ngModel)]="searchModel.status">
+            <option value="-1">--Tất cả--</option>
+            <option value="1">Hoạt động</option>
+            <option value="0">Không hoạt động</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-sm-3 my-1">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Mã thôn xóm</div>
+          </div>
+          <input type="text" class="form-control" (keydown.enter)="onSearch()" [(ngModel)]="searchModel.code">
+        </div>
+      </div>
+      <div class="col-sm-3 my-1">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Tên thôn xóm</div>
+          </div>
+          <input type="text" class="form-control" (keydown.enter)="onSearch()" [(ngModel)]="searchModel.name">
+        </div>
+      </div>
+      <div class="col-auto my-1">
+        <button type="button" class="btn btn-primary" (click)="onSearch()">Tìm kiếm</button>
+      </div>
+    </div>
+
+    <div class="card bg-default">
+      <div class="card-header card-header-btn d-flex flex-row align-items-center">
+        <div class="card-title">
+          <i class="fa fa-list"></i> Danh sách thôn xóm - tổ dân phố
+        </div>
+        <div class="header-button ml-lg-5">
+          <a (click)="addData()" data-toggle="tooltip" title="Thêm mới nhóm chức năng"
+             class="btn btn-outline-primary btn-md mr-2 ">
+            <i class="fa fa-plus"></i> Thêm mới
+          </a>
+        </div>
+      </div>
+      <div class="card-body">
+        <form id="form-zone">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <!--TABLE HEADER-->
+              <thead>
+              <tr>
+                <td class="text-center" style="width: 3%">
+                  <a class="font-weight-bold text-primary">Mã thôn xóm</a>
+                </td>
+                <td class="text-center" style="width: 6%">
+                  <a class="font-weight-bold text-primary">Tên thôn xóm</a>
+                </td>
+                <td class="text-center" style="width: 6%">
+                  <a class="font-weight-bold text-primary">Phường xã</a>
+                </td>
+                <td class="text-center" style="width: 6%">
+                  <a class="font-weight-bold text-primary">Quận huyện</a>
+                </td>
+                <td class="text-center" style="width: 6%">
+                  <a class="font-weight-bold text-primary">Tỉnh thành phố</a>
+                </td>
+                <td class="text-center" style="width: 2%">
+                  <a class="font-weight-bold text-primary">Trạng thái</a>
+                </td>
+                <td class="text-center" style="width: 3%">
+                  <a class="font-weight-bold text-primary">Thời gian tạo</a>
+                </td>
+                <td class="text-center" style="width: 2%">
+                  <a class="font-weight-bold text-primary">Chi tiết</a>
+                </td>
+              </tr>
+              </thead>
+              <!--END TABLE HEADER-->
+
+              <!--TABLE BODY-->
+              <tbody>
+              <tr
+                *ngFor="let item of listData | paginate:{ itemsPerPage: 10, currentPage: currentPage, totalItems:totalRecords }">
+                <td class="text-center">{{item.code}}</td>
+                <td class="text-left">{{item.name}}</td>
+                <td class="text-left">{{item.commune ? item.commune.code : ''}}
+                  - {{item.commune ? item.commune.name : ''}}</td>
+                <td class="text-left">{{item.district ? item.district.code : ''}}
+                  - {{item.district ? item.district.name : ''}}</td>
+                <td class="text-left">{{item.province ? item.province.code : ''}}
+                  - {{item.province ? item.province.name : ''}}</td>
+                <td class="text-center">
+                  <label data-toggle="tooltip" title="{{item.status === 1 ? 'Dừng hoạt động' : 'Bật hoạt động'}}"
+                         class="switch switch-label switch-pill switch-outline-warning-alt">
+                    <input type="checkbox" class="switch-input" checked *ngIf="item.status === 1"
+                           (click)="changeStatus(item)">
+                    <input type="checkbox" class="switch-input" unchecked *ngIf="item.status === 0"
+                           (click)="changeStatus(item)">
+                    <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
+                  </label>
+                </td>
+                <td class="text-center">{{item.createdAt}}</td>
+                <td class="text-center">
+                  <a (click)="editData(item)" data-toggle="tooltip" title="Sửa"
+                     class="btn btn-outline-success btn-sm mr-2 w-15">
+                    <i class="fa fa-fw fa-pencil-square-o"></i>
+                  </a>
+                </td>
+
+              </tr>
+              </tbody>
+              <!--END TABLE BODY-->
+            </table>
+          </div>
+        </form>
+
+        <!--BEGIN PAGINATION-->
+        <div class="row">
+          <div class="col-sm-6 text-left">
+            <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+          </div>
+          <div id="NumberOfRecords" class="col-sm-6 text-right">Tổng số bản ghi
+            <strong>{{(totalRecords ? totalRecords : 0) | number}}</strong></div>
+        </div>
+        <!--END PAGINATION-->
+
+      </div>
+    </div>
+  </div>
+
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-body">
+      <p>Are you sure ?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-danger btn-sm" (click)="c('Delete Click')">Delete</button>
+      <button type="button" class="btn btn-light btn-sm" (click)="c('Cancel Click')">Cancel</button>
+    </div>
+  </ng-template>
+</div>

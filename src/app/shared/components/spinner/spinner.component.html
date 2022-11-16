@@ -1,0 +1,16 @@
+<ng-container *ngIf="show">
+  <div class="overlay" [ngClass]="{
+    'p-abs': !fullScreen,
+    'p-fixed': fullScreen
+  }" style="background-color: rgba(255, 255, 255, 0.5);">
+
+    <div [ngClass]="size" class="c-spinner flex-col flex-center">
+      <div class="c-spinner-logo">
+        <i class="fa fa-circle-o-notch fa-spin fa-fw fa-3x"></i>
+      </div>
+      <div class="c-loading-text">
+        {{ loadingText }} {{ duration | async }} (giây)
+      </div>
+    </div>
+  </div>
+</ng-container>

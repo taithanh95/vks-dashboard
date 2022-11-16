@@ -1,0 +1,220 @@
+<nz-modal nzWidth="1000px"
+          [(nzVisible)]="isVisible"
+          nzClosable="false"
+          [nzTitle]="title"
+          [nzAutofocus]="null"
+          nzMaskClosable="false">
+  <ng-template #title>
+    Thêm mới tài khoản
+    <div class="pull-right">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <form nz-form [formGroup]="formData">
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label">Tên đăng nhập <span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" class="form-control border-success"
+               placeholder="Tên đăng nhập" formControlName="username"
+               [attr.disabled]="editData && editData.id" oninput="this.value = this.value.toLowerCase()">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label">Mật khẩu <span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="password" class="form-control border-success" nz-input
+               placeholder="Nhập mật khẩu hoặc để trống để giữ nguyên mật khẩu" value="password" formControlName="password" (blur)="checkPasswork()">
+        <control-messages [submited]="submited" [control]="formData.controls.password"></control-messages>
+        <ng-container *ngIf="formData.controls.password.hasError('error')">
+          <small class="errorPass">Mật khẩu phải có ít nhất 8 ký tự, gồm ít nhất 4 yếu tố: Chữ hoa, chữ thường, chữ số và ký tự đặc biệt!</small>
+        </ng-container>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label">Nhập lại mật khẩu <span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="password" class="form-control border-success" nz-input
+               placeholder="Nhập lại mật khẩu" value="againtPasswork" formControlName="againtPasswork" (blur)="checkPassworkAgaint()">
+        <control-messages [submited]="submited" [control]="againtPasswork"></control-messages>
+        <ng-container *ngIf="formData.controls.againtPasswork.hasError('error')">
+          <small class="errorPass">Mật khẩu không trùng khớp!</small>
+        </ng-container>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label">Tên <span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" class="form-control border-success"
+               placeholder="Tên" formControlName="name">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label">Thuộc VKS<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <nz-select nzShowSearch nzAllowClear formControlName="sppid"
+                   class="form-control" (nzOpenChange)="sppChange()">
+          <nz-option *ngFor="let opt of listSpp" nzLabel="{{ opt.SPPID }} - {{ opt.NAME }}"
+                     [nzValue]="opt.SPPID">{{ opt.SPPID }} - {{ opt.NAME }}</nz-option>
+        </nz-select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label">Phòng ban</label>
+      <div class="col-md-9">
+        <nz-select nzShowSearch nzAllowClear formControlName="departid"
+                   class="form-control" (nzOpenChange)="departChange()">
+          <nz-option *ngFor="let opt of listDepart" nzLabel="{{ opt.name }}"
+                     [nzValue]="opt.sppid">{{ opt.name }}</nz-option>
+        </nz-select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label">Cán bộ<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <nz-select formControlName="inspcode"
+                   nzAllowClear
+                   class="form-control"
+                    nzShowSearch>
+          <nz-option *ngFor="let opt of listInspectors" nzLabel="{{ opt.fullname }}"
+                     [nzValue]="opt.inspcode">{{ opt.fullname }}</nz-option>
+        </nz-select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label">Nhóm báo cáo</label>
+      <div class="col-md-9">
+        <select class="form-control border-success" formControlName="groupUserId">
+          <option *ngFor="let opt of listGroupUser" [value]="opt.id">{{opt.name}} - {{opt.description}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label">Nhóm nghiệp vụ</label>
+      <div class="col-md-9">
+        <nz-select nzShowSearch nzAllowClear formControlName="groupid"
+                   class="form-control">
+          <nz-option *ngFor="let opt of listGroup" nzLabel="{{ opt.groupname }}"
+                     [nzValue]="opt.groupid">{{opt.groupname}}</nz-option>
+        </nz-select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label">Ngày hết hạn</label>
+      <div class="col-md-9">
+        <nz-date-picker nzWidth="100%" class="form-control border-success w-100"
+                        [nzAutoFocus]="true"
+                        [nzMode]="'date'"
+                        formControlName="expiredate"
+                        (input)="onDateValueChange($event, formData.value.expiredate)"
+                        (keypress)="numberOnly($event)"
+                        [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                        id="expiredate"></nz-date-picker>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label">Email</label>
+      <div class="col-md-9">
+        <input type="email" class="form-control border-success"
+               placeholder="Email" formControlName="email"
+               oninput="this.value = this.value.toLowerCase()">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label">Số điện thoại</label>
+      <div class="col-md-9">
+        <input type="text" class="form-control border-success"
+               placeholder="Số điện thoại" formControlName="phone">
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="editData && editData.id">
+      <label class="col-md-3 col-form-label" for="status">Trạng thái <span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <select class="form-control border-success" id="status" name="status" value="status" formControlName="status">
+          <option value="0">Không hoạt động</option>
+          <option value="1">Hoạt động</option>
+        </select>
+      </div>
+    </div>
+  </form>
+  <div class="card bg-default" *ngIf="editData && editData.id">
+    <div class="card-header card-header-btn d-flex flex-row align-items-center">
+      <div class="card-title">
+        <i class="fa fa-list"></i> Danh sách nhóm chức năng
+      </div>
+    </div>
+    <div class="card-body" *ngIf="listGroupRole && listGroupRole.length > 0">
+      <form id="form-zone">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <!--TABLE HEADER-->
+            <thead>
+            <tr>
+              <td class="text-center" style="width: 0.5%">
+                <a class="font-weight-bold text-primary">ID</a>
+              </td>
+              <td class="text-center" style="width: 10%">
+                <a class="font-weight-bold text-primary">Tên nhóm chức năng</a>
+              </td>
+              <td class="text-center" style="width: 8%">
+                <a class="font-weight-bold text-primary">Đường dẫn</a>
+              </td>
+              <td class="text-center" style="width: 2%">
+                <a class="font-weight-bold text-primary">Thứ tự</a>
+              </td>
+              <td class="text-center" style="width: 3%">
+                <a class="font-weight-bold text-primary">Trạng thái</a>
+              </td>
+            </tr>
+            </thead>
+            <!--END TABLE HEADER-->
+
+            <!--TABLE BODY-->
+            <tbody>
+            <tr
+              *ngFor="let item of listGroupRole">
+              <td class="text-center align-middle">{{item.id}}</td>
+              <td class="text-left align-middle">{{item.name}}</td>
+              <td class="text-left align-middle">{{item.url}}</td>
+              <td class="text-center align-middle">{{item.priority}}
+                <i *ngIf="item.status === 1 && item.priority !== 1" (click)="upUserGroupRole(item)" title="Lên"
+                   class="fa fa-arrow-circle-up fa-lg"></i>
+                <i *ngIf="item.status === 1" (click)="downUserGroupRole(item)" title="Xuống"
+                   class="fa fa-arrow-circle-down fa-lg"></i>
+              </td>
+              <td class="text-center align-middle">
+                <label data-toggle="tooltip" title="{{item.status === 1 ? 'Xóa menu' : 'Thêm menu'}}"
+                       class="switch switch-label switch-pill switch-outline-warning-alt">
+                  <input type="checkbox" class="switch-input" checked *ngIf="item.status === 1"
+                         (click)="changeStatusUserGroupRole(item)">
+                  <input type="checkbox" class="switch-input" unchecked *ngIf="item.status === 0"
+                         (click)="changeStatusUserGroupRole(item)">
+                  <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
+                </label>
+              </td>
+
+            </tr>
+            </tbody>
+            <!--END TABLE BODY-->
+          </table>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div *nzModalFooter>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button nz-button [nzType]="'primary'" (click)="onSubmit()">
+        <span class="fa fa-fw fa-save"></span>Ghi lại
+      </button>
+      <button nz-button [nzType]="'primary'" (click)="handleCancel()">
+        <span class="fa fa-fw fa-arrow-left"></span>Quay lại
+      </button>
+    </div>
+  </div>
+</nz-modal>

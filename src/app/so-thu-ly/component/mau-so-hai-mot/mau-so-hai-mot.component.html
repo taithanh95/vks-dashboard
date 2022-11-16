@@ -1,0 +1,229 @@
+<c-spinner [show]="inProgress" [fullScreen]="true"></c-spinner>
+<div class="animated fadeIn">
+  <div class="page-header">
+    <div class="card my-2 bg-default">
+      <div class="card-body p-2">
+        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+          <div class="form-group row">
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="fromDate">Từ ngày<span
+              class="font-weight-bold text-danger">(*)</span></label>
+            <div class="col-lg-2 col-md-4">
+              <nz-date-picker [nzAutoFocus]="true" class="border-success w-100"
+                              [(ngModel)]="searchModel.fromDate" [nzMode]="'date'" nzSize="small"
+                              (input)="onFromDateValueChange($event)"
+                              (keypress)="numberOnly($event)"
+                              [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              name="fromDate" id="fromDate" #fromDatePicker></nz-date-picker>
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="toDate">Đến ngày<span
+              class="font-weight-bold text-danger">(*)</span></label>
+            <div class="col-lg-2 col-md-4">
+              <nz-date-picker class="border-success w-100" nzSize="small"
+                              [nzMode]="'date'"
+                              (input)="onToDateValueChange($event)"
+                              [(ngModel)]="searchModel.toDate"
+                              (keypress)="numberOnly($event)"
+                              [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              name="toDate" id="toDate" #toDatePicker></nz-date-picker>
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="unitId">Đơn vị
+              <span
+                class="font-weight-bold text-danger">(*)</span></label>
+            <div class="col-lg-2 col-md-4">
+              <nz-select #sppIdSelect class="overflow-select"
+                         [(ngModel)]="sppIdSelected" nzSize="small"
+                         nzPlaceHolder="Chọn đơn vị"
+                         nzAllowClear
+                         name="unitId"
+                         id="unitId"
+                         nzShowSearch>
+                <nz-option *ngFor="let o of listVienKiemSat" [nzValue]="o.sppId" [nzLabel]="o.name"></nz-option>
+              </nz-select>
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="deciId">Quyết định</label>
+            <div class="col-lg-2 col-md-4">
+              <nz-select class="overflow-select"
+                         nzMode="multiple" nzSize="small"
+                         [(ngModel)]="quyetDinhSelected"
+                         nzPlaceHolder="Chọn quyết định"
+                         nzAllowClear
+                         name="deciId"
+                         id="deciId"
+                         nzShowSearch>
+                <nz-option *ngFor="let o of listQuyetDinh" [nzValue]="o.deciId" [nzLabel]="o.name"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="fromDateDecision">Ngày QĐ từ</label>
+            <div class="col-lg-2 col-md-4">
+              <nz-date-picker class="border-success w-100" nzSize="small"
+                              [(ngModel)]="searchModel.fromDateDecision"
+                              [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              name="fromDateDecision" id="fromDateDecision" #fromDateDecisionPicker></nz-date-picker>
+            </div>
+            <label class="pt-0 col-lg-1 col-md-2 col-form-label text-left" for="toDateDecision">Ngày QĐ đến</label>
+            <div class="col-lg-2 col-md-4">
+              <nz-date-picker class="border-success w-100" nzSize="small"
+                              [(ngModel)]="searchModel.toDateDecision"
+                              [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              name="toDateDecision" id="toDateDecision" #toDateDecisionPicker></nz-date-picker>
+            </div>
+            <label class="pt-0 col-lg-1 col-md-2 col-form-label text-left" for="nguoiBiBatGiu">Người bị bắt giữ</label>
+            <div class="col-lg-2 col-md-4">
+              <input nzSize="small" nz-input type="text" id="nguoiBiBatGiu" name="nguoiBiBatGiu" class="border-success w-100"
+                     placeholder="Người bị bắt giữ" (keydown.enter)="onSearch()"
+                     [(ngModel)]="searchModel.arrestName" />
+            </div>
+            <label class="pt-0 col-lg-1 col-md-2 col-form-label text-left" for="arrestType">Các trường hợp bắt</label>
+            <div class="col-lg-2 col-md-4">
+              <nz-select class="overflow-select" nzSize="small"
+                         [(ngModel)]="searchModel.arrestType"
+                         nzPlaceHolder="Chọn trường hợp bắt"
+                         nzAllowClear
+                         name="arrestType"
+                         id="arrestType"
+                         nzShowSearch>
+                <nz-option *ngFor="let o of listApParam" [nzValue]="o.paramValue" [nzLabel]="o.paramName"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="search">Từ khóa</label>
+            <div class="col-lg-2 col-md-4">
+              <input nzSize="small" nz-input class="border-success w-100" type="text" #searchText id="search" name="search"
+                     placeholder="Ấn nút Enter để tìm kiếm" (keyup.enter)="search(searchText.value)"/>
+            </div>
+          </div>
+        </form>
+      </div>
+<!--      <div class="card-footer text-center">-->
+<!--        <button type="button" class="btn btn-success" (click)="onSearch()"><i class="fa fa-search"></i> Xem</button>-->
+<!--        <button type="button" class="btn btn-primary" (click)="exportExcel()">Kết xuất Excel</button>-->
+<!--        <button type="button" class="btn btn-info" (click)="exportDocx()">Kết xuất Docx</button>-->
+<!--        <button type="button" class="btn btn-warning" (click)="exportPdf()">Kết xuất PDF</button>-->
+<!--      </div>-->
+    </div>
+
+
+    <div class="card bg-default">
+      <div class="w-100 card-header card-header-btn d-flex flex-row align-items-center">
+        <div class="w-50 card-title">
+          <i class="fa fa-list"></i> <strong>Kết quả báo cáo</strong>
+        </div>
+        <div class="w-50 text-right">
+          <button type="button" class="btn btn-success mr-1 btn-sm" (click)="onSearch()"><i class="fa fa-search"></i> Xem</button>
+          <button [disabled]="!btnDisable" type="button" class="btn btn-primary mr-1 btn-sm" (click)="exportExcel()" nz-tooltip nzTooltipTitle="Kết xuất Excel">
+            <i class="align-middle" nz-icon nzType="file-excel" nzTheme="outline"></i> Excel
+          </button>
+          <button [disabled]="!btnDisable" type="button" class="btn btn-info mr-1 btn-sm" (click)="exportDocx()" nz-tooltip nzTooltipTitle="Kết xuất Docx">
+            <i class="align-middle" nz-icon nzType="file-word" nzTheme="outline"></i> Docx
+          </button>
+          <button [disabled]="!btnDisable" type="button" class="btn btn-warning mr-3 btn-sm" (click)="exportPdf()" nz-tooltip nzTooltipTitle="Kết xuất PDF">
+            <i class="align-middle" nz-icon nzType="file-pdf" nzTheme="outline"></i> PDF
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <form id="form-zone">
+          <div class="table-responsive">
+            <nz-table #fixedTable class="table-striped table-bordered table-hover" [nzData]="['']"
+                      [nzFrontPagination]="false"
+                      [nzScroll]="{x: '3500px', y: '400px' }" nzTableLayout="fixed">
+              <thead>
+              <tr>
+                <ng-container *ngFor="let colsTable of colsTable">
+                  <th nzEllipsis class="text-center" nz-tooltip nzTooltipTitle="{{ colsTable.title }}"
+                      nz-resizable
+                      nzPreview
+                      [nzWidth]="colsTable.width"
+                      (nzResizeEnd)="onResize($event, colsTable.title)">
+                    <a class="font-weight-bold text-primary text-center">{{ colsTable.title }}
+                    </a>
+                    <nz-resize-handle nzDirection="right">
+                      <div class="resize-trigger"></div>
+                    </nz-resize-handle>
+                  </th>
+                </ng-container>
+              </tr>
+              </thead>
+              <tbody>
+              <tr
+                *ngFor="let item of listReport | paginate:{ itemsPerPage: pageSize, currentPage: currentPage, totalItems:totalRecords }; let i = index">
+                <td class="text-center">{{item.stt}}</td>
+                <td class="text-left">{{item.hoTen}}</td>
+                <td class="text-left">{{item.ngayBatTamGiu}}</td>
+                <td class="text-left">{{item.cacTruongHopBat}}</td>
+                <td class="text-left">{{item.batKhongCoCanCu}}</td>
+                <td class="text-left">{{item.quyetDinhTamGiu}}</td>
+                <td class="text-left">{{item.lyDoTamGiu}}</td>
+                <td class="text-left">{{item.quyetDinhGiaHanTamGiuLan1}}</td>
+                <td class="text-left">{{item.quyetDinhGiaHanTamGiuLan2}}</td>
+                <td class="text-left">{{item.quyetDinhPheChuanQDGiaHanTamGiu}}</td>
+                <td class="text-left">{{item.quyetDinhHuyBoBienPhapTamGiu}}</td>
+                <td class="text-left">{{item.chuyenDiNoiKhac}}</td>
+                <td class="text-left">{{item.noiKhacChuyenDen}}</td>
+                <td class="text-left">{{item.quyetDinhADBPNCKhac}}</td>
+                <td class="text-left">{{item.lenhTamGiam}}</td>
+                <td class="text-left">{{item.quyetDinhTraTuDo}}</td>
+                <td class="text-left">{{item.quyetDinhTraTuDoCuaVKS}}</td>
+                <td class="text-left">{{item.tron}}</td>
+                <td class="text-left">{{item.quyetDinhTraTruyNa}}</td>
+                <td class="text-center">{{item.ngayBatLai}}</td>
+                <td class="text-left">{{item.quyetDinhXuLyKhiBatLai}}</td>
+                <td class="text-center">{{item.ngayViPham}}</td>
+                <td class="text-left">{{item.quyetDinhXuLyViPham}}</td>
+                <td class="text-left">{{item.chet}}</td>
+                <td class="text-left">
+                  <div class="editable-cell" *ngIf="!item.ghiChu" [hidden]="editId === item.n_arrestee_id" (click)="startEdit(item.n_arrestee_id)">
+                    <span class="text-muted">Nhấn vào để thêm ghi chú</span>
+                  </div>
+                  <div class="editable-cell" *ngIf="item.ghiChu" [hidden]="editId === item.n_arrestee_id" (click)="startEdit(item.n_arrestee_id)">
+                    {{ item.ghiChu }}
+                  </div>
+                  <nz-form-item [hidden]="editId !== item.n_arrestee_id">
+                    <nz-form-control nzErrorTip="Vui lòng nhập nội dung Ghi chú">
+                      <nz-textarea-count [nzMaxCharacterCount]="200">
+                        <textarea id="note" rows="4" nz-input [(ngModel)]="item.ghiChu"
+                                  [ngModelOptions]="{standalone: true}" (blur)="stopEdit(item)"></textarea>
+                      </nz-textarea-count>
+                    </nz-form-control>
+                  </nz-form-item>
+                </td>
+              </tr>
+              </tbody>
+              <!--END TABLE BODY-->
+            </nz-table>
+          </div>
+        </form>
+
+        <!--BEGIN PAGINATION-->
+        <div class="row">
+          <div id="pageSize" class="col-sm-4 text-left">Số bản ghi
+            <select class="col-sm-3 text-left border-primary" name="pageSize" [(ngModel)]="pageSize">
+              <option value="10">10</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <div class="col-sm-6 text-left">
+            <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+          </div>
+          <div id="NumberOfRecords" class="col-sm-2 text-right">Tổng số bản ghi
+            <strong>{{(totalRecords ? totalRecords : 0) | number}}</strong></div>
+        </div>
+        <!--END PAGINATION-->
+
+      </div>
+    </div>
+  </div>
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-body">
+      <p>Are you sure ?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-danger btn-sm" (click)="c('Delete Click')">Delete</button>
+      <button type="button" class="btn btn-light btn-sm" (click)="c('Cancel Click')">Cancel</button>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,33 @@
+@keyframes progressbar {
+  0% {
+    width: 0%;
+    background-color: red;
+  }
+
+  50% {
+    background-color: yellow;
+  }
+
+  100% {
+    width: 100%;
+    background-color: green;
+  }
+}
+
+
+.progressbar {
+  position: relative;
+  background-color: #eaeaea;
+  border-radius: 0.3em;
+  text-align: center;
+}
+
+.progressbar > .status {
+  display: block;
+  position: absolute;
+  height: 100%;
+  animation: 1s progressbar 0s linear normal;
+  animation-delay: var(--delay);
+  animation-play-state: paused;
+  z-index: 9999;
+}

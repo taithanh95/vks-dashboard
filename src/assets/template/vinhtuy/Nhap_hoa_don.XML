@@ -1,0 +1,63 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <Table1>
+    <MA_KHANG>20237</MA_KHANG>
+    <ID_HDON>315466</ID_HDON>
+    <LOAI_HDON>TD</LOAI_HDON>
+    <LOAI_PSINH>PS</LOAI_PSINH>
+    <TEN_KHANG>Lê Thành Sơn</TEN_KHANG>
+    <DCHI_KHANG>Tổ 24 p.Vĩnh Hưng</DCHI_KHANG>
+    <LOAI_KHANG>0</LOAI_KHANG>
+    <MST_KHANG />
+    <NAM_PS>2019</NAM_PS>
+    <THANG_PS>1</THANG_PS>
+    <KY_PS>1</KY_PS>
+    <NGAY_PHANH>25/01/2019</NGAY_PHANH>
+    <SO_SERY>191</SO_SERY>
+    <NGAY_DKY>26/12/2018</NGAY_DKY>
+    <NGAY_CKY>25/01/2019</NGAY_CKY>
+    <TIEN_NO>23235</TIEN_NO>
+    <THUE_NO>2324</THUE_NO>
+    <SO_CTO />
+    <SO_HO>1.00</SO_HO>
+    <DIEN_TTHU>15</DIEN_TTHU>
+    <CS_DKY>1455</CS_DKY>
+    <CS_CKY>1470</CS_CKY>
+    <CTIET_DNTT>15</CTIET_DNTT>
+    <CTIET_GIA>1549</CTIET_GIA>
+    <CTIET_TIEN>23235</CTIET_TIEN>
+    <TEN_DVIQLY>Hợp tác xã sản xuất dịch vụ tổng hợp Vĩnh Tuy</TEN_DVIQLY>
+    <DIA_CHI>Tổ 4, Cụm 2, Phường Vĩnh Hưng, Quận Hoàng Mai, Thành Phố Hà Nội</DIA_CHI>
+    <DIEN_THOAI>02436444335</DIEN_THOAI>
+  </Table1>
+  <Table1>
+    <MA_KHANG>12608</MA_KHANG>
+    <ID_HDON>316944</ID_HDON>
+    <LOAI_HDON>TD</LOAI_HDON>
+    <LOAI_PSINH>PS</LOAI_PSINH>
+    <TEN_KHANG>Hoàng Quốc Phương</TEN_KHANG>
+    <DCHI_KHANG> P.Vĩnh Hưng, Hoàng Mai, HN</DCHI_KHANG>
+    <LOAI_KHANG>0</LOAI_KHANG>
+    <MST_KHANG xml:space="preserve"> </MST_KHANG>
+    <NAM_PS>2019</NAM_PS>
+    <THANG_PS>1</THANG_PS>
+    <KY_PS>1</KY_PS>
+    <NGAY_PHANH>25/01/2019</NGAY_PHANH>
+    <SO_SERY>110096</SO_SERY>
+    <NGAY_DKY>26/12/2018</NGAY_DKY>
+    <NGAY_CKY>25/01/2019</NGAY_CKY>
+    <TIEN_NO>55764</TIEN_NO>
+    <THUE_NO>5576</THUE_NO>
+    <SO_CTO />
+    <SO_HO>1.00</SO_HO>
+    <DIEN_TTHU>36</DIEN_TTHU>
+    <CS_DKY>2049</CS_DKY>
+    <CS_CKY>2085</CS_CKY>
+    <CTIET_DNTT>36</CTIET_DNTT>
+    <CTIET_GIA>1549</CTIET_GIA>
+    <CTIET_TIEN>55764</CTIET_TIEN>
+    <TEN_DVIQLY>Hợp tác xã sản xuất dịch vụ tổng hợp Vĩnh Tuy</TEN_DVIQLY>
+    <DIA_CHI>Tổ 4, Cụm 2, Phường Vĩnh Hưng, Quận Hoàng Mai, Thành Phố Hà Nội</DIA_CHI>
+    <DIEN_THOAI>02436444335</DIEN_THOAI>
+  </Table1>
+</NewDataSet>

@@ -1,0 +1,256 @@
+<section class="d-flex justify-content-between mb-5">
+  <div class="text-center ml-2">
+    <!--    <p [style.fontSize]="'16px'" class="serif"><strong>VIỆN KIỂM SÁT NHÂN DÂN</strong></p>-->
+    <p [style.fontSize]="'16px'" class="serif"><strong>{{ reportInput.sppname }}</strong></p>
+    <!--    <p [style.fontSize]="'16px'"><strong>…………………………………</strong></p>-->
+  </div>
+  <div [style.fontSize]="'14px'" class="text-center mr-2 w-25 serif">
+    <strong>Biểu số {{item.reportCode}}/2019</strong>
+    <p>(Ban hành theo QĐ số
+      560/QĐ - VKSTC ngày
+      13/11/2019 của Viện
+      trưởng VKSNDTC)</p>
+  </div>
+</section>
+<section class="text-center mb-3 serif">
+  <h1 class="serif" [style.fontSize]="'18px'">
+    <strong>THỐNG KÊ KẾT QUẢ ĐIỀU TRA, TRUY TỐ, XÉT XỬ SƠ THẨM CÁC VỤ ÁN HÌNH SỰ</strong>
+  </h1>
+  <p [style.fontSize]="'14px'" class="mb-1"><em>Từ ngày {{fromDate | date: 'dd/MM/yyyy' }} đến
+    ngày {{toDate | date: 'dd/MM/yyyy' }}</em></p>
+  <p [style.fontSize]="'14px'" class="mb-1"><em>(Áp dụng cho kỳ thống kê tháng, 6 tháng và 12 tháng; điều luật đánh dấu *  là điều luật cũ)
+  </em></p>
+</section>
+<section class="text-left mb-3 serif">
+  <p *ngIf="reportInput.option === '1'" [style.fontSize]="'14px'" class="mb-1"><em>Số liệu tổng hợp của VKS hiện tại</em></p>
+  <p *ngIf="reportInput.option === '2'" [style.fontSize]="'14px'" class="mb-1"><em>Số liệu tổng hợp của các VKS cấp trực thuộc</em></p>
+  <p *ngIf="reportInput.option === '3'" [style.fontSize]="'14px'" class="mb-1"><em>Số liệu tổng hợp của 2 cấp</em></p>
+  <p *ngIf="reportInput.option === '4'" [style.fontSize]="'14px'" class="mb-1"><em>Tổng hợp số liệu của {{sppId}} viện kiểm sát được chọn</em></p>
+</section>
+<div class="scrolltable">
+  <table class="serif">
+    <tr>
+      <th rowspan="4">TỘI DANH</th>
+      <th rowspan="4">ĐIỀU LUẬT</th>
+      <th colspan="29">Giai đoạn điều tra</th>
+      <th colspan="15">Giai đoạn truy tố</th>
+      <th colspan="11">Kiểm sát xét xử sơ thẩm</th>
+    </tr>
+    <tr>
+      <th colspan="3">Tổng thụ lý</th>
+      <th colspan="3">Khởi tố mới</th>
+      <th colspan="16">Phân tích số bị can là cá nhân mới khởi tố</th>
+      <th colspan="3">Đề nghị truy tố</th>
+      <th colspan="2">Đình chỉ</th>
+      <th colspan="2">Tạm đình chỉ</th>
+      <th colspan="2">Tổng thụ lý</th>
+      <th colspan="3">Truy tố</th>
+      <th colspan="4">Phân loại tội phạm</th>
+      <th colspan="2">Đình chỉ</th>
+      <th colspan="2">Tạm đình chỉ</th>
+      <th colspan="2">VKS trả HS để DTBS</th>
+      <th colspan="2">Tổng thụ lý</th>
+      <th colspan="3">Xét xử</th>
+      <th colspan="2">Đình chỉ</th>
+      <th colspan="2">Tạm đình chỉ</th>
+      <th colspan="2">Tòa án trả HS để DTBS</th>
+    </tr>
+    <tr class="headerTable">
+      <td rowspan="2">Vụ án</td>
+      <td rowspan="2">Bị can</td>
+      <td rowspan="2">Tr/đó: Pháp nhân</td>
+      <td rowspan="2">Vụ án</td>
+      <td rowspan="2">Bị can</td>
+      <td rowspan="2">Tr/đó: Pháp nhân</td>
+      <th colspan="5">Độ tuổi</th>
+      <th colspan="5">Trình độ</th>
+      <td rowspan="2">Giới tính nữ</td>
+      <td rowspan="2">Là dân tộc thiểu số</td>
+      <td rowspan="2">Khi phạm tội là đảng viên</td>
+      <td rowspan="2">Tr/đó: Số bị can là đảng viên đang làm quản lý</td>
+      <td rowspan="2">Số bị can là nước ngoài, người không quốc tịch</td>
+      <td rowspan="2">Tái phạm</td>
+      <td rowspan="2">Vụ án</td>
+      <td rowspan="2">Bị can</td>
+      <td rowspan="2">Tr/đó: Pháp nhân</td>
+      <td rowspan="2">Vụ án</td>
+      <td rowspan="2">Bị can</td>
+      <td rowspan="2">Vụ án</td>
+      <td rowspan="2">Bị can</td>
+      <td rowspan="2">Vụ án</td>
+      <td rowspan="2">Bị can</td>
+      <td rowspan="2">Vụ án</td>
+      <td rowspan="2">Bị can</td>
+      <td rowspan="2">Tr/đó: Pháp nhân</td>
+      <td rowspan="2">Ít nghiêm trọng</td>
+      <td rowspan="2">Nghiêm trọng</td>
+      <td rowspan="2">Rất nghiêm trọng</td>
+      <td rowspan="2">Đặc biệt nghiêm trọng</td>
+      <td rowspan="2">Vụ án</td>
+      <td rowspan="2">Bị can</td>
+      <td rowspan="2">Vụ án</td>
+      <td rowspan="2">Bị can</td>
+      <td rowspan="2">Vụ án</td>
+      <td rowspan="2">Bị can</td>
+      <td rowspan="2">Vụ án</td>
+      <td rowspan="2">Bị can</td>
+      <td rowspan="2">Vụ án</td>
+      <td rowspan="2">Bị cáo</td>
+      <td rowspan="2">Tr/đó: Pháp nhân</td>
+      <td rowspan="2">Vụ án</td>
+      <td rowspan="2">Bị cáo</td>
+      <td rowspan="2">Vụ án</td>
+      <td rowspan="2">Bị cáo</td>
+      <td rowspan="2">Vụ án</td>
+      <td rowspan="2">Bị can</td>
+    </tr>
+    <tr class="headerTable">
+      <td>Từ 14 tuổi đến dưới 16 tuổi</td>
+      <td>Từ 16 tuổi đến dưới 18 tuổi</td>
+      <td>Từ 18 đến 30 tuổi</td>
+      <td>Trên 30 tuổi đến 70 tuổi</td>
+      <td>Trên 70 tuổi</td>
+      <td>Không biết chữ</td>
+      <td>Tiểu học</td>
+      <td>Trung học cơ sở</td>
+      <td>Trung học phổ thông</td>
+      <td>Đại học và trên đại học</td>
+    </tr>
+    <tr class="defaultsize">
+      <td style="width: 360px;">(1)</td>
+      <td>(2)</td>
+      <td>(3)</td>
+      <td>(4)</td>
+      <td>(5)</td>
+      <td>(6)</td>
+      <td>(7)</td>
+      <td>(8)</td>
+      <td>(9)</td>
+      <td>(10)</td>
+      <td>(11)</td>
+      <td>(12)</td>
+      <td>(13)</td>
+      <td>(14)</td>
+      <td>(15)</td>
+      <td>(16)</td>
+      <td>(17)</td>
+      <td>(18)</td>
+      <td>(19)</td>
+      <td>(20)</td>
+      <td>(21)</td>
+      <td>(22)</td>
+      <td>(23)</td>
+      <td>(24)</td>
+      <td>(25)</td>
+      <td>(26)</td>
+      <td>(27)</td>
+      <td>(28)</td>
+      <td>(29)</td>
+      <td>(30)</td>
+      <td>(31)</td>
+      <td>(32)</td>
+      <td>(33)</td>
+      <td>(34)</td>
+      <td>(35)</td>
+      <td>(16)</td>
+      <td>(37)</td>
+      <td>(38)</td>
+      <td>(39)</td>
+      <td>(40)</td>
+      <td>(41)</td>
+      <td>(42)</td>
+      <td>(43)</td>
+      <td>(44)</td>
+      <td>(45)</td>
+      <td>(46)</td>
+      <td>(47)</td>
+      <td>(48)</td>
+      <td>(49)</td>
+      <td>(50)</td>
+      <td>(51)</td>
+      <td>(52)</td>
+      <td>(53)</td>
+      <td>(54)</td>
+      <td>(55)</td>
+      <td>(56)</td>
+      <td>(57)</td>
+    </tr>
+    <tr *ngFor="let data of dataSet; let i = index">
+      <td style="text-align: left">{{data.lawname}}</td>
+      <td>{{data.lawid}}</td>
+      <td>{{data.col3}}</td>
+      <td>{{data.col4}}</td>
+      <td>{{data.col5}}</td>
+      <td>{{data.col6}}</td>
+      <td>{{data.col7}}</td>
+      <td>{{data.col8}}</td>
+      <td>{{data.col9}}</td>
+      <td>{{data.col10}}</td>
+      <td>{{data.col11}}</td>
+      <td>{{data.col12}}</td>
+      <td>{{data.col13}}</td>
+      <td>{{data.col14}}</td>
+      <td>{{data.col15}}</td>
+      <td>{{data.col16}}</td>
+      <td>{{data.col17}}</td>
+      <td>{{data.col18}}</td>
+      <td>{{data.col19}}</td>
+      <td>{{data.col20}}</td>
+      <td>{{data.col21}}</td>
+      <td>{{data.col22}}</td>
+      <td>{{data.col23}}</td>
+      <td>{{data.col24}}</td>
+      <td>{{data.col25}}</td>
+      <td>{{data.col26}}</td>
+      <td>{{data.col27}}</td>
+      <td>{{data.col28}}</td>
+      <td>{{data.col29}}</td>
+      <td>{{data.col30}}</td>
+      <td>{{data.col31}}</td>
+      <td>{{data.col32}}</td>
+      <td>{{data.col33}}</td>
+      <td>{{data.col34}}</td>
+      <td>{{data.col35}}</td>
+      <td>{{data.col36}}</td>
+      <td>{{data.col37}}</td>
+      <td>{{data.col38}}</td>
+      <td>{{data.col39}}</td>
+      <td>{{data.col40}}</td>
+      <td>{{data.col41}}</td>
+      <td>{{data.col42}}</td>
+      <td>{{data.col43}}</td>
+      <td>{{data.col44}}</td>
+      <td>{{data.col45}}</td>
+      <td>{{data.col46}}</td>
+      <td>{{data.col47}}</td>
+      <td>{{data.col48}}</td>
+      <td>{{data.col49}}</td>
+      <td>{{data.col50}}</td>
+      <td>{{data.col51}}</td>
+      <td>{{data.col52}}</td>
+      <td>{{data.col53}}</td>
+      <td>{{data.col54}}</td>
+      <td>{{data.col55}}</td>
+      <td>{{data.col56}}</td>
+      <td>{{data.col57}}</td>
+    </tr>
+  </table>
+</div>
+<section class="d-flex justify-content-between mb-5 serif">
+  <div class="text-center ml-2" [style.fontSize]="'14px'">
+    <br><br>
+    <p><strong>Người lập biểu</strong></p>
+    <p><em>(Ký, ghi rõ họ và tên, đóng dấu)</em>
+      <br><br><br><br>
+      <strong>{{reportInput.name}}</strong>
+    </p>
+  </div>
+  <div [style.fontSize]="'14px'" class="text-center mr-2 w-25 serif">
+    <p><em>{{requestReport?.date}}</em></p>
+    <p><strong style="text-transform:uppercase">{{reportInput?.position}}</strong></p>
+    <p><em *ngIf="reportInput.position">(Ký, ghi rõ họ và tên, đóng dấu)</em>
+      <br><br><br><br>
+      <strong>{{reportInput.signature}}</strong>
+    </p>
+  </div>
+</section>

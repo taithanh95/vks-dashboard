@@ -1,0 +1,37 @@
+<nz-modal nzWidth="1000px" [(nzVisible)]="isVisible" nzClosable="false" [nzTitle]="title" nzMaskClosable="false">
+  <ng-template #title>
+    {{ titleName }} nhóm người sử dụng
+    <div class="pull-right">
+      <em (click)="handleCancel()" nz-icon nzType="close" nzTheme="outline"></em>
+    </div>
+  </ng-template>
+  <div>
+    <div class="modal-body">
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label">Mã nhóm NSD</label>
+        <div class="col-md-9">
+          <input type="text" class="form-control border-success" nz-input placeholder="Hệ thống tự sinh khi thêm mới" [(ngModel)]="data.groupid"
+                 disabled>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label">Tên nhóm NSD<span
+            class="font-weight-bold text-danger">(*)</span></label>
+        <div class="col-md-9">
+          <input type="text" class="form-control border-success" nz-input placeholder="Tên nhóm NSD" [(ngModel)]="data.groupname"
+                 [required]="isSubmited" [ngClass]="isSubmited ? 'error' : '' ">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *nzModalFooter>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button type="button" class="btn btn-sm btn-info" (click)="handleOk()"><i class="fa fa-save"></i> Ghi lại
+      </button>
+<!--      <button type="button" class="btn btn-sm btn-success" (click)="doReset()"><i class="fa fa-plus"></i> Thêm mới-->
+<!--      </button>-->
+      <button type="button" class="btn btn-sm btn-secondary" (click)="handleCancel()"><i class="fa fa-arrow-left"></i> Quay lại
+      </button>
+    </div>
+  </div>
+</nz-modal>

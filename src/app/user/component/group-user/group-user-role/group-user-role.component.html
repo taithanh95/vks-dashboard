@@ -1,0 +1,25 @@
+<c-spinner [show]="isLoading" [fullScreen]="true"></c-spinner>
+<div class="card bg-default">
+  <div class="card-header">
+    <div class="card-title">
+      <i class="fa fa-search"></i> <strong> Phân quyền nhóm người dùng </strong><strong
+      class="btn-outline-success">{{username}}</strong> - <strong class="btn-outline-danger">{{name}} </strong>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row border-5 border-warning">
+      <div class="col-md-12">
+        <ngx-treeview [config]="config" [items]="items" (filterChange)="onFilterChange($event)"
+                      (selectedChange)="values = $event">
+        </ngx-treeview>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer text-center">
+    <button type="reset" class="btn btn-info" (click)="closed()"><i class="fa fa-times-circle-o"></i> Đóng
+    </button>
+    <button type="button" class="btn btn-primary" (click)="save()"><i class="fa fa-floppy-o"></i>
+      Lưu
+    </button>
+  </div>
+</div>

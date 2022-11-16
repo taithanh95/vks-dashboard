@@ -1,0 +1,168 @@
+<c-spinner [show]="inProgress" [fullScreen]="true"></c-spinner>
+<div class="animated fadeIn">
+  <div class="page-header">
+
+    <div class="page-header">
+      <div class="card bg-default">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fa fa-search"></i> <strong>Tìm kiếm nhà cung cấp</strong>
+            </div>
+          </div>
+          <div class="card-body">
+            <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="code">Mã nhà cung cấp</label>
+                <div class="col-md-9">
+                  <input type="text" id="code" name="code" class="form-control border-success"
+                         placeholder="Nhập mã nhà cung cấp" (keydown.enter)="onSearch()"
+                         [(ngModel)]="searchModel.code" (ngModelChange)="searchModel.code = $event.toUpperCase()">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="name">Tên nhà cung cấp</label>
+                <div class="col-md-9">
+                  <input type="text" id="name" name="name" class="form-control border-success"
+                         placeholder="Nhập tên" (keydown.enter)="onSearch()"
+                         [(ngModel)]="searchModel.name">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="address">Địa chỉ</label>
+                <div class="col-md-9">
+                  <input type="text" id="address" name="address" class="form-control border-success"
+                         placeholder="Nhập địa chỉ" (keydown.enter)="onSearch()"
+                         [(ngModel)]="searchModel.address">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="alias">Tên viết tắt</label>
+                <div class="col-md-9">
+                  <input type="text" id="alias" name="alias" class="form-control border-success"
+                         placeholder="Nhập tên" (keydown.enter)="onSearch()"
+                         [(ngModel)]="searchModel.alias">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="status">Trạng thái</label>
+                <div class="col-md-9">
+                  <select class="form-control border-success" id="status" name="status"
+                          [(ngModel)]="searchModel.status">
+                    <option value="-1">---Tất cả---</option>
+                    <option value="0">Ngưng hoạt động</option>
+                    <option value="1">Đang hoạt động</option>
+                  </select>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="card-footer">
+            <button type="button" class="btn btn-sm btn-success" (click)="onSearch()"><i class="fa fa-search"></i> Tìm
+              kiếm
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-success" (click)="addData()"><i class="fa fa-plus"></i>
+              Thêm mới
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card bg-default">
+        <div class="card-header card-header-btn d-flex flex-row align-items-center">
+          <div class="card-title">
+            <i class="fa fa-list"></i> Danh sách nhà cung cấp
+          </div>
+        </div>
+        <div class="card-body">
+          <form id="form-zone">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <!--TABLE HEADER-->
+                <thead>
+                <tr>
+                  <td class="text-center" style="width: 2%">
+                    <a class="font-weight-bold text-primary">Mã NCC</a>
+                  </td>
+                  <td class="text-center" style="width: 10%">
+                    <a class="font-weight-bold text-primary">Tên NCC</a>
+                  </td>
+                  <td class="text-center" style="width: 15%">
+                    <a class="font-weight-bold text-primary">Địa chỉ</a>
+                  </td>
+                  <td class="text-center" style="width: 3%">
+                    <a class="font-weight-bold text-primary">Viết tắt</a>
+                  </td>
+                  <td class="text-center" style="width: 3%">
+                    <a class="font-weight-bold text-primary">MST</a>
+                  </td>
+                  <td class="text-center" style="width: 3%">
+                    <a class="font-weight-bold text-primary">Điện thoại</a>
+                  </td>
+                  <td class="text-center" style="width: 3%">
+                    <a class="font-weight-bold text-primary">Tên ứng dụng</a>
+                  </td>
+                  <td class="text-center" style="width: 2%">
+                    <a class="font-weight-bold text-primary">Trạng thái</a>
+                  </td>
+                  <td class="text-center" style="width: 3%">
+                    <a class="font-weight-bold text-primary">Chi tiết</a>
+                  </td>
+                </tr>
+                </thead>
+                <!--END TABLE HEADER-->
+
+                <!--TABLE BODY-->
+                <tbody>
+                <tr
+                  *ngFor="let item of listData | paginate:{ itemsPerPage: 10, currentPage: currentPage, totalItems:totalRecords }">
+                  <td class="text-center">{{item.code}}</td>
+                  <td class="text-left">{{item.name}}</td>
+                  <td class="text-left">{{item.address}}</td>
+                  <td class="text-left">{{item.alias}}</td>
+                  <td class="text-left">{{item.taxCode}}</td>
+                  <td class="text-left">{{item.phone}}</td>
+                  <td class="text-center">{{item.moduleName}}</td>
+                  <td class="text-center">
+                    <span class="badge badge-success" *ngIf="item.status === 1">Hoạt động</span>
+                    <span class="badge badge-danger" *ngIf="item.status === 0">Ngưng hoạt động</span>
+                  </td>
+                  <td class="text-center">
+                    <a (click)="editData(item)" data-toggle="tooltip" title="Sửa"
+                       class="btn btn-outline-success btn-sm mr-2 w-15">
+                      <i class="fa fa-fw fa-pencil-square-o"></i>
+                    </a>
+                  </td>
+
+                </tr>
+                </tbody>
+                <!--END TABLE BODY-->
+              </table>
+            </div>
+          </form>
+
+          <!--BEGIN PAGINATION-->
+          <div class="row">
+            <div class="col-sm-6 text-left">
+              <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+            </div>
+            <div id="NumberOfRecords" class="col-sm-6 text-right">Tổng số bản ghi
+              <strong>{{(totalRecords ? totalRecords : 0) | number}}</strong></div>
+          </div>
+          <!--END PAGINATION-->
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-body">
+      <p>Are you sure ?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-danger btn-sm" (click)="c('Delete Click')">Delete</button>
+      <button type="button" class="btn btn-light btn-sm" (click)="c('Cancel Click')">Cancel</button>
+    </div>
+  </ng-template>
+</div>

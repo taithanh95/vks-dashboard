@@ -1,0 +1,46 @@
+<c-spinner [show]="isLoading" [fullScreen]="true"></c-spinner>
+<div class="modal-header">
+  <h6 class="modal-title"><i class="fa icon-user-following"></i> Chi tiết nhóm người dùng</h6>
+  <button type="button" class="close" (click)="closeDialog()" aria-label="Close">
+    <span aria-hidden="true"><i class="fa fa-times-circle-o"></i></span>
+  </button>
+</div>
+<form [formGroup]="formData" (ngSubmit)="onSubmit()">
+  <div class="modal-body">
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="name">Tên <span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" class="form-control border-success"
+               (keydown.tab)="getUsernameFromFullName($event.target.value)"
+               placeholder="Tên nhóm người dùng" id="name" name="name" value="name"
+               formControlName="name">
+        <control-messages [submited]="submited" [control]="formData.controls.name"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="description">Mô tả</label>
+      <div class="col-md-9">
+        <input type="text" class="form-control border-success"
+               placeholder="Mô tả" id="description" name="description" value="description" formControlName="description">
+        <control-messages [submited]="submited" [control]="formData.controls.description"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="editData && editData.id">
+      <label class="col-md-3 col-form-label" for="status">Trạng thái <span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <select class="form-control border-success" id="status" name="status" value="status" formControlName="status">
+          <option value="0">Không hoạt động</option>
+          <option value="1">Hoạt động</option>
+        </select>
+        <control-messages [submited]="submited" [control]="formData.controls.status"></control-messages>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer text-center">
+    <button type="button" class="btn btn-secondary" (click)="closeDialog()"><i class="fa fa-times-circle-o"></i> Đóng
+    </button>
+    <c-button type="submit" className="btn btn-primary" iconClassName="fa fa-floppy-o" label="Lưu"></c-button>
+  </div>
+</form>

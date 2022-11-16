@@ -1,0 +1,157 @@
+<!--<c-spinner [fullScreen]="true"></c-spinner>-->
+<div class="animated fadeIn">
+  <div class="page-header">
+    <div class="card bg-default">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fa fa-search"></i> <strong>Tìm kiếm người xử lý</strong>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="row col">
+              <label class="col-md-3 col-form-label pl-4">Mã người xử lý</label>
+              <div class="col-md-8">
+                <input class="form-control border-success"
+                       [(ngModel)]="filterItem.inspcode" nz-input placeholder="Mã người xử lý">
+              </div>
+            </div>
+            <div class="row col">
+              <label class="col-md-3 col-form-label pl-4">Tên người xử lý</label>
+              <div class="col-md-8">
+                <input class="form-control border-success"
+                       nz-input placeholder="Tên người xử lý" [(ngModel)]="filterItem.fullname">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="row col">
+              <label class="col-md-3 col-form-label pl-4">Tên VKS</label>
+              <div class="col-md-8">
+                <nz-select [(ngModel)]="filterItem.sppid" nzAllowClear nzShowSearch
+                           (ngModelChange)="onInputSppIsDepart()">
+                  <nz-option *ngFor="let option of lstSpp" [nzLabel]="option.NAME" [nzValue]="option">{{ option.SPPID
+                    }} - {{ option.NAME }}</nz-option>
+                </nz-select>
+              </div>
+            </div>
+            <div class="row col">
+              <label class="col-md-3 col-form-label pl-4">Phòng ban</label>
+              <div class="col-md-8">
+                <nz-select [(ngModel)]="filterItem.currentsppid" nzAllowClear nzShowSearch>
+                  <nz-option *ngFor="let option of lstSppIsDepart" [nzLabel]="option.NAME" [nzValue]="option">{{
+                    option.SPPID }} - {{ option.NAME }}</nz-option>
+                </nz-select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="text-left">
+
+          </div>
+          <div class="text-right" style="text-align-last:center;">
+            <button type="button" class="btn btn-sm btn-success" (click)="doSearch()">
+              <span class="fa fa-fw fa-search"></span>
+              Tìm kiếm
+            </button>
+
+            <button class="btn btn-sm btn-outline-success" (click)="showCreateForm()">
+              <span class="fa fa-fw fa-plus"></span> Thêm mới
+            </button>
+
+
+          </div>
+          <!-- <button type="button" class="btn btn-sm btn-success" (click)="onSearch()"><i class="fa fa-search"></i> Tìm
+            kiếm
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-success" (click)="addData()"><i class="fa fa-plus"></i>
+            Thêm mới
+          </button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card bg-default">
+  <div class="card-body">
+    <form id="form-zone">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <nz-table #basicTable nzShowSizeChanger [nzFrontPagination]="false" nzSize="small" [nzData]="datas"
+                     (nzCurrentPageDataChange)="currentPageDataChange($event)" [nzLoading]="loading"
+                    [nzShowTotal]="rangeTemplate" [nzPageSize]="defaultPage" [nzTotal]="total" [nzPageIndex]="pageIndex"
+                    (nzQueryParams)="onQueryParamsChange($event)">
+            <thead>
+            <tr>
+              <th class="font-weight-bold text-primary text-center align-middle">STT</th>
+              <th class="font-weight-bold text-primary text-center align-middle">Mã người xử lý</th>
+              <th class="font-weight-bold text-primary text-center align-middle">Tên người xử lý</th>
+              <th class="font-weight-bold text-primary text-center align-middle">Vị trí công tác</th>
+              <th class="font-weight-bold text-primary text-center align-middle">Mã VKS</th>
+              <th class="font-weight-bold text-primary text-center align-middle">Tên VKS</th>
+              <th class="font-weight-bold text-primary text-center align-middle">Phòng ban</th>
+              <th class="font-weight-bold text-primary text-center align-middle">Trạng thái làm việc</th>
+              <th class="font-weight-bold text-primary text-center align-middle">Người tạo</th>
+              <th class="font-weight-bold text-primary text-center align-middle">Ngày tạo</th>
+              <th class="font-weight-bold text-primary text-center align-middle">Thao tác</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let data of basicTable.data; let i = index" class="actived" (click)="onRowSelect(data)"
+                [class.selected]="data === selectedItem">
+              <td style="text-align: center" class="text-nowrap">
+                {{
+                getRowIndex(i, basicTable.nzPageIndex, basicTable.nzPageSize)
+                }}
+              </td>
+              <td class="text-nowrap center">{{ data.INSPCODE }}</td>
+              <td class="text-nowrap">{{ data.FULLNAME }}</td>
+              <td class="text-wrap">{{ convert1(data.POSITION) }}</td>
+              <td class="text-nowrap center">{{ data.SPPID }}</td>
+              <td class="text-nowrap">{{ data.NAME }}</td>
+              <td class="text-nowrap">{{ data.DEPARTNAME }}</td>
+              <td class="text-nowrap text-center">{{ convert(data.STATUS) }}</td>
+              <td class="text-nowrap">{{ data.CRTUSER }}</td>
+              <td class="text-nowrap text-center">{{ data.CRTDATE | date:'dd/MM/yyyy' }}</td>
+              <td class="text-center">
+
+                <a (click)="showEditForm(data)" data-toggle="tooltip" title="Sửa"
+                   class="btn btn-outline-success btn-sm mr-2 w-15">
+                  <i class="fa fa-fw fa-pencil-square-o"></i>
+                </a>
+                <a (click)="doDelete(data.INSPCODE)" data-toggle="tooltip" title="Xóa"
+                   class="btn btn-outline-danger btn-sm mr-2 w-15">
+                  <i class="fa fa-fw fa-times-circle-o"></i>
+                </a>
+
+                <a *ngIf="data.STATUS === 'Y'" (click)="showChangeForm(data)" data-toggle="tooltip" title="Điều chuyển"
+                   class="btn btn-outline-primary btn-sm mr-2 w-15">
+                  <i class="fa fa-fw fa-location-arrow"></i>
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </nz-table>
+          <ng-template #rangeTemplate let-range="range" let-total>
+            {{ range[0] }}-{{ range[1] }} {{ 'của'}} {{ total }} {{'bản ghi' }}
+          </ng-template>
+          <!--END TABLE BODY-->
+        </table>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+<app-inspector-detail (closeModal)="closeDetail($event)" [isVisible]="isVisibleDetail" [data]="selectedItem">
+</app-inspector-detail>
+<app-inspector-edit (closeModal)="closeEditForm($event)" [isVisible]="isVisibleEdit" [data]="data"
+                    (reload)="loadDataFromServer()"></app-inspector-edit>
+<app-inspector-create (closeModal)="closeCreateForm($event)" [isVisible]="isVisibleCreate"
+                      (reload)="loadDataFromServer()"></app-inspector-create>
+<app-inspector-change (closeModal)="closeChangeForm($event)" [isVisible]="isVisibleChange" [data]="data"
+                      (reload)="loadDataFromServer()"></app-inspector-change>

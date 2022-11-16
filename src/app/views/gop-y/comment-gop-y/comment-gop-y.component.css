@@ -1,0 +1,8 @@
+div.listComment {
+  width: 100%;
+  max-height: 300px;
+  overflow: auto;
+}
+table tr td{
+  padding: 5px 15px;
+}

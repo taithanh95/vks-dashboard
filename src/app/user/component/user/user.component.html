@@ -1,0 +1,258 @@
+<c-spinner [show]="isLoading" [fullScreen]="true"></c-spinner>
+<div class="animated fadeIn">
+  <div class="page-header">
+    <div class="card bg-default">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fa fa-search"></i> <strong>Tìm kiếm tài khoản</strong>
+          </div>
+        </div>
+        <div class="card-body">
+          <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+            <div class="row">
+              <div class="row col">
+                <label class="col-md-3 col-form-label pl-4" for="username">Tên đăng nhập</label>
+                <div class="col-md-8">
+                  <input type="text" id="username" name="text-input" class="form-control border-success"
+                         placeholder="Tên đăng nhập" (keydown.enter)="onSearch()"
+                         [(ngModel)]="searchModel.username">
+                </div>
+              </div>
+              <div class="row col">
+                <label class="col-md-3 col-form-label pr-4">Thuộc VKS</label>
+                <div class="col-md-8">
+                  <nz-select nzShowSearch nzAllowClear [(ngModel)]="searchModel.sppid"
+                             [ngModelOptions]="{standalone: true}" (nzOpenChange)="sppChange()"
+                             class="form-control">
+                    <nz-option *ngFor="let opt of listSpp" nzLabel="{{ opt.NAME }}"
+                               [nzValue]="opt.SPPID">{{ opt.NAME }}</nz-option>
+                  </nz-select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="row col">
+                <label class="col-md-3 col-form-label pl-4">Phòng ban</label>
+                <div class="col-md-8">
+                  <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Phòng ban" [(ngModel)]="searchModel.departid"
+                             [ngModelOptions]="{standalone: true}"
+                             class="form-control" (nzOpenChange)="departChange()">
+                    <nz-option *ngFor="let opt of listDepart" nzLabel="{{ opt.name }}"
+                               [nzValue]="opt.sppid">{{ opt.name }}</nz-option>
+                  </nz-select>
+                </div>
+              </div>
+              <div class="row col">
+                <label class="col-md-3 col-form-label pr-4" for="status">Nhóm báo cáo</label>
+                <div class="col-md-8">
+                  <nz-select class="" #statusSelect
+                             [(ngModel)]="searchModel.groupUserId"
+                             nzPlaceHolder="Chọn nhóm báo cáo"
+                             nzAllowClear
+                             name="groupUserId"
+                             id="groupUserId"
+                             nzShowSearch>
+                    <nz-option *ngFor="let o of listGroupUser" [nzValue]="o.id" [nzLabel]="o.name"></nz-option>
+                  </nz-select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="row col">
+                <label class="col-md-3 col-form-label pl-4">Họ tên cán bộ</label>
+                <div class="col-md-8">
+                  <nz-select nzAllowClear nzPlaceHolder="Họ tên cán bộ" class="form-control" nzShowSearch
+                             [(ngModel)]="searchModel.inspcode" [ngModelOptions]="{standalone: true}">
+                    <nz-option *ngFor="let opt of listInspectors" nzLabel="{{ opt.fullname }}"
+                               [nzValue]="opt.inspcode">{{ opt.fullname }}</nz-option>
+                  </nz-select>
+                </div>
+              </div>
+              <div class="row col">
+                <label class="col-md-3 col-form-label pr-4" for="groupid">Nhóm nghiệp vụ</label>
+                <div class="col-md-8">
+                  <nz-select class="" #statusSelect
+                             [(ngModel)]="searchModel.groupid"
+                             nzPlaceHolder="Chọn nhóm nghiệp vụ"
+                             nzAllowClear
+                             name="groupId"
+                             id="groupId"
+                             nzShowSearch>
+                    <nz-option *ngFor="let opt of listGroup" nzLabel="{{ opt.groupname }}"
+                               [nzValue]="opt.groupid">{{opt.groupname}}</nz-option>
+                  </nz-select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="row col">
+                <label class="col-md-3 col-form-label pl-4" for="status">Trạng thái</label>
+                <div class="col-md-8">
+                  <select class="form-control border-success" id="status" name="status"
+                          [(ngModel)]="searchModel.status">
+                    <option value="-1">Tất cả</option>
+                    <option value="1">Hoạt động</option>
+                    <option value="0">Ngừng hoạt động</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row col"></div>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer text-center">
+          <button type="button" class="btn btn-sm btn-success" (click)="onSearch()"><i class="fa fa-search"></i> Tìm
+            kiếm
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-success" (click)="addData()"><i class="fa fa-plus"></i>
+            Thêm mới
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card bg-default">
+      <div class="card-header card-header-btn d-flex flex-row align-items-center">
+        <div class="card-title">
+          <input class="form-control border-success" type="text"
+                 #searchText id="search" name="search"
+                 placeholder="Tìm kiếm trong kết quả" (keypress)="search(searchText.value)"/>
+        </div>
+      </div>
+      <div class="card-body">
+        <form id="form-zone">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <!--TABLE HEADER-->
+              <thead>
+              <tr>
+                <td class="text-center" style="width: 0.5%">
+                  <a class="font-weight-bold text-primary">STT</a>
+                </td>
+                <td class="text-center" style="width: 4%">
+                  <a class="font-weight-bold text-primary">Tài khoản</a>
+                </td>
+                <td class="text-center" style="width: 6%">
+                  <a class="font-weight-bold text-primary">Họ và tên</a>
+                </td>
+                <td class="text-center" style="width: 6%">
+                  <a class="font-weight-bold text-primary">Thuộc VKS</a>
+                </td>
+                <td class="text-center" style="width: 2%">
+                  <a class="font-weight-bold text-primary">Phòng ban</a>
+                </td>
+                <td class="text-center" style="width: 2%">
+                  <a class="font-weight-bold text-primary">Cán bộ</a>
+                </td>
+                <td class="text-center" style="width: 4%">
+                  <a class="font-weight-bold text-primary">Nhóm báo cáo</a>
+                </td>
+                <td class="text-center" style="width: 4%">
+                  <a class="font-weight-bold text-primary">Nhóm nghiệp vụ</a>
+                </td>
+                <td class="text-center" style="width: 3%">
+                  <a class="font-weight-bold text-primary">Trạng thái</a>
+                </td>
+                <td class="text-center" style="width: 6%">
+                  <a class="font-weight-bold text-primary">Thời gian tạo</a>
+                </td>
+                <td class="text-center" style="width: 8%">
+                  <a class="font-weight-bold text-primary">Thao tác</a>
+                </td>
+              </tr>
+              </thead>
+              <!--END TABLE HEADER-->
+
+              <!--TABLE BODY-->
+              <tbody>
+              <tr
+                *ngFor="let item of this.listData | paginate:{ itemsPerPage: this.pageResponse.pageSize, currentPage: this.pageResponse.pageNumber, totalItems:this.pageResponse.totalElements }; let i = index">
+                <td
+                  class="text-center align-middle">{{this.pageResponse.pageSize * (this.pageResponse.pageNumber - 1) + i + 1}}</td>
+                <td class="text-left">{{item.username}}</td>
+                <td class="text-left">{{item.name}}</td>
+                <td class="text-left">{{item.sppname}}</td>
+                <td class="text-left">{{item.departname}}</td>
+                <td class="text-left">{{item.inspectname}}</td>
+                <td class="text-center align-middle">{{item.groupUser ? item.groupUser.name : 'Chưa xác định'}}</td>
+                <td class="text-center align-middle">{{item.groupidname}}</td>
+                <td class="text-center">
+                  <span class="badge badge-info" *ngIf="item.status === 2">Chờ xác nhận</span>
+                  <span class="badge badge-success" *ngIf="item.status === 1">Hoạt động</span>
+                  <span class="badge badge-dark" *ngIf="item.status === 0">Dừng hoạt động</span>
+                  <span class="badge badge-warning" *ngIf="item.status > 2 || item.status < 0">Không xác định</span>
+                </td>
+                <td class="text-center">{{item.createdAt}}</td>
+                <td class="text-center">
+                  <a (click)="editData(item)" data-toggle="tooltip" title="Sửa"
+                     class="btn btn-outline-success btn-sm mr-2 w-15">
+                    <i class="fa fa-fw fa-pencil-square-o"></i>
+                  </a>
+                  <!--                  <a (click)="resetPassword(item)" data-toggle="tooltip" title="Reset mật khẩu"-->
+                  <!--                     class="btn btn-outline-danger btn-sm mr-2 w-15">-->
+                  <!--                    <i class="fa fa-fw fa-arrow-circle-down"></i>-->
+                  <!--                  </a>-->
+                  <a (click)="changeUserRole(item)" data-toggle="tooltip" title="Phân quyền báo cáo"
+                     class="btn btn-outline-info btn-sm mr-2 w-15">
+                    <i class="fa fa-fw fa-universal-access"></i>
+                  </a>
+                  <a (click)="showAdmGrant(item)" data-toggle="tooltip" title="Phân quyền cho nhóm nghiệp vụ"
+                     class="btn btn-outline-warning btn-sm mr-2 w-15">
+                    <i class="fa fa-fw fa fa-users"></i>
+                  </a>
+                  <a (click)="showAdmGrantToUser(item)" data-toggle="tooltip" title="Phân quyền ngiệp vụ"
+                     class="btn btn-outline-primary btn-sm mr-2 w-15">
+                    <i class="fa fa-fw fa fa-user"></i>
+                  </a>
+                  <a (click)="deleteUser(item)" data-toggle="tooltip" title="Xoá tài khoản"
+                     class="btn btn-outline-danger btn-sm mr-2 w-15">
+                    <i class="fa fa-fw fa-times-circle-o"></i>
+                  </a>
+                </td>
+
+              </tr>
+              </tbody>
+              <!--END TABLE BODY-->
+            </table>
+          </div>
+        </form>
+
+        <!--BEGIN PAGINATION-->
+        <div class="row text-right">
+          <div class="col-auto text-right">
+            Tổng số bản ghi <strong class="text-success">{{pageResponse.totalElements}}</strong> /
+            Tổng số trang <strong class="text-danger">{{pageResponse.totalPages}}</strong>
+          </div>
+          <div id="NumberOfRecords" class="col-auto text-right">
+            <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+          </div>
+          <div class="col-auto form-group row text-right">
+            <label class="col-auto col-form-label text-right text-warning" for="pageSize">Số bản ghi một trang</label>
+            <div class="col-auto">
+              <select class="form-control border-warning text-left" id="pageSize" name="pageSize"
+                      [(ngModel)]="pageResponse.pageSize" (ngModelChange)="onPageSizeOptionChange($event)">
+                <option *ngFor="let opt of pageSizeOption" [value]="opt">{{opt}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!--END PAGINATION-->
+
+      </div>
+    </div>
+  </div>
+
+
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-body">
+      <p>Are you sure ?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-danger btn-sm" (click)="c('Delete Click')">Delete</button>
+      <button type="button" class="btn btn-light btn-sm" (click)="c('Cancel Click')">Cancel</button>
+    </div>
+  </ng-template>
+</div>
+<app-detail-user [editData]="data" [isVisible]="isVisible" (closeModal)="closeModal($event)"
+                 (reload)="onSearch()"></app-detail-user>

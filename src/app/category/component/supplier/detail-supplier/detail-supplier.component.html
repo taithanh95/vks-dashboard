@@ -1,0 +1,105 @@
+<div class="modal-header">
+  <h5 class="modal-title"><i class="fa icon-plus"></i> Thông tin chi tiết nhà cung cấp</h5>
+  <button type="button" class="close" (click)="closeDialog()" aria-label="Close">
+    <span aria-hidden="true"><i class="fa fa-times-circle-o"></i></span>
+  </button>
+</div>
+<form [formGroup]="formData" (ngSubmit)="onSubmit()">
+  <div class="modal-body">
+    <div class="form-group row" *ngIf="editData && editData.id">
+      <label class="col-md-3 col-form-label" for="code">ID nhà cung cấp<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" id="id" class="form-control border-success"
+               placeholder="ID nhà cung cấp" name="id" value="code" formControlName="id"
+               [attr.disabled]="editData && editData.id">
+        <control-messages [submited]="submited" [control]="formData.controls.id"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="editData && editData.id">
+      <label class="col-md-3 col-form-label" for="code">Mã nhà cung cấp<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" id="code" class="form-control border-success"
+               placeholder="Mã nhà cung cấp" name="code" value="code" formControlName="code"
+               [attr.disabled]="editData && editData.id">
+        <control-messages [submited]="submited" [control]="formData.controls.code"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="name">Tên nhà cung cấp<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" id="name" class="form-control border-success"
+               placeholder="Tên nhà cung cấp" name="name" value="name" formControlName="name">
+        <control-messages [submited]="submited" [control]="formData.controls.name"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="address">Địa chỉ nhà cung cấp<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" id="address" class="form-control border-success"
+               placeholder="Địa chỉ nhà cung cấp" name="address" value="address" formControlName="address">
+        <control-messages [submited]="submited" [control]="formData.controls.address"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="address">Số điện thoại<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" id="phone" class="form-control border-success"
+               placeholder="Số điện thoại" name="phone" value="phone" formControlName="phone">
+        <control-messages [submited]="submited" [control]="formData.controls.phone"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="taxCode">Mã số thuế<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" id="taxCode" class="form-control border-success"
+               placeholder="Mã số thuế" name="taxCode" value="taxCode" formControlName="taxCode">
+        <control-messages [submited]="submited" [control]="formData.controls.taxCode"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="moduleName">Tên ứng dụng<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" id="moduleName" class="form-control border-success"
+               placeholder="Tên ứng dụng" name="moduleName" value="moduleName" formControlName="moduleName"
+               oninput="this.value = this.value.toLowerCase()">
+        <control-messages [submited]="submited" [control]="formData.controls.moduleName"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="alias">Tên viết tắt<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" id="alias" class="form-control border-success"
+               placeholder="Tên viết tắt" name="alias" value="alias" formControlName="alias">
+        <control-messages [submited]="submited" [control]="formData.controls.alias"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="editData && editData.id">
+      <label class="col-md-3 col-form-label" for="status">Trạng thái <span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <select class="form-control border-success" formControlName="status" id="status">
+          <option value="0">Ngưng hoạt động</option>
+          <option value="1">Đang hoạt động</option>
+        </select>
+        <control-messages [submited]="submited" [control]="formData.controls.status"></control-messages>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="text-center">
+      <button type="button" class="btn btn-sm btn-danger" (click)="closeDialog()"><i class="fa fa-times-circle-o"></i>
+        Đóng
+      </button>
+      <c-button type="submit" className="btn btn-sm btn-success" iconClassName="fa fa-floppy-o" label="Lưu"
+                [loading]="isLoading"></c-button>
+    </div>
+  </div>
+</form>

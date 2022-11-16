@@ -1,0 +1,191 @@
+<div class="animated fadeIn">
+  <div class="page-header">
+    <div class="card my-2 bg-default">
+      <div class="card-body p-2">
+        <form [formGroup]="formData">
+          <div class="form-group row">
+            <label class="col-md-2 col-form-label" for="createdBy">Người đăng</label>
+            <div class="col-md-4">
+              <input type="text" formControlName="createdBy" id="createdBy" class="form-control border-success"
+                     placeholder="Tên" >
+            </div>
+            <label class="col-md-2 col-form-label" for="content">Câu hỏi/Góp ý</label>
+            <div class="col-md-4">
+              <input type="text" formControlName="content" id="content" class="form-control border-success"
+                     placeholder="Câu hỏi/Góp ý" >
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-2 col-form-label" for="fromDate" >Từ ngày
+              <span class="font-weight-bold text-danger">(*)</span></label>
+            <div class="col-md-4">
+              <nz-date-picker class="form-control border-success w-100"
+                              [nzAutoFocus]="true"
+                              [nzMode]="'date'"
+                              formControlName="fromDate"
+                              (input)="onDateValueChange($event, formData.get('fromDate'))"
+                              [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              name="fromDate" id="fromDate"></nz-date-picker>
+
+            </div>
+            <label class="col-md-2 col-form-label" for="todate">Đến ngày
+              <span class="font-weight-bold text-danger">(*)</span></label>
+            <div class="col-md-4">
+              <nz-date-picker class="form-control border-success w-100"
+                              [nzAutoFocus]="true"
+                              [nzMode]="'date'"
+                              formControlName="toDate"
+                              (input)="onDateValueChange($event, formData.get('toDate'))"
+                              [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              name="todate" id="todate" ></nz-date-picker>
+
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-2 col-form-label" for="type">Nhóm nội dung</label>
+            <div class="col-md-4">
+
+              <nz-select formControlName="type"
+                         nzPlaceHolder="Chọn nhóm nội dung"
+                         nzAllowClear
+                         id="type" (ngModelChange)="changeValueType()"
+                         [nzDropdownRender]="renderTemplate">
+                <nz-option *ngFor="let option of listType | keyvalue" [nzValue]="option.key"
+                           [nzLabel]="option.value"></nz-option>
+              </nz-select>
+            </div>
+            <label class="col-md-2 col-form-label" for="type">Trạng thái</label>
+            <div class="col-md-4">
+              <nz-select formControlName="approve"
+                         nzPlaceHolder="Chọn trạng thái"
+                         nzAllowClear
+                         id="approve"
+                         [nzDropdownRender]="renderTemplate">
+                <nz-option *ngFor="let option of listApprove | keyvalue" [nzValue]="option.key"
+                           [nzLabel]="option.value"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-2 col-form-label" for="type">Mục nội dung</label>
+            <div class="col-md-4">
+              <nz-select formControlName="subType"
+                         nzPlaceHolder="Chọn mục nội dung"
+                         nzAllowClear
+                         id="subType"
+                         [nzDropdownRender]="renderTemplate">
+                <nz-option *ngFor="let option of listSubType.get(formData.value.type) | keyvalue" [nzValue]="option.key"
+                           [nzLabel]="option.value"></nz-option>
+              </nz-select>
+            </div>
+            <div col-md-6></div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="card bg-default">
+      <div class="w-100 card-header card-header-btn d-flex flex-row align-items-center">
+        <div class="w-50 card-title">
+          <button type="button" class="btn btn-primary mr-1 btn-sm" (click)="onSearchByCreatedBy(formData.value)">
+            <i class="fa fa-user-plus"></i> Câu hỏi/góp ý của tôi
+          </button>
+          &nbsp;
+          <i ng *ngIf="permission_delete_update" class="pt-1 fa fa-long-arrow-down"></i>
+        </div>
+        <div class="w-50 text-right">
+          <i *ngIf="!permission_delete_update" class="pt-1 fa fa-long-arrow-down"></i>
+          &nbsp;
+          <button type="button" class="btn btn-success mr-1 btn-sm"(click)="onSearch(formData.value)" >
+            <i class="fa fa-search"></i> Tìm kiếm
+          </button>
+          <button type="button" class="btn btn-outline-success mr-1 btn-sm" (click)="showModalCreate(formData.value)">
+            <i class="fa fa-plus"></i> Thêm mới
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <form id="form-zone">
+          <div class="table-responsive">
+            <nz-table #basicTable nzSize="small" class="table-striped table-bordered table-hover"
+                      [nzScroll]="scroll"
+                      nzShowSizeChanger
+                      nzTableLayout="fixed"
+                      [nzData]="lstFeedBack"
+                      [nzLoading]="isLoading"
+                      [nzTotal]="totalElements"
+                      [nzPageSize]="pageSize"
+                      [nzPageIndex]="pageNumber"
+                      [nzShowPagination]="false"
+                      [nzBordered]="true">
+              <thead>
+              <tr>
+                <ng-container *ngFor="let colsTable of colsTable">
+                  <th nzAlign="center" nz-tooltip nzTooltipTitle="{{ colsTable.title }}" [nzWidth]="colsTable.width">
+                    {{ colsTable.title }}
+                  </th>
+                </ng-container>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let item of basicTable.data; index as i">
+                <td nzAlign="center">{{ (i + 1) }}</td>
+                <td nzAlign="center">{{ item.createdBy }}</td>
+                <td nzAlign="left">{{ item.content }}</td>
+                <td nzAlign="center">{{ item.createdAt }}</td>
+                <td nzAlign="center">{{ listType.get(item.type) }}</td>
+                <td nzAlign="center">
+                  <span *ngIf="item.approve=='Y'" class="text-success font-weight-bold" >
+                    {{listApprove.get(item.approve)}}
+                  </span>
+                  <span *ngIf="item.approve=='N'" class="text-danger font-weight-bold">
+                    {{listApprove.get(item.approve)}}
+                  </span>
+                  <span *ngIf="item.approve=='W'" class="text-warning font-weight-bold">
+                    {{listApprove.get(item.approve)}}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <a *ngIf="permission_delete_update == true && item.approve=='W' " (click)="showModalEdit(item)"
+                     data-toggle="tooltip" title="Sửa câu hỏi"
+                     class="btn btn-outline-success btn-sm mr-2 w-15">
+                    <i class="fa fa-fw fa-pencil-square-o"></i>
+                  </a>
+                  <a *ngIf="sppid == sppid_VKSNDTC && item.approve =='W' && permission_delete_update == false"
+                     (click) = "changeApprove(item)" data-toggle="tooltip" title="Thay đổi trạng thái"
+                     class="btn btn-outline-primary btn-sm mr-2 w-15">
+                    <i class="fa fa-fw fa-recycle"></i>
+                  </a>
+                  <a *ngIf="permission_delete_update == true && item.approve != 'Y'" (click) = "showDeleteConfirm(item.id)"
+                     data-toggle="tooltip" title="Xoá câu hỏi"
+                     class="btn btn-outline-danger btn-sm mr-2 w-15">
+                    <i class="fa fa-fw fa-times-circle-o"></i>
+                  </a>
+                  <a data-toggle="tooltip" title="Thông tin chi tiết" (click) = "showModalDetail(item)"
+                     class="btn btn-outline-info btn-sm mr-2 w-15">
+                    <i class="fa fa-fw fa fa-info"></i>
+                  </a>
+                </td>
+
+              </tr>
+              </tbody>
+            </nz-table>
+          </div>
+          <div nz-row nzJustify="end" class="mt-3">
+            <nz-pagination [nzPageIndex]="pageNumber" [nzPageSizeOptions]="[10,15,20,30,40,50,100,200,500,1000]"
+                           [nzTotal]="totalElements" [nzPageSize]="pageSize" [nzShowTotal]="rangeTemplate"
+                           (nzPageIndexChange)="onChangePageIndex($event)" (nzPageSizeChange)="onChangePageSize($event)"
+                           nzShowSizeChanger>
+            </nz-pagination>
+            <ng-template #rangeTemplate let-range="range" let-total> {{ range[0] }}-{{ range[1] }} của {{ total }} bản ghi
+            </ng-template>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #renderTemplate>
+  <nz-spin *ngIf="isLoading"></nz-spin>
+</ng-template>
+<br>

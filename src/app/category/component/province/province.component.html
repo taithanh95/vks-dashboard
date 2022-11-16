@@ -1,0 +1,141 @@
+<div class="animated fadeIn">
+  <div class="page-header">
+
+    <div class="card bg-default">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fa fa-search"></i> <strong>Tìm kiếm</strong>
+          </div>
+        </div>
+        <div class="card-body">
+          <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="code">Mã tỉnh thành phố</label>
+              <div class="col-md-9">
+                <input type="text" id="code" name="code" class="form-control border-success"
+                       placeholder="Nhập mã tỉnh thành phố" (keydown.enter)="onSearch()"
+                       [(ngModel)]="searchModel.code" (ngModelChange)="searchModel.code = $event.toUpperCase()">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="name">Tên tỉnh thành phố</label>
+              <div class="col-md-9">
+                <input type="text" id="name" name="name" class="form-control border-success"
+                       placeholder="Nhập tên tỉnh thành phố" (keydown.enter)="onSearch()"
+                       [(ngModel)]="searchModel.name">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="status">Trạng thái</label>
+              <div class="col-md-9">
+                <select class="form-control border-success" id="status" name="status" [(ngModel)]="searchModel.status">
+                  <option value="-1">---Tất cả---</option>
+                  <option value="0">Không hoạt động</option>
+                  <option value="1">Hoạt động</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer">
+          <button type="button" class="btn btn-sm btn-success" (click)="onSearch()"><i class="fa fa-search"></i> Tìm
+            kiếm
+          </button>
+          <button type="reset" class="btn btn-sm btn-danger" (click)="resetSearch()"><i class="fa fa-ban"></i> Xóa
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-success" (click)="addData()"><i class="fa fa-plus"></i>
+            Thêm mới
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card bg-default">
+      <div class="card-header card-header-btn d-flex flex-row align-items-center">
+        <div class="card-title">
+          <i class="fa fa-list"></i> Danh sách tỉnh thành phố
+        </div>
+      </div>
+      <div class="card-body">
+        <form id="form-zone">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <!--TABLE HEADER-->
+              <thead>
+              <tr>
+                <td class="text-center" style="width: 2%">
+                  <a class="font-weight-bold text-primary">Mã tỉnh thành phố</a>
+                </td>
+                <td class="text-center" style="width: 10%">
+                  <a class="font-weight-bold text-primary">Tên tỉnh thành phố</a>
+                </td>
+                <td class="text-center" style="width: 2%">
+                  <a class="font-weight-bold text-primary">Trạng thái</a>
+                </td>
+                <td class="text-center" style="width: 5%">
+                  <a class="font-weight-bold text-primary">Thời gian tạo</a>
+                </td>
+                <td class="text-center" style="width: 3%">
+                  <a class="font-weight-bold text-primary">Chi tiết</a>
+                </td>
+              </tr>
+              </thead>
+              <!--END TABLE HEADER-->
+
+              <!--TABLE BODY-->
+              <tbody>
+              <tr
+                *ngFor="let item of listData | paginate:{ itemsPerPage: 10, currentPage: currentPage, totalItems:totalRecords }">
+                <td class="text-center">{{item.code}}</td>
+                <td class="text-left">{{item.name}}</td>
+                <td class="text-center">
+                  <label data-toggle="tooltip" title="{{item.status === 1 ? 'Dừng hoạt động' : 'Bật hoạt động'}}"
+                         class="switch switch-label switch-pill switch-outline-warning-alt">
+                    <input type="checkbox" class="switch-input" checked *ngIf="item.status === 1"
+                           (click)="changeStatus(item)">
+                    <input type="checkbox" class="switch-input" unchecked *ngIf="item.status === 0"
+                           (click)="changeStatus(item)">
+                    <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
+                  </label>
+                </td>
+                <td class="text-center">{{item.createdAt}}</td>
+                <td class="text-center">
+                  <a (click)="editData(item)" data-toggle="tooltip" title="Sửa"
+                     class="btn btn-outline-success btn-sm mr-2 w-15">
+                    <i class="fa fa-fw fa-pencil-square-o"></i>
+                  </a>
+                </td>
+
+              </tr>
+              </tbody>
+              <!--END TABLE BODY-->
+            </table>
+          </div>
+        </form>
+
+        <!--BEGIN PAGINATION-->
+        <div class="row">
+          <div class="col-sm-6 text-left">
+            <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+          </div>
+          <div id="NumberOfRecords" class="col-sm-6 text-right">Tổng số bản ghi
+            <strong>{{(totalRecords ? totalRecords : 0) | number}}</strong></div>
+        </div>
+        <!--END PAGINATION-->
+
+      </div>
+    </div>
+  </div>
+
+
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-body">
+      <p>Are you sure ?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-danger btn-sm" (click)="c('Delete Click')">Delete</button>
+      <button type="button" class="btn btn-light btn-sm" (click)="c('Cancel Click')">Cancel</button>
+    </div>
+  </ng-template>
+</div>

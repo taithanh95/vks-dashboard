@@ -1,0 +1,148 @@
+// Here you can add other styles
+
+label.error {
+  color: red;
+  font-size: 0.85em;
+}
+card-header {
+  /* padding: 0.75rem 1.25rem; */
+  padding: 0px 0px 0px 15px;
+  margin-bottom: 0;
+  background-color: #f0f3f5;
+  border-bottom: 1px solid #c8ced3;
+}
+
+.card-footer {
+  padding: .55rem 1.25rem;
+  background-color: rgba(0, 0, 0, .03);
+  border-top: 1px solid rgba(0, 0, 0, .125)
+}
+
+// Giảm margin-bottom của .card tù 1.5 xuống 0.5
+.card {
+  margin-bottom: .5rem;
+}
+
+.card-title {
+  margin-top: 10px;
+  margin-bottom: 10px
+}
+
+@media (max-width: 767px) {
+  .hidden-phone {
+    display: none !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .hidden-tablet {
+    display: none !important;
+  }
+}
+
+.vertical-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+// Hiển thị notification lên trên tất cả
+.z-index-9999 {
+  z-index: 99999 !important;
+}
+
+// Thay đổi giao diện tooltip
+.tooltip-inner {
+  max-width: 200px;
+  padding: 3px 8px;
+  color: #fff;
+  text-align: center;
+  background-color: #646161;
+  border-radius: .25rem;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+
+.tooltip.bs-tooltip-auto[x-placement^=top] .arrow::before, .tooltip.bs-tooltip-top .arrow::before {
+  margin-left: -3px;
+  content: "";
+  border-width: 5px 5px 0;
+  border-top-color: #000;
+}
+
+// CSS cho nz-select
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #4dbd74 !important;
+  //min-height: 36px;
+  align-items: center;
+  border-radius: 0.25rem !important;
+}
+
+.ant-select {
+  width: 100%;
+  //height: 100%;
+}
+
+.ant-select-multiple .ant-select-selection-search {
+  max-width: 35px !important;
+}
+
+// CSS cho toast
+.toast-container .ngx-toastr {
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 6px;
+  padding: 15px 15px 15px 50px;
+  width: 400px !important;
+  opacity: 0.9 !important;
+  border-radius: 8px !important;
+  background-position: 15px center;
+  background-repeat: no-repeat;
+  background-size: 24px;
+  box-shadow: 0 0 12px #999999;
+  color: #FFFFFF;
+}
+
+.toast-success {
+  color: #fff !important;
+  background-color: #28a745 !important;
+}
+
+.toast-success:hover {
+  color: #fff !important;
+  background-color: #218838 !important;
+}
+
+.toast-info {
+  color: #fff !important;
+  background-color: #17a2b8 !important;
+}
+
+.toast-info:hover {
+  color: #fff !important;
+  background-color: #138496 !important;
+}
+
+.toast-warning {
+  color: #212529 !important;
+  background-color: #ffc107 !important;
+}
+
+.toast-warning:hover {
+  color: #212529 !important;
+  background-color: #e0a800 !important;
+}
+
+.toast-error {
+  color: #fff !important;
+  background-color: #dc3545 !important;
+}
+
+.toast-error:hover {
+  color: #fff !important;
+  background-color: #c82333 !important;
+}

@@ -1,0 +1,69 @@
+<div class="modal-header">
+  <h5 class="modal-title"><i class="fa icon-plus"></i> Thông tin chi tiết tham số</h5>
+  <button type="button" class="close" (click)="closeDialog()" aria-label="Close">
+    <span aria-hidden="true"><i class="fa fa-times-circle-o"></i></span>
+  </button>
+</div>
+<form [formGroup]="formData" (ngSubmit)="onSubmit()">
+  <div class="modal-body">
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="group">Nhóm tham số<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" id="group" class="form-control border-success"
+               placeholder="Nhóm tham số" name="group" value="group" formControlName="group"
+               oninput="this.value = this.value.toUpperCase()">
+        <control-messages [submited]="submited" [control]="formData.controls.group"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="code">Mã tham số<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" id="code" class="form-control border-success"
+               placeholder="Mã tham số" name="code" value="code" formControlName="code"
+               oninput="this.value = this.value.toUpperCase()">
+        <control-messages [submited]="submited" [control]="formData.controls.code"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="value">Giá trị tham số<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <textarea id="value" class="form-control border-success"
+                  placeholder="Giá trị tham số" name="value" value="value" rows="9"
+                  formControlName="value"></textarea>
+        <control-messages [submited]="submited" [control]="formData.controls.value"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="name">Mô tả tham số<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" id="name" class="form-control border-success"
+               placeholder="Mô tả tham số" name="name" value="name" formControlName="name">
+        <control-messages [submited]="submited" [control]="formData.controls.name"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="editData && editData.id">
+      <label class="col-md-3 col-form-label" for="status">Trạng thái <span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <select class="form-control border-success" formControlName="status" id="status">
+          <option value="1">Hoạt động</option>
+          <option value="0">Không hoạt động</option>
+        </select>
+        <control-messages [submited]="submited" [control]="formData.controls.status"></control-messages>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="text-center">
+      <button type="button" class="btn btn-sm btn-danger" (click)="closeDialog()"><i class="fa fa-times-circle-o"></i>
+        Đóng
+      </button>
+      <c-button type="submit" className="btn btn-sm btn-success" iconClassName="fa fa-floppy-o" label="Lưu"
+                [loading]="isLoading"></c-button>
+    </div>
+  </div>
+</form>

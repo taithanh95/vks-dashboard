@@ -1,0 +1,177 @@
+<div class="row">
+  <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+    <div class="card">
+      <div class="card-body p-2">
+        <nz-spin [nzSpinning]="inProgressChar01" [nzTip]="'Hệ thống đang thống kê dữ liệu...'">
+          <div class="d-flex justify-content-center">
+            <nz-select [style.width.px]="250"
+                       [(ngModel)]="sppIdChart01"
+                       nzPlaceHolder="Chọn Đơn vị"
+                       nzAllowClear
+                       name="unitIdChart01"
+                       nzShowSearch
+                       (ngModelChange)="onUnitIdChart01Change()"
+                       (nzOpenChange)="reloadSppList()">
+              <nz-option *ngFor="let o of listSpp" [nzValue]="o.sppId" [nzLabel]="o.name"></nz-option>
+            </nz-select>
+            <div class="mx-sm-3 mb-2">
+              <button type="button" class="btn btn-primary" (click)="exportDashboard01()">Kết xuất</button>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <div class="p-heading">Tổng số tin báo, tố giác tiếp nhận trong tháng:</div>
+            <div class="a-heading">&nbsp;{{tongSoVuAnTinBaoToGiac}}</div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <div class="chart-container">
+              <canvas baseChart *ngIf="pieChartDataChart01"
+                      [data]="pieChartDataChart01"
+                      [labels]="pieChartLabelsChart01"
+                      [chartType]="pieChartTypeChart01"
+                      [options]="pieChartOptionsChart01"
+                      [legend]="pieChartLegendChart01"
+                      [colors]="Chart01BackgroundColor" height="200"
+                      width="200">
+              </canvas>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <span class="dot-blue"></span>
+            <div class="a-dot">Chưa thực hiện</div>
+            <span class="dot-red"></span>
+            <div class="a-dot">Đã quá hạn</div>
+            <span class="dot-orange"></span>
+            <div class="a-dot">Đang giải quyết</div>
+            <span class="dot-forestgreen"></span>
+            <div class="a-dot">Đã giải quyết</div>
+            <span class="dot-darkviolet"></span>
+            <div class="a-dot">Tạm đình chỉ</div>
+          </div>
+        </nz-spin>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+    <div class="card">
+      <div class="card-body p-2">
+        <nz-spin [nzSpinning]="inProgressChar02" [nzTip]="'Hệ thống đang thống kê dữ liệu...'">
+          <div class="d-flex justify-content-center">
+            <nz-select [style.width.px]="250"
+                       [(ngModel)]="sppIdChart02"
+                       nzPlaceHolder="Chọn Đơn vị"
+                       nzAllowClear
+                       name="unitId"
+                       nzShowSearch
+                       (ngModelChange)="onUnitIdChart02Change()"
+                       (nzOpenChange)="reloadSppList()">
+              <nz-option *ngFor="let o of listSpp" [nzValue]="o.sppId" [nzLabel]="o.name"></nz-option>
+            </nz-select>
+            <div class="mx-sm-3 mb-2">
+              <button type="button" class="btn btn-primary" (click)="exportDashboard02()">Kết xuất</button>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <div class="p-heading">Tổng số lệnh, quyết định được cấp trong tháng:</div>
+            <div class="a-heading">&nbsp;{{tongSoCapLenh}}</div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <div class="chart-container">
+              <canvas baseChart *ngIf="pieChartDataChart02"
+                      [data]="pieChartDataChart02"
+                      [labels]="pieChartLabelsChart02"
+                      [chartType]="pieChartTypeChart02"
+                      [options]="pieChartOptionsChart02"
+                      [legend]="pieChartLegendChart02"
+                      [colors]="Chart02BackgroundColor" height="200"
+                      width="200">
+              </canvas>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <span class="square-blue"></span>
+            <div class="a-dot">Vụ án</div>
+            <span class="square-red"></span>
+            <div class="a-dot">Bị can</div>
+            <span class="square-green"></span>
+            <div class="a-dot">Tin báo</div>
+          </div>
+        </nz-spin>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row pb-5">
+  <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+    <div class="card">
+      <div class="card-body p-2">
+        <nz-spin [nzSpinning]="inProgressChar03" [nzTip]="'Hệ thống đang thống kê dữ liệu...'">
+          <div class="d-flex justify-content-center">
+            <nz-select [style.width.px]="250"
+                       [(ngModel)]="sppIdChart03"
+                       nzPlaceHolder="Chọn Đơn vị"
+                       nzAllowClear
+                       name="unitId"
+                       nzShowSearch
+                       (ngModelChange)="onUnitIdChart03Change()"
+                       (nzOpenChange)="reloadSppList()">
+              <nz-option *ngFor="let o of listSpp" [nzValue]="o.sppId" [nzLabel]="o.name"></nz-option>
+            </nz-select>
+            <div class="mx-sm-3 mb-2">
+              <button type="button" class="btn btn-primary" (click)="exportDashboard03()">Kết xuất</button>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <div class="p-heading">Tổng số người bắt, tạm giam, tạm giữ trong tháng:</div>
+            <div class="a-heading">&nbsp;{{tongSoTamGiamTamGiu}}</div>
+          </div>
+          <div class="chart-wrapper">
+            <canvas baseChart *ngIf="barChartData03"
+                    [datasets]="barChartData03"
+                    [labels]="barChartLabels03"
+                    [options]="barChartOptions03"
+                    [plugins]="barChartPlugins03"
+                    [legend]="barChartLegend03"
+                    [chartType]="barChartType03">
+            </canvas>
+          </div>
+        </nz-spin>
+      </div>
+    </div>
+  </div><!-- .col -->
+  <div class="col-sm-12 col-md-12 col-lg-6 mb-3">
+    <div class="card">
+      <div class="card-body p-2">
+        <nz-spin [nzSpinning]="inProgressChar03" [nzTip]="'Hệ thống đang thống kê dữ liệu...'">
+          <div class="d-flex justify-content-center">
+            <nz-select [style.width.px]="250"
+                       [(ngModel)]="sppIdChart04"
+                       nzPlaceHolder="Chọn Đơn vị"
+                       nzAllowClear
+                       name="unitId"
+                       nzShowSearch
+                       (ngModelChange)="onUnitIdChart04Change()"
+                       (nzOpenChange)="reloadSppList()">
+              <nz-option *ngFor="let o of listSpp" [nzValue]="o.sppId" [nzLabel]="o.name"></nz-option>
+            </nz-select>
+            <div class="mx-sm-3 mb-2">
+              <button type="button" class="btn btn-primary" (click)="exportDashboard04()">Kết xuất</button>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <div class="p-heading">Số vụ án, bị can/bị cáo đang giải quyết trong tháng</div>
+          </div>
+          <div class="chart-wrapper">
+            <canvas baseChart *ngIf="barChartData04"
+                    [datasets]="barChartData04"
+                    [labels]="barChartLabels04"
+                    [options]="barChartOptions04"
+                    [plugins]="barChartPlugins04"
+                    [legend]="barChartLegend04"
+                    [chartType]="barChartType04">
+            </canvas>
+          </div>
+        </nz-spin>
+      </div>
+    </div>
+  </div><!-- .col -->
+</div>

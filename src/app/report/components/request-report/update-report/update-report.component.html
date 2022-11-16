@@ -1,0 +1,23 @@
+<ng-container class="serif" [ngSwitch]="item.reportCode">
+  <app-report01 *ngSwitchCase="'01'" [item]="item"></app-report01>
+  <app-report02 *ngSwitchCase="'02'" [item]="item"></app-report02>
+  <app-report03 *ngSwitchCase="'03'" [item]="item"></app-report03>
+  <app-report04 *ngSwitchCase="'04'" [item]="item"></app-report04>
+  <app-report05 *ngSwitchCase="'05'" [item]="item"></app-report05>
+  <app-report06 *ngSwitchCase="'06'" [item]="item"></app-report06>
+  <app-report07 *ngSwitchCase="'07'" [item]="item"></app-report07>
+  <app-report08 *ngSwitchCase="'08'" [item]="item"></app-report08>
+  <app-report09 *ngSwitchCase="'09'" [item]="item"></app-report09>
+  <app-report10 *ngSwitchCase="'10'" [item]="item"></app-report10>
+  <app-report11 *ngSwitchCase="'11'" [item]="item"></app-report11>
+  <app-report12 *ngSwitchCase="'12'" [item]="item"></app-report12>
+  <app-report33 *ngSwitchCase="'33'" [item]="item"></app-report33>
+</ng-container>
+<nz-modal [nzStyle]="{ top: '50px' }" nzWidth="960px" [(nzVisible)]="isVisible" nzTitle="Kết quả báo cáo"
+          (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent>
+    <div *ngIf="innerHtml"
+         [innerHTML]="innerHtml">
+    </div>
+  </ng-container>
+</nz-modal>

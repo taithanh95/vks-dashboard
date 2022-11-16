@@ -1,0 +1,108 @@
+<div class="modal-header">
+  <h5 class="modal-title"><i class="fa icon-plus"></i> Quận huyện</h5>
+  <button type="button" class="close" (click)="closeDialog()" aria-label="Close">
+    <span aria-hidden="true"><i class="fa fa-times-circle-o"></i></span>
+  </button>
+</div>
+<form [formGroup]="formData" (ngSubmit)="onSubmit()">
+  <div class="modal-body">
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="code">Tỉnh thành phố <span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <select id="selectProvince" name="selectProvince" class="form-control border-success" value="provinceCode"
+                formControlName="provinceCode">
+          <option *ngFor="let opt of provinceList" [value]="opt.code">{{opt.code}} - {{opt.name}}</option>
+        </select>
+        <control-messages [submited]="submited" [control]="formData.controls.provinceCode"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="code">Mã quận huyện <span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" id="code" class="form-control border-success"
+               placeholder="Mã quận huyện" name="code" value="code" formControlName="code">
+        <control-messages [submited]="submited" [control]="formData.controls.code"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="name">Tên quận huyện <span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" id="name" class="form-control border-success"
+               placeholder="Tên quận huyện" name="name" value="name" formControlName="name">
+        <control-messages [submited]="submited" [control]="formData.controls.name"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="editData && editData.id">
+      <label class="col-md-3 col-form-label" for="status">Trạng thái <span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <select class="form-control border-success" formControlName="status" id="status">
+          <option value="0">Không hoạt động</option>
+          <option value="1">Hoạt động</option>
+        </select>
+        <control-messages [submited]="submited" [control]="formData.controls.status"></control-messages>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="text-center">
+      <button type="button" class="btn btn-secondary" (click)="closeDialog()"><i class="fa fa-times-circle-o"></i> Đóng
+      </button>
+      <c-button type="submit" className="btn btn-primary" iconClassName="fa fa-floppy-o" label="Lưu"
+                [loading]="isLoading"></c-button>
+    </div>
+  </div>
+</form>
+
+<div class="modal-header" *ngIf="editData && editData.id">
+  <h5 class="modal-title"><i class="fa icon-list"></i> Danh sách phường xã trực thuộc quận huyện</h5>
+</div>
+<div class="card bg-default" *ngIf="editData && editData.id">
+  <div class="card-body">
+    <form id="form-zone">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <!--TABLE HEADER-->
+          <thead>
+          <tr>
+            <td class="text-center" style="width: 2%">
+              <a class="font-weight-bold text-primary">Mã phường xã</a>
+            </td>
+            <td class="text-center" style="width: 8%">
+              <a class="font-weight-bold text-primary">Tên phường xã</a>
+            </td>
+            <td class="text-center" style="width: 3%">
+              <a class="font-weight-bold text-primary">Thao tác</a>
+            </td>
+          </tr>
+          </thead>
+          <!--END TABLE HEADER-->
+
+          <!--TABLE BODY-->
+          <tbody>
+          <tr
+            *ngFor="let item of listData">
+            <td class="text-center">{{item.code}}</td>
+            <td class="text-left">{{item.name}}</td>
+            <td class="text-center">
+              <label data-toggle="tooltip" title="{{item.status === 1 ? 'Xóa menu' : 'Thêm menu'}}"
+                     class="switch switch-label switch-pill switch-outline-warning-alt">
+                <input type="checkbox" class="switch-input" checked *ngIf="item.status === 1"
+                       (click)="changeStatus(item)">
+                <input type="checkbox" class="switch-input" unchecked *ngIf="item.status === 0"
+                       (click)="changeStatus(item)">
+                <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
+              </label>
+            </td>
+
+          </tr>
+          </tbody>
+          <!--END TABLE BODY-->
+        </table>
+      </div>
+    </form>
+  </div>
+</div>

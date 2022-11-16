@@ -1,0 +1,101 @@
+<c-spinner [show]="isLoading" [fullScreen]="true"></c-spinner>
+<div class="animated fadeIn">
+  <div class="page-header">
+    <div class="card bg-default">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <strong>Thông tin tài khoản</strong>
+          </div>
+        </div>
+        <div class="card-body">
+          <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+            <nz-form-item>
+              <nz-form-label class="text-left pl-3" [nzSpan]="10">
+                Tài khoản
+              </nz-form-label>
+              <nz-form-control [nzSpan]="12">
+                <input class="text-right border-success" nz-input [(ngModel)]="dataState.userid" disabled>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+            <nz-form-item>
+              <nz-form-label class="text-left pl-3" [nzSpan]="10">Họ và tên cán bộ</nz-form-label>
+              <nz-form-control [nzSpan]="12">
+                <input class="text-right border-success" nz-input [(ngModel)]="dataState.fullname" disabled>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card bg-default">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fa fa-list"></i><strong> Danh sách các chức năng của hệ thống</strong>
+          </div>
+        </div>
+        <div class="ui-fieldset-content ant-advanced-search-form" [ngClass]="arrCollapse[1] ? 'show' : 'hide' ">
+          <div nz-row>
+            <div nz-col [nzLg]="8" [nzMd]="12" [nzXs]="12">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="10">Phân hệ</nz-form-label>
+                <nz-form-control [nzSpan]="12">
+                  <nz-select [(ngModel)]="module" (ngModelChange)="getFunctionsTree()" nzAllowClear nzShowSearch>
+                    <nz-option nzValue="" nzLabel="Tất cả" selected></nz-option>
+                    <nz-option nzValue="QLHSVA" nzLabel="Quản lý án Hình sự"></nz-option>
+                    <nz-option nzValue="STL" nzLabel="Sổ thụ lý"></nz-option>
+                    <nz-option nzValue="QLDM" nzLabel="Quản trị danh mục"></nz-option>
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+            <div class="cus-footer text-center">
+              <div class="search-area">
+                <button class="btn btn-sm btn-success" type="button" (click)="handleOk()">
+                  Ghi lại
+                </button>
+                <button class="btn btn-sm btn-danger" type="button" (click)="goToBack()">
+                  Quay lại
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <fieldset
+            class="ui-fieldset ui-widget ui-widget-content ui-corner-all ui-fieldset-toggleable no-legend-border">
+            <nz-tree-view [nzTreeControl]="treeControl" [nzDataSource]="dataSource">
+              <nz-tree-node *nzTreeNodeDef="let node" nzTreeNodePadding>
+                <nz-tree-node-toggle nzTreeNodeNoopToggle></nz-tree-node-toggle>
+                <nz-tree-node-checkbox
+                  [nzChecked]="checklistSelection.isSelected(node)"
+                  (nzClick)="leafItemSelectionToggle(node)"
+                ></nz-tree-node-checkbox>
+                <nz-tree-node-option (nzClick)="leafItemSelectionToggle(node)">
+                  {{ node.funcname }}
+                </nz-tree-node-option>
+              </nz-tree-node>
+
+              <nz-tree-node *nzTreeNodeDef="let node; when: hasChild" nzTreeNodePadding>
+                <nz-tree-node-toggle>
+                  <i nz-icon nzType="caret-down" nzTreeNodeToggleRotateIcon></i>
+                </nz-tree-node-toggle>
+                <nz-tree-node-checkbox
+                  [nzChecked]="descendantsAllSelected(node)"
+                  [nzIndeterminate]="descendantsPartiallySelected(node)"
+                  (nzClick)="itemSelectionToggle(node)"
+                ></nz-tree-node-checkbox>
+                <nz-tree-node-option (nzClick)="itemSelectionToggle(node)">
+                  {{ node.funcname }}
+                </nz-tree-node-option>
+              </nz-tree-node>
+            </nz-tree-view>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

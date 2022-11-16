@@ -1,0 +1,225 @@
+<form [formGroup]="formData" (submit)="onSubmit()">
+  <div class="row">
+    <div class="col-md-7 col-sm-12">
+      <nz-form-item class="form-group row mb-0">
+        <nz-form-label class="col-lg-3 col-md-3 col-form-label text-left" nzFor="reportCode">
+          Báo cáo<span class="font-weight-bold text-danger">*</span>
+        </nz-form-label>
+        <nz-form-control class="col-lg-9 col-md-9" [nzErrorTip]="reportErrorTpl">
+          <nz-select formControlName="reportCode"
+                     nzPlaceHolder="Chọn biểu báo cáo"
+                     nzAllowClear
+                     id="reportCode"
+                     (ngModelChange)="onReportChange($event)"
+                     [nzDropdownRender]="renderTemplate">
+            <nz-option *ngFor="let o of lstReportCode" [nzValue]="o.key" [nzLabel]="o.value"></nz-option>
+          </nz-select>
+          <ng-template #reportErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">
+              <small class="form-text">Vui lòng chọn Báo cáo!</small>
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="form-group row mb-0">
+        <nz-form-label class="col-lg-3 col-md-3 col-form-label text-left" nzFor="reportPeriod">
+          Kỳ báo cáo<span class="font-weight-bold text-danger">*</span>
+        </nz-form-label>
+        <nz-form-control class="col-lg-9 col-md-9" [nzErrorTip]="reportErrorTpl">
+          <nz-select formControlName="reportPeriod"
+                     nzPlaceHolder="Chọn kỳ báo cáo"
+                     nzAllowClear
+                     id="reportPeriod"
+                     [nzDropdownRender]="renderTemplate">
+            <nz-option *ngFor="let o of lstReportPeriod" [nzValue]="o.key" [nzLabel]="o.value"></nz-option>
+          </nz-select>
+          <ng-template #reportErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">
+              <small class="form-text">Vui lòng chọn Kỳ báo cáo!</small>
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item *ngIf="formData.get('reportPeriod').value === '1'" class="form-group row mb-0">
+        <nz-form-label class="col-lg-3 col-md-3 col-form-label text-left" nzFor="month">
+          Tháng báo cáo<span class="font-weight-bold text-danger">*</span>
+        </nz-form-label>
+        <nz-form-control class="col-lg-9 col-md-9" [nzErrorTip]="reportErrorTpl">
+          <nz-select formControlName="month"
+                     nzPlaceHolder="Chọn tháng"
+                     nzAllowClear
+                     [nzDropdownRender]="renderTemplate">
+            <nz-option [nzValue]="'1'" [nzLabel]="'Tháng một'"></nz-option>
+            <nz-option [nzValue]="'2'" [nzLabel]="'Tháng hai'"></nz-option>
+            <nz-option [nzValue]="'3'" [nzLabel]="'Tháng ba'"></nz-option>
+            <nz-option [nzValue]="'4'" [nzLabel]="'Tháng bốn'"></nz-option>
+            <nz-option [nzValue]="'5'" [nzLabel]="'Tháng năm'"></nz-option>
+            <nz-option [nzValue]="'6'" [nzLabel]="'Tháng sáu'"></nz-option>
+            <nz-option [nzValue]="'7'" [nzLabel]="'Tháng bảy'"></nz-option>
+            <nz-option [nzValue]="'8'" [nzLabel]="'Tháng tám'"></nz-option>
+            <nz-option [nzValue]="'9'" [nzLabel]="'Tháng chín'"></nz-option>
+            <nz-option [nzValue]="'10'" [nzLabel]="'Tháng mười'"></nz-option>
+            <nz-option [nzValue]="'11'" [nzLabel]="'Tháng mười một'"></nz-option>
+            <nz-option [nzValue]="'12'" [nzLabel]="'Tháng mười hai'"></nz-option>
+          </nz-select>
+          <ng-template #reportErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">
+              <small class="form-text">Vui lòng chọn tháng!</small>
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item *ngIf="formData.get('reportPeriod').value === '2'" class="form-group row mb-0">
+        <nz-form-label class="col-lg-3 col-md-3 col-form-label text-left" nzFor="month2">
+          Tháng báo cáo<span class="font-weight-bold text-danger">*</span>
+        </nz-form-label>
+        <nz-form-control class="col-lg-9 col-md-9" [nzErrorTip]="reportErrorTpl">
+          <nz-select formControlName="month2"
+                     nzPlaceHolder="Chọn tháng"
+                     nzAllowClear
+                     [nzDropdownRender]="renderTemplate">
+            <nz-option [nzValue]="'1'" [nzLabel]="'Tháng 1 - 6'"></nz-option>
+            <nz-option [nzValue]="'2'" [nzLabel]="'Tháng 6 - 12'"></nz-option>
+          </nz-select>
+          <ng-template #reportErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">
+              <small class="form-text">Vui lòng chọn tháng!</small>
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="form-group row mb-0">
+        <nz-form-label class="col-lg-3 col-md-3 col-form-label text-left"
+                       nzFor="createdAt">
+          Ngày báo cáo<span class="font-weight-bold text-danger">*</span>
+        </nz-form-label>
+        <nz-form-control class="col-lg-9 col-md-9" [nzErrorTip]="beginDateErrorTpl">
+          <nz-date-picker class="form-control border-success w-100"
+                          [nzMode]="'date'"
+                          formControlName="createdAt"
+                          (input)="onDateValueChange($event, formData.get('createdAt'))"
+                          (keypress)="numberOnly($event)"
+                          [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                          id="createdAt"></nz-date-picker>
+          <ng-template #beginDateErrorTpl let-control>
+            <ng-container *ngIf="control.hasError('required')">
+              <small class="form-text">Vui lòng chọn Ngày báo cáo!</small>
+            </ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+
+      <nz-form-item class="form-group row mb-0">
+        <nz-form-label class="col-lg-3 col-md-3 col-form-label text-left" nzFor="paperType">
+          Khổ giấy in
+        </nz-form-label>
+        <nz-form-control class="col-lg-9 col-md-9">
+          <nz-select formControlName="paperType"
+                     nzPlaceHolder="Chọn khổ giấy in"
+                     nzAllowClear
+                     id="paperType"
+                     [nzDropdownRender]="renderTemplate">
+            <nz-option [nzValue]="'A3'" [nzLabel]="'A3'"></nz-option>
+            <nz-option [nzValue]="'A4'" [nzLabel]="'A4'"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="form-group row mb-0">
+        <nz-form-label class="col-lg-3 col-md-3 col-form-label text-left" nzFor="createdBy">
+          Người lập
+        </nz-form-label>
+        <nz-form-control class="col-lg-9 col-md-9">
+          <input type="text" id="createdBy" name="createdBy" class="form-control border-success"
+                 placeholder="Người lập" formControlName="createdBy">
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="form-group row mb-0">
+        <nz-form-label class="col-lg-3 col-md-3 col-form-label text-left" nzFor="leader">
+          Lãnh đạo
+        </nz-form-label>
+        <nz-form-control class="col-lg-9 col-md-9">
+          <input type="text" id="position" name="position" class="form-control border-success"
+                 placeholder="Lãnh đạo" formControlName="position">
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item class="form-group row mb-0">
+        <nz-form-label class="col-lg-3 col-md-3 col-form-label text-left" nzFor="signature">
+          Ký tên
+        </nz-form-label>
+        <nz-form-control class="col-lg-9 col-md-9">
+          <input type="text" id="signature" name="signature" class="form-control border-success"
+                 placeholder="Ký tên" formControlName="signature">
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div class="col-md-5 col-sm-9">
+      <nz-form-item class="form-group row mb-0 ant-row ant-form-item">
+        <nz-form-label class="text-left ant-form-item-label ant-col" nzFor="option">
+          Lựa chọn đơn vị xem báo cáo
+        </nz-form-label>
+        <nz-form-control class="col-lg-9 col-md-9">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="option" id="radio1" value='1' checked
+                   formControlName="option" (ngModelChange)="isCheckOption($event)">
+            <label class="form-check-label" for="radio1">
+              Tổng hợp số liệu của VKS hiện tại
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="option" id="radio2" value='2' checked
+                   formControlName="option" (ngModelChange)="isCheckOption($event)">
+            <label class="form-check-label" for="radio2">
+              Tổng hợp số liệu của VKS cấp trực thuộc
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="option" id="radio3" value='3' formControlName="option"
+                   (ngModelChange)="isCheckOption($event)">
+            <label class="form-check-label" for="radio3">
+              Tổng hợp số liệu của VKS hiện tại và các VKS cấp trực thuộc
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="option" id="radio4" value='4' formControlName="option"
+                   (ngModelChange)="isCheckOption($event)">
+            <label class="form-check-label" for="radio4">
+              Tùy chọn tổng hợp số liệu từ các VKS
+            </label>
+          </div>
+        </nz-form-control>
+      </nz-form-item>
+
+      <ng-container *ngIf="isVisibleSPP">
+        <nz-form-item class="form-group row mb-0">
+          <nz-form-label class="text-left" nzFor="sppId">
+            Chọn đơn vị <span class="font-weight-bold text-danger">*</span>
+          </nz-form-label>
+          <nz-form-control class="w-100">
+            <nz-spin nzTip="Đang lấy dữ liệu đơn vị..." [nzSpinning]="isLoading">
+              <ngx-treeview id="sppId" [config]="configTreeView" [items]="lstVKS"
+                            (filterChange)="onFilterChange($event)"
+                            (selectedChange)="selectedChange()">
+              </ngx-treeview>
+              <ng-container *ngIf="formData.get('sppIdList').hasError('required')">
+                <small class="text-danger">Vui lòng chọn Đơn vị</small>
+              </ng-container>
+            </nz-spin>
+          </nz-form-control>
+        </nz-form-item>
+      </ng-container>
+    </div>
+  </div>
+</form>
+
+<ng-template #renderTemplate>
+  <nz-spin *ngIf="isLoading"></nz-spin>
+</ng-template>

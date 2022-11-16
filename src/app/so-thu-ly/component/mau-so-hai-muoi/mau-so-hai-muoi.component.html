@@ -1,0 +1,497 @@
+<c-spinner [show]="inProgress" [fullScreen]="true"></c-spinner>
+<div class="animated fadeIn">
+  <div class="page-header">
+    <div class="card my-2 bg-default">
+      <div class="card-body p-2">
+        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+          <div class="form-group row">
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="fromDate">Từ ngày<span
+              class="font-weight-bold text-danger">(*)</span></label>
+            <div class="col-lg-2 col-md-4">
+              <nz-date-picker class="border-success w-100"
+                              nzSize="small"
+                              [nzAutoFocus]="true"
+                              [nzMode]="'date'"
+                              [(ngModel)]="searchModel.fromDate"
+                              (input)="onFromDateValueChange($event)"
+                              (keypress)="numberOnly($event)"
+                              [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              name="fromDate" id="fromDate" #fromDatePicker></nz-date-picker>
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="toDate">Đến ngày<span
+              class="font-weight-bold text-danger">(*)</span></label>
+            <div class="col-lg-2 col-md-4">
+              <nz-date-picker class="border-success w-100"
+                              nzSize="small"
+                              [nzMode]="'date'"
+                              [(ngModel)]="searchModel.toDate"
+                              (input)="onToDateValueChange($event)"
+                              (keypress)="numberOnly($event)"
+                              [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              name="toDate" id="toDate" #toDatePicker></nz-date-picker>
+            </div>
+            <label class="pt-0 col-lg-1 col-md-2 col-form-label text-left" for="claimantName">Người YC bồi thường</label>
+            <div class="col-lg-2 col-md-4">
+              <input nzSize="small" nz-input type="text" id="claimantName" name="claimantName" class="border-success"
+                     placeholder="Người YC bồi thường" [(ngModel)]="searchModel.claimantName">
+            </div>
+            <label class="pt-0 col-lg-1 col-md-2 col-form-label text-left" for="damagesName">Người thiệt hại</label>
+            <div class="col-lg-2 col-md-4">
+              <input nzSize="small" nz-input type="text" id="damagesName" name="damagesName" class="border-success"
+                     placeholder="Người thiệt hại" [(ngModel)]="searchModel.damagesName">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="sppId">Đơn vị
+              <span
+                class="font-weight-bold text-danger">(*)</span></label>
+            <div class="col-lg-2 col-md-4">
+              <nz-select class="" #sppIdSelect nzSize="small"
+                         [(ngModel)]="searchModel.sppId"
+                         nzPlaceHolder="Chọn Đơn vị"
+                         nzAllowClear
+                         name="sppId"
+                         id="sppId"
+                         nzShowSearch
+                         [nzDropdownRender]="renderTemplate">
+                <nz-option *ngFor="let o of listSpp" [nzValue]="o.sppId" [nzLabel]="o.name"></nz-option>
+              </nz-select>
+            </div>
+            <label class="pt-0 col-lg-1 col-md-2 col-form-label text-left" for="decisionCompensationNumber">Số QĐ/ bản án XĐ
+              bị oan</label>
+            <div class="col-lg-2 col-md-4">
+              <input type="text" id="decisionCompensationNumber" name="decisionCompensationNumber"
+                     class="border-success" nzSize="small" nz-input
+                     placeholder="Số QĐ/ bản án XĐ bị oan" [(ngModel)]="searchModel.decisionCompensationNumber">
+            </div>
+            <label class="pt-0 col-lg-1 col-md-2 col-form-label text-left" for="fromDecisionCompensationDate">Ngày ra
+              QĐ/ bản án XĐ bị oan từ</label>
+            <div class="col-lg-2 col-md-4">
+              <nz-date-picker class="border-success w-100"
+                              nzSize="small"
+                              #fromDecisionCompensationDatePicker
+                              [nzMode]="'date'"
+                              [(ngModel)]="searchModel.fromDecisionCompensationDate"
+                              (input)="onToDateValueChange($event)"
+                              (keypress)="numberOnly($event)"
+                              [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              name="fromDecisionCompensationDate"
+                              id="fromDecisionCompensationDate"></nz-date-picker>
+            </div>
+            <label class="pt-0 col-lg-1 col-md-2 col-form-label text-left" for="toDecisionCompensationDate">Ngày ra QĐ/
+              bản án XĐ bị oan đến</label>
+            <div class="col-lg-2 col-md-4">
+              <nz-date-picker class="border-success w-100"
+                              nzSize="small"
+                              [nzMode]="'date'"
+                              [(ngModel)]="searchModel.toDecisionCompensationDate"
+                              (input)="onToDateValueChange($event)"
+                              (keypress)="numberOnly($event)"
+                              [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              name="toDecisionCompensationDate"
+                              id="toDecisionCompensationDate"></nz-date-picker>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="pt-0 col-lg-1 col-md-2 col-form-label text-left" for="decisionEnforcementNumber">Số QĐ giải quyết
+              bồi thường</label>
+            <div class="col-lg-2 col-md-4">
+              <input type="text" id="decisionEnforcementNumber" name="decisionEnforcementNumber"
+                     class="border-success" nzSize="small" nz-input
+                     placeholder="Số QĐ giải quyết bồi thường" [(ngModel)]="searchModel.decisionEnforcementNumber">
+            </div>
+            <label class="pt-0 col-lg-1 col-md-2 col-form-label text-left" for="fromDecisionEnforcementDate">Ngày QĐ
+              giải quyết bồi thường từ</label>
+            <div class="col-lg-2 col-md-4">
+              <nz-date-picker class="border-success w-100"
+                              [nzMode]="'date'" nzSize="small"
+                              #fromDecisionEnforcementDatePicker
+                              [(ngModel)]="searchModel.fromDecisionEnforcementDate"
+                              (input)="onToDateValueChange($event)"
+                              (keypress)="numberOnly($event)"
+                              [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              name="fromDecisionEnforcementDate" id="fromDecisionEnforcementDate"></nz-date-picker>
+            </div>
+            <label class="pt-0 col-lg-1 col-md-2 col-form-label text-left" for="toDecisionEnforcementDate">Ngày QĐ giải
+              quyết bồi thường đến</label>
+            <div class="col-lg-2 col-md-4">
+              <nz-date-picker class="border-success w-100"
+                              [nzMode]="'date'" nzSize="small"
+                              [(ngModel)]="searchModel.toDecisionEnforcementDate"
+                              (input)="onToDateValueChange($event)"
+                              (keypress)="numberOnly($event)"
+                              [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              name="toDecisionEnforcementDate" id="toDecisionEnforcementDate"></nz-date-picker>
+            </div>
+            <label class="pt-0 col-lg-1 col-md-2 col-form-label text-left" for="judgmentCompensationNumber">Số bản án giải
+              quyết bồi thường
+              từ</label>
+            <div class="col-lg-2 col-md-4">
+
+              <input nzSize="small" nz-input type="text" id="judgmentCompensationNumber" name="judgmentCompensationNumber"
+                     class="border-success"
+                     placeholder="Số bản án giải quyết bồi thường" [(ngModel)]="searchModel.judgmentCompensationNumber">
+            </div>
+          </div>
+          <!--          <nz-collapse nzAccordion>-->
+          <!--            <nz-collapse-panel [nzHeader]="'Tìm kiếm nâng cao'" [nzActive]="isActive">-->
+          <!--              <div class="form-group row">-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="judgmentCompensationDateFrom">-->
+          <!--                  Ngày ra bản án giải quyết bồi thường từ-->
+          <!--                </label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <nz-date-picker class="form-control border-success w-100"-->
+          <!--                                  [nzMode]="'date'"-->
+          <!--                                  [(ngModel)]="searchModel.judgmentCompensationDateFrom"-->
+          <!--                                  (input)="onToDateValueChange($event)"-->
+          <!--                                  (keypress)="numberOnly($event)"-->
+          <!--                                  [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"-->
+          <!--                                  name="judgmentCompensationDateFrom"-->
+          <!--                                  id="judgmentCompensationDateFrom"></nz-date-picker>-->
+          <!--                </div>-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="judgmentCompensationDateTo">-->
+          <!--                  Ngày ra bản án giải quyết bồi thường đến-->
+          <!--                </label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <nz-date-picker class="form-control border-success w-100"-->
+          <!--                                  [nzMode]="'date'"-->
+          <!--                                  [(ngModel)]="searchModel.judgmentCompensationDateTo"-->
+          <!--                                  (input)="onToDateValueChange($event)"-->
+          <!--                                  (keypress)="numberOnly($event)"-->
+          <!--                                  [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"-->
+          <!--                                  name="judgmentCompensationDateTo" id="judgmentCompensationDateTo"></nz-date-picker>-->
+          <!--                </div>-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="claimantAddress">Địa chỉ người YC</label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <input type="text" id="claimantAddress" name="claimantAddress" class="form-control border-success"-->
+          <!--                         placeholder="Địa chỉ người YC" [(ngModel)]="searchModel.claimantAddress">-->
+          <!--                </div>-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="damagesAddress">Địa chỉ người thiệt-->
+          <!--                  hại</label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <input type="text" id="damagesAddress" name="damagesAddress" class="form-control border-success"-->
+          <!--                         placeholder="Địa chỉ người thiệt hại" [(ngModel)]="searchModel.damagesAddress">-->
+          <!--                </div>-->
+          <!--              </div>-->
+          <!--              <div class="form-group row">-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="detentionInNumberOfDays">-->
+          <!--                  Số ngày giam, giữ-->
+          <!--                </label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <input type="text" id="detentionInNumberOfDays" name="detentionInNumberOfDays" class="form-control border-success"-->
+          <!--                         placeholder="Số ngày giam, giữ" [(ngModel)]="searchModel.detentionInNumberOfDays">-->
+          <!--                </div>-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="verificationFromDate">-->
+          <!--                  Ngày bắt đầu xác minh-->
+          <!--                </label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <nz-date-picker class="form-control border-success w-100"-->
+          <!--                                  [nzMode]="'date'"-->
+          <!--                                  [(ngModel)]="searchModel.verificationFromDate"-->
+          <!--                                  (input)="onToDateValueChange($event)"-->
+          <!--                                  (keypress)="numberOnly($event)"-->
+          <!--                                  [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"-->
+          <!--                                  name="verificationFromDate" id="verificationFromDate"></nz-date-picker>-->
+          <!--                </div>-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="verificationToDate">-->
+          <!--                  Ngày kết thúc xác minh-->
+          <!--                </label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <nz-date-picker class="form-control border-success w-100"-->
+          <!--                                  [nzMode]="'date'"-->
+          <!--                                  [(ngModel)]="searchModel.verificationToDate"-->
+          <!--                                  (input)="onToDateValueChange($event)"-->
+          <!--                                  (keypress)="numberOnly($event)"-->
+          <!--                                  [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"-->
+          <!--                                  name="verificationToDate" id="verificationToDate"></nz-date-picker>-->
+          <!--                </div>-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="negotiateFromDate">-->
+          <!--                  Ngày bắt đầu thương lượng-->
+          <!--                </label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <nz-date-picker class="form-control border-success w-100"-->
+          <!--                                  [nzMode]="'date'"-->
+          <!--                                  [(ngModel)]="searchModel.negotiateFromDate"-->
+          <!--                                  (input)="onToDateValueChange($event)"-->
+          <!--                                  (keypress)="numberOnly($event)"-->
+          <!--                                  [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"-->
+          <!--                                  name="negotiateFromDate" id="negotiateFromDate"></nz-date-picker>-->
+          <!--                </div>-->
+          <!--              </div>-->
+          <!--              <div class="form-group row">-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="negotiateToDate">-->
+          <!--                  Ngày kết thúc thương lượng-->
+          <!--                </label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <nz-date-picker class="form-control border-success w-100"-->
+          <!--                                  [nzMode]="'date'"-->
+          <!--                                  [(ngModel)]="searchModel.negotiateToDate"-->
+          <!--                                  (input)="onToDateValueChange($event)"-->
+          <!--                                  (keypress)="numberOnly($event)"-->
+          <!--                                  [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"-->
+          <!--                                  name="negotiateToDate" id="negotiateToDate"></nz-date-picker>-->
+          <!--                </div>-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="compensationAmountTempFrom">-->
+          <!--                  Số tiền tạm bồi thường từ-->
+          <!--                </label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <input type="text" id="compensationAmountTempFrom" name="compensationAmountTempFrom" class="form-control border-success"-->
+          <!--                         placeholder="VNĐ" [(ngModel)]="searchModel.compensationAmountTempFrom">-->
+          <!--                </div>-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="compensationAmountTempTo">-->
+          <!--                  Số tiền tạm bồi thường đến-->
+          <!--                </label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <input type="text" id="compensationAmountTempTo" name="compensationAmountTempTo" class="form-control border-success"-->
+          <!--                         placeholder="VNĐ" [(ngModel)]="searchModel.compensationAmountTempTo">-->
+          <!--                </div>-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="documentaryNumber">-->
+          <!--                  Số công văn ĐN cấp kinh phí-->
+          <!--                </label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <input type="text" id="documentaryNumber" name="documentaryNumber" class="form-control border-success"-->
+          <!--                         placeholder="Số công văn ĐN cấp kinh phí" [(ngModel)]="searchModel.documentaryNumber">-->
+          <!--                </div>-->
+          <!--              </div>-->
+          <!--              <div class="form-group row">-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="documentaryDateFrom">-->
+          <!--                  Ngày công văn ĐN cấp kinh phí từ-->
+          <!--                </label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <nz-date-picker class="form-control border-success w-100"-->
+          <!--                                  [nzMode]="'date'"-->
+          <!--                                  [(ngModel)]="searchModel.documentaryDateFrom"-->
+          <!--                                  (input)="onToDateValueChange($event)"-->
+          <!--                                  (keypress)="numberOnly($event)"-->
+          <!--                                  [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"-->
+          <!--                                  name="documentaryDateFrom" id="documentaryDateFrom"></nz-date-picker>-->
+          <!--                </div>-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="documentaryDateTo">-->
+          <!--                  Ngày công văn ĐN cấp kinh phí đến-->
+          <!--                </label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <nz-date-picker class="form-control border-success w-100"-->
+          <!--                                  [nzMode]="'date'"-->
+          <!--                                  [(ngModel)]="searchModel.documentaryDateTo"-->
+          <!--                                  (input)="onToDateValueChange($event)"-->
+          <!--                                  (keypress)="numberOnly($event)"-->
+          <!--                                  [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"-->
+          <!--                                  name="documentaryDateTo" id="documentaryDateTo"></nz-date-picker>-->
+          <!--                </div>-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="compensationAmountTempFrom">-->
+          <!--                  Số bộ TC cấp kinh phí-->
+          <!--                </label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <input type="text" id="financeNumber" name="financeNumber" class="form-control border-success"-->
+          <!--                         placeholder="Số bộ TC cấp kinh phí" [(ngModel)]="searchModel.financeNumber">-->
+          <!--                </div>-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="financeDateFrom">-->
+          <!--                  Ngày bộ TC cấp kinh phí từ-->
+          <!--                </label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <nz-date-picker class="form-control border-success w-100"-->
+          <!--                                  [nzMode]="'date'"-->
+          <!--                                  [(ngModel)]="searchModel.financeDateFrom"-->
+          <!--                                  (input)="onToDateValueChange($event)"-->
+          <!--                                  (keypress)="numberOnly($event)"-->
+          <!--                                  [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"-->
+          <!--                                  name="financeDateFrom" id="financeDateFrom"></nz-date-picker>-->
+          <!--                </div>-->
+          <!--              </div>-->
+          <!--              <div class="form-group row">-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="financeDateTo">-->
+          <!--                  Ngày bộ TC cấp kinh phí đến-->
+          <!--                </label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <nz-date-picker class="form-control border-success w-100"-->
+          <!--                                  [nzMode]="'date'"-->
+          <!--                                  [(ngModel)]="searchModel.financeDateTo"-->
+          <!--                                  (input)="onToDateValueChange($event)"-->
+          <!--                                  (keypress)="numberOnly($event)"-->
+          <!--                                  [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"-->
+          <!--                                  name="financeDateTo" id="financeDateTo"></nz-date-picker>-->
+          <!--                </div>-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="compensationEnforceDateFrom">-->
+          <!--                  Ngày chi trả tiền bồi thường từ-->
+          <!--                </label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <nz-date-picker class="form-control border-success w-100"-->
+          <!--                                  [nzMode]="'date'"-->
+          <!--                                  [(ngModel)]="searchModel.compensationEnforceDateFrom"-->
+          <!--                                  (input)="onToDateValueChange($event)"-->
+          <!--                                  (keypress)="numberOnly($event)"-->
+          <!--                                  [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"-->
+          <!--                                  name="compensationEnforceDateFrom" id="compensationEnforceDateFrom"></nz-date-picker>-->
+          <!--                </div>-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="compensationEnforceDateTo">-->
+          <!--                  Ngày chi trả tiền bồi thường đến-->
+          <!--                </label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <nz-date-picker class="form-control border-success w-100"-->
+          <!--                                  [nzMode]="'date'"-->
+          <!--                                  [(ngModel)]="searchModel.compensationEnforceDateTo"-->
+          <!--                                  (input)="onToDateValueChange($event)"-->
+          <!--                                  (keypress)="numberOnly($event)"-->
+          <!--                                  [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"-->
+          <!--                                  name="compensationEnforceDateTo" id="compensationEnforceDateTo"></nz-date-picker>-->
+          <!--                </div>-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="restoreHonorDateFrom">-->
+          <!--                  Ngày phục hồi danh dự từ-->
+          <!--                </label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <nz-date-picker class="form-control border-success w-100"-->
+          <!--                                  [nzMode]="'date'"-->
+          <!--                                  [(ngModel)]="searchModel.restoreHonorDateFrom"-->
+          <!--                                  (input)="onToDateValueChange($event)"-->
+          <!--                                  (keypress)="numberOnly($event)"-->
+          <!--                                  [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"-->
+          <!--                                  name="restoreHonorDateFrom" id="restoreHonorDateFrom"></nz-date-picker>-->
+          <!--                </div>-->
+          <!--              </div>-->
+          <!--              <div class="form-group row">-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="restoreHonorDateTo">-->
+          <!--                  Ngày phục hồi danh dự đến-->
+          <!--                </label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <nz-date-picker class="form-control border-success w-100"-->
+          <!--                                  [nzMode]="'date'"-->
+          <!--                                  [(ngModel)]="searchModel.restoreHonorDateTo"-->
+          <!--                                  (input)="onToDateValueChange($event)"-->
+          <!--                                  (keypress)="numberOnly($event)"-->
+          <!--                                  [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"-->
+          <!--                                  name="restoreHonorDateTo" id="restoreHonorDateTo"></nz-date-picker>-->
+          <!--                </div>-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="compensationAmountFrom">Số tiền phải bồi hoàn từ</label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <input type="text" id="compensationAmountFrom" name="compensationAmountFrom" class="form-control border-success"-->
+          <!--                         placeholder="VNĐ" [(ngModel)]="searchModel.compensationAmountFrom">-->
+          <!--                </div>-->
+          <!--                <label class="col-lg-1 col-md-2 col-form-label text-left" for="compensationAmountTo">Số tiền phải bồi hoàn đến</label>-->
+          <!--                <div class="col-lg-2 col-md-4">-->
+          <!--                  <input type="text" id="compensationAmountTo" name="compensationAmountTo" class="form-control border-success"-->
+          <!--                         placeholder="VNĐ" [(ngModel)]="searchModel.compensationAmountTo">-->
+          <!--                </div>-->
+          <!--              </div>-->
+          <!--            </nz-collapse-panel>-->
+          <!--          </nz-collapse>-->
+        </form>
+      </div>
+      <!--      <div class="card-footer text-center">-->
+      <!--        <button type="button" class="btn btn-success" (click)="getListData(searchModel)"><i class="fa fa-search"></i>-->
+      <!--          Xem-->
+      <!--        </button>-->
+      <!--        <button type="button" class="btn btn-primary" (click)="exportExcel(searchModel)">Kết xuất Excel</button>-->
+      <!--        <button type="button" class="btn btn-info" (click)="exportDocx(searchModel)">Kết xuất Docx</button>-->
+      <!--        <button type="button" class="btn btn-warning" (click)="exportPdf(searchModel)">Kết xuất PDF</button>-->
+      <!--      </div>-->
+    </div>
+
+
+    <div class="card bg-default">
+      <div class="w-100 card-header card-header-btn d-flex flex-row align-items-center">
+        <div class="w-50 card-title">
+          <i class="fa fa-list"></i> <strong>Kết quả báo cáo</strong>
+        </div>
+        <div class="w-50 text-right">
+          <button type="button" class="btn btn-success mr-1 btn-sm" (click)="getListData(searchModel)"><i class="fa fa-search"></i> Xem</button>
+          <button [disabled]="!btnDisable" type="button" class="btn btn-primary mr-1 btn-sm" (click)="exportExcel(searchModel)" nz-tooltip nzTooltipTitle="Kết xuất Excel">
+            <i class="align-middle" nz-icon nzType="file-excel" nzTheme="outline"></i> Excel
+          </button>
+          <button [disabled]="!btnDisable" type="button" class="btn btn-info mr-1 btn-sm" (click)="exportDocx(searchModel)" nz-tooltip nzTooltipTitle="Kết xuất Docx">
+            <i class="align-middle" nz-icon nzType="file-word" nzTheme="outline"></i> Docx
+          </button>
+          <button [disabled]="!btnDisable" type="button" class="btn btn-warning mr-3 btn-sm" (click)="exportPdf(searchModel)" nz-tooltip nzTooltipTitle="Kết xuất PDF">
+            <i class="align-middle" nz-icon nzType="file-pdf" nzTheme="outline"></i> PDF
+          </button>
+        </div>
+      </div>
+        <div class="card-body">
+          <form id="form-zone">
+            <div class="table-responsive">
+              <nz-table class="table-striped table-bordered table-hover" [nzData]="['']"
+                        [nzFrontPagination]="false"
+                        [nzScroll]="{x: '2500px', y: '400px' }" nzTableLayout="fixed">
+                <thead>
+                <tr>
+                  <ng-container *ngFor="let colsTable of colsTable">
+                    <th nzEllipsis class="text-center" nz-tooltip nzTooltipTitle="{{ colsTable.title }}"
+                        nz-resizable
+                        nzPreview
+                        [nzWidth]="colsTable.width"
+                        (nzResizeEnd)="onResize($event, colsTable.title)">
+                      <a class="font-weight-bold text-primary text-center">{{ colsTable.title }}
+                      </a>
+                      <nz-resize-handle nzDirection="right">
+                        <div class="resize-trigger"></div>
+                      </nz-resize-handle>
+                    </th>
+                  </ng-container>
+                </tr>
+                </thead>
+                <tbody>
+                <tr
+                  *ngFor="let item of listReport | paginate:{ itemsPerPage: pageSize, currentPage: currentPage, totalItems:totalRecords }; let i = index">
+                  <td class="text-center">{{item.sttDetail}}</td>
+                  <td class="text-left">{{item.s_column_2}}</td>
+                  <td class="text-left">{{item.s_column_3}}</td>
+                  <td class="text-left">{{item.s_column_4}}</td>
+                  <td class="text-left">{{item.s_column_5}}</td>
+                  <td class="text-left">{{item.s_column_6}}</td>
+                  <td class="text-left">{{item.s_column_7}}</td>
+                  <td class="text-left">{{item.s_column_8}}</td>
+                  <td class="text-left">{{item.s_column_9}}</td>
+                  <td class="text-left">{{item.s_column_10}}</td>
+                  <td class="text-left">{{item.s_column_11}}</td>
+                  <td class="text-left">{{item.s_column_12}}</td>
+                  <td class="text-left">{{item.s_column_13}}</td>
+                  <td class="text-left">{{item.s_column_14}}</td>
+                  <td class="text-left">{{item.s_column_15}}</td>
+                  <td class="text-left">{{item.s_column_16}}</td>
+                  <td class="text-left">
+                    <div class="editable-cell" *ngIf="!item.s_ghi_chu" [hidden]="editId === item.n_compensation_id" (click)="startEdit(item.n_compensation_id)">
+                      <span class="text-muted">Nhấn vào để thêm ghi chú</span>
+                    </div>
+                    <div class="editable-cell" *ngIf="item.s_ghi_chu" [hidden]="editId === item.n_compensation_id" (click)="startEdit(item.n_compensation_id)">
+                      {{ item.s_ghi_chu }}
+                    </div>
+                    <nz-form-item [hidden]="editId !== item.n_compensation_id">
+                      <nz-form-control nzErrorTip="Vui lòng nhập nội dung Ghi chú">
+                        <nz-textarea-count [nzMaxCharacterCount]="200">
+                        <textarea id="note" rows="4" nz-input [(ngModel)]="item.s_ghi_chu"
+                                  [ngModelOptions]="{standalone: true}" (blur)="stopEdit(item)"></textarea>
+                        </nz-textarea-count>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </td>
+                </tr>
+                </tbody>
+                <!--END TABLE BODY-->
+              </nz-table>
+            </div>
+          </form>
+
+          <!--BEGIN PAGINATION-->
+          <div class="row">
+            <div id="pageSize" class="col-sm-4 text-left">Số bản ghi
+              <select class="col-sm-3 text-left border-primary" name="pageSize" [(ngModel)]="pageSize"
+                      (ngModelChange)="onPageChange(1)">
+                <option value="10">10</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+            <div class="col-sm-6 text-left">
+              <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+            </div>
+            <div id="NumberOfRecords" class="col-sm-2 text-right">Tổng số bản ghi
+              <strong>{{(totalRecords ? totalRecords : 0) | number}}</strong></div>
+          </div>
+          <!--END PAGINATION-->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #renderTemplate>
+    <nz-spin *ngIf="isLoading"></nz-spin>
+  </ng-template>

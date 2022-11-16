@@ -1,0 +1,113 @@
+<c-spinner [show]="isLoading" [fullScreen]="true"></c-spinner>
+<nz-tabset>
+  <nz-tab nzTitle="Bình luận">
+    <div class="col-md-12 col-sm-12">
+      <div class="row">
+        <div class="mb-1 pb-1 col-lg-12 col-md-12 text-left">
+          <b>Đơn vị gửi: </b>{{filter.createdBy}}
+          <small><i>{{filter.createdAt}}</i></small>
+        </div>
+        <div class="mb-1 pb-1 col-lg-12 col-md-12 text-left "><b>Nội dung: </b>{{filter.content}}</div>
+        <div  class="col-lg-12 col-md-12 text-left ">
+          <span class="font-weight-bold">Thuộc:</span>
+          {{typename}}
+        </div>
+      </div>
+    </div>
+    <hr>
+    <h6 *ngIf="filter.approve != 'Y'" class="p-3 bg-light text-danger text-center">
+      <i class="fa fa-envelope-open-o"></i><br>
+      Câu hỏi/góp ý có thể bình luận khi đã được phê duyệt
+    </h6>
+    <div class="col-md-12 col-sm-12 listComment" *ngIf="filter.approve == 'Y'">
+      <h6 *ngIf="listCommentIsEmpty == true" class="p-3 bg-light text-secondary text-center">
+        <i class="fa fa-envelope-open-o"></i>
+        <br>
+        Câu hỏi chưa có bình luận</h6>
+      <div class="row" *ngFor="let item of listComment">
+        <div class="mb-2 pb-1 col-lg-2 col-md-2 text-left">
+          <b>Đơn vị phản hồi: </b>{{item.createdBy}}
+          <a  title="Xóa bình luận" *ngIf="createdBy==item.createdBy" (click)="deleteComment(item)">
+            <i  class="fa fa-fw fa-times-circle-o text-danger"></i>
+          </a>
+          <br>
+          <small><i>{{item.createdAt}}</i></small>
+        </div>
+        <div  class="mb-2 pb-1 col-lg-10 col-md-10 text-left border border-success" style="border-radius: 10px">
+          {{item.content}}
+        </div>
+      </div>
+    </div>
+    <hr>
+    <form [formGroup]="formData" *ngIf="filter.approve == 'Y'">
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          <nz-form-item class="form-group row mb-0">
+            <nz-form-label class="col-lg-3 col-md-3 col-form-label text-left" nzFor="content">
+              Phản hồi câu hỏi
+            </nz-form-label>
+            <nz-form-control class="col-lg-9 col-md-9">
+              <textarea  id="content" name="content" class="form-control border-success"
+                         placeholder="Nội dung phản hồi" formControlName="content"></textarea>
+            </nz-form-control>
+          </nz-form-item>
+          <br>
+          <nz-form-item class="form-group row mb-0">
+
+            <nz-form-control class="col-lg-12 col-md-12 text-right">
+              <button type="button" class="btn btn-primary" (click) = "comment(formData.value)">Bình luận</button>
+
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+
+      </div>
+    </form>
+  </nz-tab>
+  <nz-tab nzTitle="Thông tin phê duyệt" class="approveInfor">
+    <table>
+      <tr>
+        <td class="font-weight-bold text-dark">Trạng thái phê duyệt:</td>
+        <td>
+          <span *ngIf="filter.approve=='Y'" class="p-1 border border-success text-success font-weight-bold" >
+            {{listApprove.get(filter.approve)}}
+          </span>
+          <span *ngIf="filter.approve=='N'" class="p-1 border border-danger text-danger font-weight-bold">
+            {{listApprove.get(filter.approve)}}
+          </span>
+          <span *ngIf="filter.approve=='W'" class="p-1 border border-warning text-warning font-weight-bold">
+            {{listApprove.get(filter.approve)}}
+          </span>
+        </td>
+      </tr>
+      <tr *ngIf="filter.approveBy">
+        <td class="font-weight-bold text-dark">Người phê duyệt:</td>
+        <td>{{filter.approveBy}}</td>
+      </tr>
+      <tr *ngIf="filter.approveAt">
+        <td class="font-weight-bold text-dark">Thời gian phê duyệt: </td>
+        <td>{{filter.approveAt}}</td>
+      </tr>
+      <tr *ngIf="filter.contentApprove">
+        <td class="font-weight-bold text-dark">Nội dung phê duyệt:</td>
+        <td>{{filter.contentApprove}}</td>
+      </tr>
+    </table>
+  </nz-tab>
+  <nz-tab nzTitle="Thông tin liên hệ">
+    <table>
+      <tr>
+        <td class="font-weight-bold text-dark"> Số điện thoại:</td>
+        <td>{{filter.phoneNumber}}</td>
+      </tr>
+      <tr *ngIf="filter.email">
+        <td class="font-weight-bold text-dark">Email:</td>
+        <td> {{filter.email}}</td>
+      </tr>
+    </table>
+  </nz-tab>
+</nz-tabset>
+<ng-template #renderTemplate>
+  <nz-spin *ngIf="isLoading"></nz-spin>
+</ng-template>

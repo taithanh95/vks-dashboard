@@ -1,0 +1,60 @@
+<section class="d-flex justify-content-between mb-5 serif">
+  <div class="text-center ml-2 serif">
+    <p [style.fontSize]="'16px'" class="serif"><strong>{{ reportInput.sppname }}</strong></p>
+    <p [style.fontSize]="'14px'"><strong>CƠ QUAN ĐIỀU TRA</strong></p>
+  </div>
+  <div [style.fontSize]="'14px'" class="text-center mr-2 w-25 serif">
+    <strong>Biểu số {{item.reportCode}}/2019</strong>
+    <p>(Ban hành theo QĐ số
+      560/QĐ - VKSTC ngày
+      13/11/2019 của Viện
+      trưởng VKSNDTC)</p>
+  </div>
+</section>
+<section class="text-center mb-3 serif">
+  <h1 [style.fontSize]="'18px'" class="serif"><strong>THỐNG KÊ GIẢI QUYẾT TỐ GIÁC, TIN BÁO TỘI PHẠM, KIẾN NGHỊ KHỞI TỐ<br>CỦA CƠ QUAN ĐIỀU TRA VIỆN KIỂM SÁT NHÂN DÂN</strong></h1>
+  <p [style.fontSize]="'14px'" class="mb-1"><em>Từ ngày {{fromDate | date: 'dd/MM/yyyy' }} đến ngày {{toDate | date: 'dd/MM/yyyy' }}</em></p>
+  <p [style.fontSize]="'14px'" class="mb-1"><em>(Áp dụng cho kỳ thống kê tháng, 6 tháng và 12 tháng)</em></p>
+</section>
+<table class="table table-bordered">
+  <thead>
+  <tr>
+    <th [style.width]="'65%'" class="text-center align-middle serif">TIÊU CHÍ</th>
+    <th [style.width]="'5%'" class="text-center align-middle serif">MÃ DÒNG</th>
+    <th [style.width]="'15%'" class="text-center align-middle serif">SỐ LIỆU <br> HIỆU CHỈNH</th>
+    <th [style.width]="'15%'" class="text-center align-middle serif">SỐ LIỆU <br> HỆ THỐNG</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of dataSet; let i = index">
+    <td class="text-left serif">{{data.descriptionColumn}}</td>
+    <td class="text-center serif">{{data.columnNum}}</td>
+    <td>
+      <input type="number" class="form-control text-right serif" id="value-{{i}}"
+             [ngModelOptions]="{ updateOn: 'blur' }"
+             [(ngModel)]="data.valueManual" (ngModelChange)="updateManual($event, data.id)"
+             name="valueManual" min="0" maxlength="4" oninput="validity.valid||(value='');">
+    </td>
+    <td>
+      <input type="number" class="form-control text-right serif" id="inputValue-{{i}}"
+             readonly
+             [(ngModel)]="data.value" name="value" min="0" maxlength="4">
+    </td>
+  </tr>
+  </tbody>
+</table>
+<section class="d-flex justify-content-between mb-5 serif">
+  <div class="text-center ml-2 serif">
+    <br>
+    <p [style.fontSize]="'14px'"><strong>Người lập biểu</strong></p>
+    <p><em>(Ký, ghi rõ họ và tên, đóng dấu)</em>
+      <br><br><br><br>
+      <strong>{{reportInput.name}}</strong>
+    </p>
+  </div>
+  <div [style.fontSize]="'14px'" class="text-center mr-2 w-20 serif">
+    <p><em>{{requestReport?.date}}</em></p>
+    <p><strong>THỦ TRƯỞNG CƠ QUAN ĐIỀU TRA</strong></p>
+    <p><em>(Ký, ghi rõ họ và tên, đóng dấu)</em></p>
+  </div>
+</section>

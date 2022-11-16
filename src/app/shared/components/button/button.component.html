@@ -1,0 +1,5 @@
+<button type="{{type}}" [id]="id" (click)="onClickButton($event)" [disabled]="loading" class="btn {{className}}">
+  <i class="fa {{iconClassName}}" *ngIf="iconClassName && !loading"></i>
+  <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i>
+  {{ label }}
+</button>

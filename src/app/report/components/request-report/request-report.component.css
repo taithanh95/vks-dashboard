@@ -1,0 +1,12 @@
+.table tr {
+  cursor: pointer;
+}
+
+.table tr.selected td {
+  background-color: #ffef8f;
+}
+
+::ng-deep .modal-xl .ant-modal-title {
+  font-family: "Times New Roman", Times, serif;
+  font-weight: bold;
+}

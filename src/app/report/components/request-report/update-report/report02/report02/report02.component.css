@@ -1,0 +1,10 @@
+.serif {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+}
+
+.table th, .table td {
+  padding: 0.1rem;
+  vertical-align: middle;
+  border-top: 1px solid #c8ced3;
+}

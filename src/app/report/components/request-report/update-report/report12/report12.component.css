@@ -1,0 +1,32 @@
+.serif {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+}
+
+table, td, th {
+  border: 1px solid;
+  padding: 6px;
+}
+
+table {
+  text-align: center;
+  margin: auto;
+  border-collapse: collapse;
+  width: max-content;
+}
+table th{
+  padding-top: 8px;
+  padding-bottom: 10px;
+
+}
+.headerTable td{
+  padding-top: 8px;
+  padding-bottom: 16px;
+  vertical-align: top;
+}
+.scrolltable{
+  overflow: auto;
+}
+.defaultsize td{
+  width: 50px;
+}

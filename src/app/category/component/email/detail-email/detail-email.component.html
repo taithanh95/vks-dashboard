@@ -1,0 +1,77 @@
+<div class="modal-header">
+  <h5 class="modal-title"><i class="fa icon-plus"></i> Thông tin chi tiết email</h5>
+  <button type="button" class="close" (click)="closeDialog()" aria-label="Close">
+    <span aria-hidden="true"><i class="fa fa-times-circle-o"></i></span>
+  </button>
+</div>
+<form [formGroup]="formData" (ngSubmit)="onSubmit()">
+  <div class="modal-body">
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="subject">Tiêu đề thư<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" id="subject" class="form-control border-success"
+               placeholder="Tiêu đề thư" name="subject" value="subject" formControlName="subject">
+        <control-messages [submited]="submited" [control]="formData.controls.subject"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="toAddress">Địa chỉ thư đến<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" id="toAddress" class="form-control border-success"
+               placeholder="Địa chỉ thư đến" name="toAddress" value="toAddress" formControlName="toAddress">
+        <control-messages [submited]="submited" [control]="formData.controls.toAddress"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="intendAt">Thời gian dự kiến gửi<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" id="intendAt" class="form-control border-success"
+               placeholder="Thời gian dự kiến gửi" name="intendAt" value="intendAt" formControlName="intendAt">
+        <control-messages [submited]="submited" [control]="formData.controls.intendAt"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="editData && editData.id">
+      <label class="col-md-3 col-form-label" for="sentAt">Thời gian gửi<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" id="sentAt" class="form-control border-success"
+               placeholder="Thời gian gửi" name="sentAt" value="sentAt" formControlName="sentAt">
+        <control-messages [submited]="submited" [control]="formData.controls.sentAt"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="content">Nội dung<span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <textarea id="content" class="form-control border-success"
+                  placeholder="Nội dung thư" name="content" value="content" rows="9"
+                  formControlName="content"></textarea>
+        <control-messages [submited]="submited" [control]="formData.controls.content"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="editData && editData.id">
+      <label class="col-md-3 col-form-label" for="status">Trạng thái <span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <select class="form-control border-success" formControlName="status" id="status">
+          <option value="0">Thư mới</option>
+          <option value="1">Đã gửi</option>
+          <option value="2">Gửi lỗi</option>
+        </select>
+        <control-messages [submited]="submited" [control]="formData.controls.status"></control-messages>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="text-center">
+      <button type="button" class="btn btn-sm btn-danger" (click)="closeDialog()"><i class="fa fa-times-circle-o"></i>
+        Đóng
+      </button>
+      <c-button type="submit" className="btn btn-sm btn-success" iconClassName="fa fa-floppy-o" label="Lưu"
+                [loading]="isLoading"></c-button>
+    </div>
+  </div>
+</form>

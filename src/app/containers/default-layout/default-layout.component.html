@@ -1,0 +1,79 @@
+<app-header
+  [navbarBrandRouterLink]="['/dashboard']"
+  [fixed]="true"
+  [navbarBrandFull]="{src: 'assets/img/brand/logo_vks_707x200.svg', width: 142, height: 40, alt: 'Bitsco Logo'}"
+  [navbarBrandMinimized]="{src: 'assets/img/brand/logo_vks_173x200.svg', width: 40, height: 40, alt: 'Bitsco Logo'}"
+  [sidebarToggler]="'lg'"
+  [asideMenuToggler]="'lg'">
+  <ul class="nav navbar-nav ml-auto">
+    <div class="">
+      <label class="col-form-label hidden-phone hidden-tablet"><strong>{{username}} - {{name}}</strong></label>
+    </div>
+    <li class="nav-item dropdown" dropdown placement="bottom right">
+      <a class="nav-link" data-browse="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+         dropdownToggle (click)="false">
+        <i class="icon-book-open"></i><span class="badge badge-pill badge-danger">2</span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+        <a class="dropdown-item" href="assets/template/document/HDSD_SLIDE_UPDATE_1.pdf">Tài liệu hướng dẫn sử dụng (Tổng quan)</a>
+        <a class="dropdown-item" href="assets/template/document/HDSD_SoThuLy.pdf">Tài liệu hướng dẫn sử dụng (Chi tiết)</a>
+      </div>
+    </li>
+  </ul>
+</app-header>
+<div class="app-body">
+  <app-sidebar #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized"
+               (minimizedChange)="toggleMinimize($event)">
+    <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="appSidebar.minimized"></app-sidebar-nav>
+    <app-sidebar-minimizer></app-sidebar-minimizer>
+  </app-sidebar>
+  <!-- Main content -->
+  <main class="main">
+    <!-- Breadcrumb -->
+    <!-- breaking change 'cui-breadcrumb' -->
+    <nz-breadcrumb nzSeparator="/" class="breadcrumb">
+      <!--<nz-breadcrumb-item [nz-tooltip]="'title'">
+        <a [routerLink]="['/dashboard']" title="prompt text"><span>Trang chủ</span></a>
+      </nz-breadcrumb-item>-->
+      <nz-breadcrumb-item *ngFor="let item of breadcrumbs">
+        <b><a [routerLink]="item.url" [title]="item.tooltip"><span>{{item.label}}</span></a></b>
+      </nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <!--<cui-breadcrumb>
+      <li class="breadcrumb-menu d-md-down-none">
+        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+          <a class="btn" href="#"><i class="icon-speech"></i></a>
+          <a class="btn" [routerLink]="['/dashboard']"><i class="icon-graph"></i> &nbsp;Dashboard</a>
+          <a class="btn" href="#"><i class="icon-settings"></i> &nbsp;Settings</a>
+        </div>
+      </li>
+    </cui-breadcrumb>-->
+    <!-- deprecation warning for 'app-breadcrumb' -->
+    <!--<ol class="breadcrumb">-->
+    <!--<app-breadcrumb></app-breadcrumb>-->
+    <!--&lt;!&ndash; Breadcrumb Menu&ndash;&gt;-->
+    <!--<li class="breadcrumb-menu d-md-down-none">-->
+    <!--<div class="btn-group" role="group" aria-label="Button group with nested dropdown">-->
+    <!--<a class="btn" href="#"><i class="icon-speech"></i></a>-->
+    <!--<a class="btn" [routerLink]="['/dashboard']"><i class="icon-graph"></i> &nbsp;Dashboard</a>-->
+    <!--<a class="btn" href="#"><i class="icon-settings"></i> &nbsp;Settings</a>-->
+    <!--</div>-->
+    <!--</li>-->
+    <!--</ol>-->
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
+    </div><!-- /.container-fluid -->
+  </main>
+  <app-aside [fixed]="true" [display]="false">
+        <a class="dropdown-item" (click)="logout()"><i class="fa fa-power-off"></i> Đăng xuất</a>
+        <a class="dropdown-item" (click)="changePassword()"><i class="fa fa-refresh"></i> Đổi mật khẩu</a>
+  </app-aside>
+</div>
+
+<app-change-password (closeModal)="closeModal($event)" [isVisible]="isChangePasswordVisible"></app-change-password>
+<!--<app-footer>-->
+<!--<div class="footer py-3">-->
+<!--  Viện kiểm sát nhân dân Tối Cao - Số 9 Phạm Văn Bạch - Hà-->
+<!--  Nội-->
+<!--</div>-->
+<!--</app-footer>-->

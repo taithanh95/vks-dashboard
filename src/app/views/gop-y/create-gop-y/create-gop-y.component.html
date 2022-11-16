@@ -1,0 +1,67 @@
+<form [formGroup]="formData" (submit)="onSubmit()">
+  <div class="row">
+    <div class="col-md-12 col-sm-12">
+      <nz-form-item class="form-group row mb-0">
+        <label class="col-lg-3 col-form-label" for="content">
+          Câu hỏi/Góp ý <span class="text-danger">*</span>
+        </label>
+        <nz-form-control class="col-lg-9 col-md-9">
+          <textarea  id="content" name="content" class="form-control border-success"
+                     placeholder="Nội dung câu hỏi" formControlName="content"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item class="mt-2 form-group row mb-0">
+        <label class="col-lg-3 col-form-label" for="type">
+          Chọn nhóm nội dung <span class="text-danger">*</span>
+        </label>
+        <nz-form-control class="col-lg-9 col-md-9">
+          <nz-select formControlName="type"
+                     nzPlaceHolder="Chọn nhóm nội dung"
+                     nzAllowClear
+                     id="type" (ngModelChange)="changeValueType()"
+                     [nzDropdownRender]="renderTemplate">
+            <nz-option *ngFor="let option of listType | keyvalue" [nzValue]="option.key"
+                       [nzLabel]="option.value"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="this.formData.value.type != '00'" class="mt-2 form-group row mb-0">
+        <label class="col-lg-3 col-form-label" for="subType">
+          Chọn mục nội dung <span class="text-danger">*</span>
+        </label>
+        <nz-form-control class="col-lg-9 col-md-9">
+          <nz-select formControlName="subType"
+                     nzPlaceHolder="Chọn mục nội dung"
+                     nzAllowClear
+                     id="subType"
+                     [nzDropdownRender]="renderTemplate">
+            <nz-option *ngFor="let option of listSubType.get(formData.value.type) | keyvalue" [nzValue]="option.key"
+                       [nzLabel]="option.value"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item class="mt-2 form-group row mb-0">
+        <label class="col-lg-3 col-form-label" for="phoneNumber">
+          Số điện thoại <span class="text-danger">*</span>
+        </label>
+        <nz-form-control class="col-lg-3 col-md-3">
+          <input (keypress)="numberOnly($event)" id="phoneNumber" name="phoneNumber" class="form-control border-success"
+                 placeholder="Số điện thoại" formControlName="phoneNumber">
+        </nz-form-control>
+        <label class="col-lg-2 col-form-label" for="email">
+          Email
+        </label>
+        <nz-form-control class="pr-3 col-lg-4 col-md-4">
+          <input type="email" id="email" name="email" class="form-control border-success"
+                 placeholder="Email" formControlName="email">
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+
+  </div>
+</form>
+
+<ng-template #renderTemplate>
+  <nz-spin *ngIf="isLoading"></nz-spin>
+</ng-template>

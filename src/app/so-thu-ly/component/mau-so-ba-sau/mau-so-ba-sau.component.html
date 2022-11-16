@@ -1,0 +1,245 @@
+<c-spinner [show]="inProgress" [fullScreen]="true"></c-spinner>
+<div class="animated fadeIn">
+  <div class="page-header">
+    <div class="card my-2 bg-default">
+      <div class="card-body p-2">
+        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+          <div class="form-group row">
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="fromDate">Từ ngày<span
+              class="font-weight-bold text-danger">(*)</span></label>
+            <div class="col-lg-2 col-md-4">
+              <nz-date-picker class="border-success w-100"
+                              nzSize="small"
+                              [nzAutoFocus]="true"
+                              [nzMode]="'date'"
+                              [(ngModel)]="searchModel.fromDate"
+                              (input)="onFromDateValueChange($event)"
+                              (keypress)="numberOnly($event)"
+                              [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              name="fromDate" id="fromDate" #fromDatePicker></nz-date-picker>
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="toDate">Đến ngày<span
+              class="font-weight-bold text-danger">(*)</span></label>
+            <div class="col-lg-2 col-md-4">
+              <nz-date-picker class="border-success w-100"
+                              nzSize="small"
+                              [nzMode]="'date'"
+                              [(ngModel)]="searchModel.toDate"
+                              (input)="onToDateValueChange($event)"
+                              (keypress)="numberOnly($event)"
+                              [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              name="toDate" id="toDate" #toDatePicker></nz-date-picker>
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="unitId">Đơn vị
+              <span
+                class="font-weight-bold text-danger">(*)</span></label>
+            <div class="col-lg-2 col-md-4">
+              <nz-select nzSize="small" class="" #sppIdSelect
+                         [(ngModel)]="searchModel.unitId"
+                         nzPlaceHolder="Chọn Đơn vị lệnh/QĐ"
+                         nzAllowClear
+                         name="unitId"
+                         id="unitId"
+                         nzShowSearch
+                         [nzDropdownRender]="renderTemplate">
+                <nz-option *ngFor="let o of listSpp" [nzValue]="o.sppId" [nzLabel]="o.name"></nz-option>
+              </nz-select>
+              <ng-template #renderTemplate>
+                <nz-spin *ngIf="isLoading"></nz-spin>
+              </ng-template>
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left"  for="coQuanThucHien">Cơ quan thực hiện</label>
+            <div class="col-lg-2 col-md-4">
+              <nz-select nzSize="small" class=""
+                         nzPlaceHolder="Chọn cơ quan thực hiện"
+                         nzAllowClear
+                         name="coQuanThucHien"
+                         id="coQuanThucHien"
+                         nzShowSearch
+                         nzServerSearch>
+              </nz-select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-lg-1 col-md-2 col-form-label text-left"  for="donViThucHien">Đơn vị thực hiện</label>
+            <div class="col-lg-2 col-md-4">
+              <nz-select nzSize="small" class=""
+                         nzPlaceHolder="Chọn đơn vị thực hiện"
+                         nzAllowClear
+                         name="donViThucHien"
+                         id="donViThucHien"
+                         nzShowSearch
+                         nzServerSearch>
+              </nz-select>
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="ngayVanBanTu">Ngày văn bản từ</label>
+            <div class="col-lg-2 col-md-4">
+              <nz-date-picker class="border-success w-100"
+                              nzSize="small"
+                              [nzMode]="'date'"
+                              [(ngModel)]="searchModel.fromDateVB"
+                              (input)="onFromDateVBValueChange($event)"
+                              (keypress)="numberOnly($event)"
+                              [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              name="ngayVanBanTu" id="ngayVanBanTu" #fromDatePicker></nz-date-picker>
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="ngayVanBanDen">Ngày văn bản đến</label>
+            <div class="col-lg-2 col-md-4">
+              <nz-date-picker class="border-success w-100"
+                              nzSize="small"
+                              [nzMode]="'date'"
+                              [(ngModel)]="searchModel.fromDateVB"
+                              (input)="onToDateVBValueChange($event)"
+                              (keypress)="numberOnly($event)"
+                              [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              name="ngayVanBanDen" id="ngayVanBanDen" #fromDatePicker></nz-date-picker>
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="tenYeuCau">Tên yêu cầu</label>
+            <div class="col-lg-2 col-md-4">
+              <input nzSize="small" nz-input type="text" id="tenYeuCau" name="tenYeuCau" class="border-success"
+                     placeholder="Tên yêu cầu" (keydown.enter)="onSearch()"
+                     [(ngModel)]="searchModel.accuCode">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="ketQuaTuongTro">Kết quả tương trợ</label>
+            <div class="col-lg-2 col-md-4">
+              <input nzSize="small" nz-input type="text" id="ketQuaTuongTro" name="ketQuaTuongTro" class="border-success"
+                     placeholder="Kết quả tương trợ" (keydown.enter)="onSearch()"
+                     [(ngModel)]="searchModel.accuCode">
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="ngayVanBanXulyTu">Ngày văn bản xử lý từ</label>
+            <div class="col-lg-2 col-md-4">
+              <nz-date-picker class="border-success w-100"
+                              nzSize="small"
+                              [nzMode]="'date'"
+                              [(ngModel)]="searchModel.fromDateVBXL"
+                              (input)="onFromDateVBXLValueChange($event)"
+                              (keypress)="numberOnly($event)"
+                              [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              name="ngayVanBanXulyTu" id="ngayVanBanXulyTu" #fromDatePicker></nz-date-picker>
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="ngayVanBanXulyDen">Ngày văn bản xử lý đến</label>
+            <div class="col-lg-2 col-md-4">
+              <nz-date-picker class="border-success w-100"
+                              nzSize="small"
+                              [nzMode]="'date'"
+                              [(ngModel)]="searchModel.fromDateVBXL"
+                              (input)="onToDateVBXLValueChange($event)"
+                              (keypress)="numberOnly($event)"
+                              [nzPlaceHolder]="'Chọn ngày'" nzFormat="dd/MM/yyyy"
+                              name="ngayVanBanXulyDen" id="ngayVanBanXulyDen" #fromDatePicker></nz-date-picker>
+            </div>
+            <label class="col-lg-1 col-md-2 col-form-label text-left" for="noiNhanThucHien">Nơi nhận thực hiện</label>
+            <div class="col-lg-2 col-md-4">
+              <input nzSize="small" nz-input type="text" id="noiNhanThucHien" name="noiNhanThucHien" class="border-success"
+                     placeholder="Nơi nhận thực hiện" (keydown.enter)="onSearch()"
+                     [(ngModel)]="searchModel.accuCode">
+            </div>
+          </div>
+        </form>
+      </div>
+<!--      <div class="card-footer text-center">-->
+<!--        <button type="button" class="btn btn-success" (click)="onSearch()"><i class="fa fa-search"></i> Xem</button>-->
+<!--        <button type="button" class="btn btn-primary" (click)="exportExcel()">Kết xuất Excel</button>-->
+<!--        <button type="button" class="btn btn-info" (click)="exportDocx()">Kết xuất Docx</button>-->
+<!--        <button type="button" class="btn btn-warning" (click)="exportPdf()">Kết xuất PDF</button>-->
+<!--      </div>-->
+    </div>
+
+
+    <div class="card bg-default">
+      <div class="w-100 card-header card-header-btn d-flex flex-row align-items-center">
+        <div class="w-50 card-title">
+          <i class="fa fa-list"></i> <strong>Kết quả báo cáo</strong>
+        </div>
+        <div class="w-50 text-right">
+          <button type="button" class="btn btn-success mr-1 btn-sm" (click)="onSearch()"><i class="fa fa-search"></i> Xem</button>
+          <button type="button" class="btn btn-primary mr-1 btn-sm" (click)="exportExcel()" nz-tooltip nzTooltipTitle="Kết xuất Excel">
+            <i class="align-middle" nz-icon nzType="file-excel" nzTheme="outline"></i> Excel
+          </button>
+          <button type="button" class="btn btn-info mr-1 btn-sm" (click)="exportDocx()" nz-tooltip nzTooltipTitle="Kết xuất Docx">
+            <i class="align-middle" nz-icon nzType="file-word" nzTheme="outline"></i> Docx
+          </button>
+          <button type="button" class="btn btn-warning mr-3 btn-sm" (click)="exportPdf()" nz-tooltip nzTooltipTitle="Kết xuất PDF">
+            <i class="align-middle" nz-icon nzType="file-pdf" nzTheme="outline"></i> PDF
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <form id="form-zone">
+          <div class="table-responsive">
+            <nz-table #fixedTable class="table-striped table-bordered table-hover" [nzData]="['']"
+                      [nzFrontPagination]="false"
+                      [nzScroll]="{x: '1500px', y: '400px' }" nzTableLayout="fixed">
+              <thead>
+              <tr>
+                <ng-container *ngFor="let colsTable of colsTable">
+                  <th nzEllipsis class="text-center" nz-tooltip nzTooltipTitle="{{ colsTable.title }}"
+                      nz-resizable
+                      nzPreview
+                      [nzWidth]="colsTable.width"
+                      (nzResizeEnd)="onResize($event, colsTable.title)">
+                    <a class="font-weight-bold text-primary text-center">{{ colsTable.title }}
+                    </a>
+                    <nz-resize-handle nzDirection="right">
+                      <div class="resize-trigger"></div>
+                    </nz-resize-handle>
+                  </th>
+                </ng-container>
+              </tr>
+              </thead>
+              <tbody>
+              <tr
+                *ngFor="let item of listReport | paginate:{ itemsPerPage: pageSize, currentPage: currentPage, totalItems:totalRecords }; let i = index">
+                <td class="text-center">{{item.stt}}</td>
+                <td class="text-left">{{item.s_column_2}}</td>
+                <td class="text-left">{{item.s_column_3}}</td>
+                <td class="text-left">{{item.s_column_4}}</td>
+                <td class="text-left">{{item.s_column_5}}</td>
+                <td class="text-left">{{item.s_column_6}}</td>
+                <td class="text-left">{{item.s_column_7}}</td>
+                <td class="text-left">{{item.s_column_8}}</td>
+                <td class="text-left">{{item.s_column_9}}</td>
+                <td class="text-left">{{item.s_column_10}}</td>
+                <td class="text-left">{{item.s_column_11}}</td>
+                <td class="text-left">{{item.s_column_12}}</td>
+              </tr>
+              </tbody>
+              <!--END TABLE BODY-->
+            </nz-table>
+          </div>
+        </form>
+
+        <!--BEGIN PAGINATION-->
+        <div class="row">
+          <div id="pageSize" class="col-sm-4 text-left">Số bản ghi
+            <select class="col-sm-3 text-left border-primary" name="pageSize" [(ngModel)]="pageSize">
+              <option value="10">10</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <div class="col-sm-6 text-left">
+            <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+          </div>
+          <div id="NumberOfRecords" class="col-sm-2 text-right">Tổng số bản ghi
+            <strong>{{(totalRecords ? totalRecords : 0) | number}}</strong></div>
+        </div>
+        <!--END PAGINATION-->
+
+      </div>
+    </div>
+  </div>
+
+
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-body">
+      <p>Are you sure ?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-danger btn-sm" (click)="c('Delete Click')">Delete</button>
+      <button type="button" class="btn btn-light btn-sm" (click)="c('Cancel Click')">Cancel</button>
+    </div>
+  </ng-template>
+</div>

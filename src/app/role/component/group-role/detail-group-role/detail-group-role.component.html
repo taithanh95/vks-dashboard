@@ -1,0 +1,145 @@
+<c-spinner [show]="isLoading" [fullScreen]="true"></c-spinner>
+<div class="modal-header">
+  <h6 class="modal-title"><i class="fa icon-plus"></i> Nhóm chức năng</h6>
+</div>
+<form [formGroup]="formData" (ngSubmit)="onSubmit()">
+  <div class="modal-body">
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="name">Tên hiển thị <span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" id="name" class="form-control border-success"
+               placeholder="Tên hiển thị" name="name" value="name" formControlName="name">
+        <control-messages [submited]="submited" [control]="formData.controls.name"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="description">Mô tả </label>
+      <div class="col-md-9">
+        <input type="text" id="description" class="form-control border-success"
+               placeholder="Mô tả" name="description" value="description" formControlName="description">
+        <control-messages [submited]="submited" [control]="formData.controls.description"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="url">Đường dẫn <span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <input type="text" id="url" class="form-control border-success"
+               placeholder="Đường dẫn" name="url" value="url" formControlName="url"
+               oninput="this.value = this.value.toLowerCase()">
+        <control-messages [submited]="submited" [control]="formData.controls.url"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="icon">Icon <span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <select class="form-control border-success" formControlName="icon" id="icon">
+          <option value="fa fa-circle-thin">fa fa-circle-thin</option>
+          <option value="icon-puzzle">icon-puzzle</option>
+          <option value="icon-drop">icon-drop</option>
+          <option value="icon-star">icon-star</option>
+          <option value="icon-pencil">icon-pencil</option>
+          <option value="fa fa-user-circle-o">fa fa-user-circle-o</option>
+          <option value="fa fa-book">fa fa-book</option>
+          <option value="fa fa-tty">fa fa-tty</option>
+          <option value="fa fa-bar-chart">fa fa-bar-chart</option>
+          <option value="fa fa-file-text-o">fa fa-file-text-o</option>
+          <option value="fa fa-chevron-circle-down">fa fa-chevron-circle-down</option>
+          <option value="">Trống</option>
+        </select>
+        <control-messages [submited]="submited" [control]="formData.controls.icon"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 col-form-label" for="type">Loại chức năng <span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <select class="form-control border-success" formControlName="type" id="type">
+          <option value="1">Chức năng</option>
+          <option value="2">Loại khác</option>
+        </select>
+        <control-messages [submited]="submited" [control]="formData.controls.type"></control-messages>
+      </div>
+    </div>
+    <div class="form-group row" *ngIf="editData && editData.id">
+      <label class="col-md-3 col-form-label" for="status">Trạng thái <span
+        class="font-weight-bold text-danger">(*)</span></label>
+      <div class="col-md-9">
+        <select class="form-control border-success" formControlName="status" id="status">
+          <option value="0">Không hoạt động</option>
+          <option value="1">Hoạt động</option>
+        </select>
+        <control-messages [submited]="submited" [control]="formData.controls.status"></control-messages>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer text-center">
+    <div class="text-center">
+      <button type="button" class="btn btn-secondary" (click)="closeDialog()"><i class="fa fa-times-circle-o"></i> Đóng
+      </button>
+      <c-button type="submit" className="btn btn-primary" iconClassName="fa fa-floppy-o" label="Lưu"
+                [loading]="isLoading"></c-button>
+    </div>
+  </div>
+</form>
+
+<div class="modal-header" *ngIf="editData && editData.id">
+  <h6 class="modal-title"><i class="fa icon-list"></i> Danh sách chức năng thuộc nhóm chức năng này</h6>
+</div>
+<div class="modal-body" *ngIf="editData && editData.id">
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <!--TABLE HEADER-->
+      <thead>
+      <tr>
+        <td class="text-center" style="width: 1%">
+          <a class="font-weight-bold text-primary">ID</a>
+        </td>
+        <td class="text-center" style="width: 10%">
+          <a class="font-weight-bold text-primary">Tên chức năng</a>
+        </td>
+        <td class="text-center" style="width: 8%">
+          <a class="font-weight-bold text-primary">Đường dẫn</a>
+        </td>
+        <td class="text-center" style="width: 2%">
+          <a class="font-weight-bold text-primary">Thứ tự</a>
+        </td>
+        <td class="text-center" style="width: 2%">
+          <a class="font-weight-bold text-primary">Thao tác</a>
+        </td>
+      </tr>
+      </thead>
+      <!--END TABLE HEADER-->
+
+      <!--TABLE BODY-->
+      <tbody>
+      <tr
+        *ngFor="let item of listData">
+        <td class="text-center align-middle">{{item.id}}</td>
+        <td class="text-left align-middle">{{item.name}}</td>
+        <td class="text-left align-middle">{{item.url}}</td>
+        <td class="text-center align-middle">{{item.priority}}
+          <i *ngIf="item.status === 1 && item.priority !== 1" (click)="upGroupRoleMap(item)" title="Lên"
+             class="fa fa-arrow-circle-up fa-lg"></i>
+          <i *ngIf="item.status === 1" (click)="downGroupRoleMap(item)" title="Xuống"
+             class="fa fa-arrow-circle-down fa-lg"></i>
+        </td>
+        <td class="text-center align-middle">
+          <label data-toggle="tooltip" title="{{item.status === 1 ? 'Loại bỏ menu' : 'Gán menu'}}"
+                 class="switch switch-label switch-pill switch-outline-warning-alt align-middle">
+            <input type="checkbox" class="switch-input align-middle" checked *ngIf="item.status === 1"
+                   (click)="changeStatus(item)">
+            <input type="checkbox" class="switch-input align-middle" unchecked *ngIf="item.status === 0"
+                   (click)="changeStatus(item)">
+            <span class="switch-slider align-middle" data-checked="On" data-unchecked="Off"></span>
+          </label>
+        </td>
+
+      </tr>
+      </tbody>
+      <!--END TABLE BODY-->
+    </table>
+  </div>
+</div>

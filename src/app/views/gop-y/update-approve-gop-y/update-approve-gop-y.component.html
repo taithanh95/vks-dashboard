@@ -1,0 +1,26 @@
+<c-spinner [show]="isLoading" [fullScreen]="true"></c-spinner>
+<form [formGroup]="formData">
+  <div class="row">
+    <div class="col-md-12 col-sm-12">
+      <nz-form-item class="form-group row mb-0">
+        <nz-form-label class="col-lg-3 col-md-3 col-form-label text-left" nzFor="content">
+          Nội dung phê duyệt
+        </nz-form-label>
+        <nz-form-control class="col-lg-9 col-md-9">
+          <textarea  id="contentApprove" name="contentApprove" class="form-control border-success"
+                     placeholder="Nội dung phê duyệt" formControlName="contentApprove"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <br>
+      <nz-form-item class="form-group row mb-0">
+        <nz-form-control class="col-lg-12 col-md-12 text-right">
+          <button type="button" class="btn btn-danger" (click) = disapprove(formData.value)>Từ chối phê duyệt</button>
+          <button type="button" class="btn btn-primary" (click) = approve(formData.value)>Phê duyệt</button>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+</form>
+<ng-template #renderTemplate>
+  <nz-spin *ngIf="isLoading"></nz-spin>
+</ng-template>
